@@ -3,13 +3,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-void main() => runApp(new MaterialApp(
-  home: new HomePage(),
-));
+void main() => runApp(MaterialApp(
+      home: HomePage(),
+    ));
 
 class HomePage extends StatefulWidget {
   @override
-  HomePageState createState() => new HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
 class COVIDData {
@@ -66,67 +66,90 @@ class HomePageState extends State<HomePage> {
     return "Success";
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: SafeArea(
+  //       child: ListView(
+  //         children: <Widget>[
+  //           Padding(
+  //             padding: EdgeInsets.only(left: 25),
+  //             child: Text('Good morning, user!',
+  //             style: TextStyle(
+  //               fontSize: 30,
+  //               fontWeight: FontWeight.bold
+  //             ),),
+  //           ),
+  //         ],
+  //       ),
+  //     )
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Retrieve JSON via HTTP GET"),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/images/background.png"),
+          fit: BoxFit.cover,
+        )),
+        child: buildListView(),
       ),
-      body: new ListView.builder(
-        itemCount: covidData == null ? 0 : 1,
-        itemBuilder: (BuildContext context, int index) {
-          return new Container(
-            child: new Center(
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    new Card(
-                      child: new Container(
-                        child: new Text(covidData.country),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Infected: ${covidData.infected}'),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Tested: ${covidData.tested}'),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Recovered: ${covidData.recovered}'),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Deceased: ${covidData.deceased}'),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Active Cases: ${covidData.activeCases}'),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Unique: ${covidData.unique}'.toString()),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                  ],
-                )),
-          );
-        },
-      ),
+    );
+  }
+
+  ListView buildListView() {
+    return ListView.builder(
+      itemCount: covidData == null ? 0 : 1,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          child: Center(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(covidData.country),
+              Card(
+                child: Container(
+                  child: Text('Infected: ${covidData.infected}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Tested: ${covidData.tested}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Recovered: ${covidData.recovered}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Deceased: ${covidData.deceased}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Active Cases: ${covidData.activeCases}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Unique: ${covidData.unique}'.toString()),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+            ],
+          )),
+        );
+      },
     );
   }
 }
