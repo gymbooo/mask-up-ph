@@ -66,33 +66,13 @@ class HomePageState extends State<HomePage> {
     return "Success";
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SafeArea(
-  //       child: ListView(
-  //         children: <Widget>[
-  //           Padding(
-  //             padding: EdgeInsets.only(left: 25),
-  //             child: Text('Good morning, user!',
-  //             style: TextStyle(
-  //               fontSize: 30,
-  //               fontWeight: FontWeight.bold
-  //             ),),
-  //           ),
-  //         ],
-  //       ),
-  //     )
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage("assets/images/background.png"),
+          image: AssetImage('assets/images/background.png'),
           fit: BoxFit.cover,
         )),
         child: buildListView(),
@@ -109,9 +89,35 @@ class HomePageState extends State<HomePage> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text(covidData.country),
+              Padding(
+                padding: EdgeInsets.only(left: 25, top: 30),
+                child: Text(
+                  'Good morning, user!',
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 25, top: 25),
+                child: Text('Cases in the ${covidData.country}',
+                    style: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 27, top: 1),
+                child: Text('Last updated \$dateTime.now()',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white.withOpacity(0.5))),
+              ),
               Card(
                 child: Container(
+                  width: 20,
                   child: Text('Infected: ${covidData.infected}'),
                   padding: const EdgeInsets.all(20.0),
                 ),
