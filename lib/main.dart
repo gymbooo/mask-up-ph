@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 void main() => runApp(new MaterialApp(
-  home: new HomePage(),
-));
+      home: new HomePage(),
+    ));
 
 class HomePage extends StatefulWidget {
   @override
@@ -76,54 +76,56 @@ class HomePageState extends State<HomePage> {
         itemCount: covidData == null ? 0 : 1,
         itemBuilder: (BuildContext context, int index) {
           return new Container(
-            child: new Center(
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    new Card(
-                      child: new Container(
-                        child: new Text(covidData.country),
-                        padding: const EdgeInsets.all(20.0),
+            child: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  new Column(
+                    children: <Widget>[
+                      new Card(
+                        child: new Container(
+                          child: new Text(
+                              'Active Cases: ${covidData.activeCases}'),
+                          padding: const EdgeInsets.all(20.0),
+                        ),
                       ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Infected: ${covidData.infected}'),
-                        padding: const EdgeInsets.all(20.0),
+                      new Card(
+                        child: new Container(
+                          child: new Text('Recovered: ${covidData.recovered}'),
+                          padding: const EdgeInsets.all(20.0),
+                        ),
                       ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Tested: ${covidData.tested}'),
-                        padding: const EdgeInsets.all(20.0),
+                      new Card(
+                        child: new Container(
+                          child: new Text('Tested: ${covidData.tested}'),
+                          padding: const EdgeInsets.all(20.0),
+                        ),
                       ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Recovered: ${covidData.recovered}'),
-                        padding: const EdgeInsets.all(20.0),
+                    ],
+                  ),
+                  new Column(
+                    children: <Widget>[
+                      new Card(
+                        child: new Container(
+                          child: new Text('Deceased: ${covidData.deceased}'),
+                          padding: const EdgeInsets.all(20.0),
+                        ),
                       ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Deceased: ${covidData.deceased}'),
-                        padding: const EdgeInsets.all(20.0),
+                      new Card(
+                        child: new Container(
+                          child: new Text(
+                              'Unique: ${covidData.unique}'.toString()),
+                          padding: const EdgeInsets.all(20.0),
+                        ),
                       ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Active Cases: ${covidData.activeCases}'),
-                        padding: const EdgeInsets.all(20.0),
+                      new Card(
+                        child: new Container(
+                          child: new Text('Infected: ${covidData.infected}'),
+                          padding: const EdgeInsets.all(20.0),
+                        ),
                       ),
-                    ),
-                    new Card(
-                      child: new Container(
-                        child: new Text('Unique: ${covidData.unique}'.toString()),
-                        padding: const EdgeInsets.all(20.0),
-                      ),
-                    ),
-                  ],
-                )),
+                    ],
+                  )
+                ]),
           );
         },
       ),
