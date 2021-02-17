@@ -36,7 +36,7 @@ class _HomepageState extends State<Homepage>{
       body: Container(
         child: Column(
           children: [
-          /*  SearchMapPlaceWidget(
+            SearchMapPlaceWidget(
               hasClearButton: true,
               placeType: PlaceType.address,
               placeholder: 'Enter the location',
@@ -52,8 +52,10 @@ class _HomepageState extends State<Homepage>{
                   CameraUpdate.newLatLngBounds(geolocation.bounds, 0)
                 );
               },
-            ),*/
-
+            ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child:
                 SizedBox(
                   height: 500.0,
                   child: GoogleMap(
@@ -66,9 +68,10 @@ class _HomepageState extends State<Homepage>{
                         zoom: 15.0,
                         target: LatLng(9.8969, 124.5307)
                     ),
-                    mapType: MapType.satellite,
+                    mapType: MapType.normal,
                   ),
                 )
+              )
           ],
         ),
       ),
