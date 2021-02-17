@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutterauth0/main.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -81,6 +82,8 @@ class _HomeState extends State<Home> {
     return "Success";
   }
 
+  final formatter = new NumberFormat("###,###,###");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,115 +120,8 @@ class _HomeState extends State<Home> {
                           fontWeight: FontWeight.w300,
                           color: const Color(0xFFEEEEEE).withOpacity(0.5))),
                 ),
-                GridView(
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 3 / 2),
-                  children: <Widget>[
-                    Card(
-                        color: const Color(0xFF24006D),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Active',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFFEEEEEE),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '${covidData.activeCases}',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFFFFE45B),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.only(
-                            left: 25, top: 25, bottom: 15, right: 7)),
-                    Card(
-                        color: const Color(0xFF24006D),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Deceased',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFFEEEEEE),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '${covidData.deceased}',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFFFF5454),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        margin: EdgeInsets.only(
-                            right: 25, top: 25, left: 7, bottom: 15)),
-                    Card(
-                        color: const Color(0xFF24006D),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Recovered',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFFEEEEEE),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '${covidData.recovered}',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFF5BC7FF),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        margin:
-                            EdgeInsets.only(left: 25, bottom: 40, right: 7)),
-                    Card(
-                        color: const Color(0xFF24006D),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Unique',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFFEEEEEE),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              '${covidData.unique}',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  color: const Color(0xFFEEEEEE),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        margin:
-                            EdgeInsets.only(right: 25, left: 7, bottom: 40)),
-                  ],
-                ),
-                ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    Card(
-                        child: Text('symptoms'),
-                        margin: const EdgeInsets.all(20.0)),
-                    Card(
-                        child: Text('safety measures'),
-                        margin: const EdgeInsets.all(20.0)),
-                    Card(
-                        child: Text('community'),
-                        margin: const EdgeInsets.all(20.0)),
-                  ],
-                )
+                buildGridView(),
+                buildListView()
               ]);
             } else {
               return Center(child: CircularProgressIndicator());
@@ -233,6 +129,146 @@ class _HomeState extends State<Home> {
           },
         ),
       ),
+    );
+  }
+
+  //-----------gridview
+
+  GridView buildGridView() {
+    return GridView(
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, childAspectRatio: 3 / 2),
+      children: <Widget>[
+        Card(
+            color: const Color(0xFF24006D),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Active',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFFEEEEEE),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    formatter.format(activeCases),
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFFFFE45B),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            margin: EdgeInsets.only(left: 25, top: 25, bottom: 15, right: 7)),
+        Card(
+            color: const Color(0xFF24006D),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Deceased',
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFFEEEEEE),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    formatter.format(deceased),
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFFFF5454),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            margin: EdgeInsets.only(right: 25, top: 25, left: 7, bottom: 15)),
+        Card(
+            color: const Color(0xFF24006D),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Recovered',
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFFEEEEEE),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    formatter.format(recovered),
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFF5BC7FF),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            margin: EdgeInsets.only(left: 25, bottom: 40, right: 7)),
+        Card(
+            color: const Color(0xFF24006D),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Unique',
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFFEEEEEE),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    formatter.format(unique),
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: const Color(0xFFEEEEEE),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            margin: EdgeInsets.only(right: 25, left: 7, bottom: 40)),
+      ],
+    );
+  }
+
+  //-----------listview
+
+  ListView buildListView() {
+    return ListView(
+      shrinkWrap: true,
+      children: <Widget>[
+        Card(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Image.asset(
+                    'lib/assets/images/symptoms.png',
+                    height: 75,
+                    width: 75,
+                  ),
+                ),
+                Text('What are the symptoms of Coronavirus?'),
+              ],
+            ),
+            margin: EdgeInsets.only(right: 20.0, left: 20.0)),
+        Card(
+            child: Text('safety measures'), margin: const EdgeInsets.all(20.0)),
+        Card(child: Text('community'), margin: const EdgeInsets.all(20.0)),
+      ],
     );
   }
 }
