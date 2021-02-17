@@ -8,7 +8,6 @@ class Hospital extends StatefulWidget {
   _HospitalState createState() => _HospitalState();
 }
 
-
 class _HospitalState extends State<Hospital> {
   GoogleMapController mapController;
   @override
@@ -16,7 +15,6 @@ class _HospitalState extends State<Hospital> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
-
       body: Container(
         child: Column(
           children: [
@@ -25,37 +23,29 @@ class _HospitalState extends State<Hospital> {
               placeType: PlaceType.address,
               placeholder: 'Enter the location',
               apiKey: 'AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0',
-              onSelected: (Place place) async{
+              onSelected: (Place place) async {
                 Geolocation geolocation = await place.geolocation;
                 mapController.animateCamera(
-                    CameraUpdate.newLatLng(
-                        geolocation.coordinates
-                    )
-                );
+                    CameraUpdate.newLatLng(geolocation.coordinates));
                 mapController.animateCamera(
-                    CameraUpdate.newLatLngBounds(geolocation.bounds, 0)
-                );
+                    CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
               },
             ),
             Padding(
                 padding: const EdgeInsets.only(top: 5.0),
-                child:
-                SizedBox(
+                child: SizedBox(
                   height: 400.0,
                   child: GoogleMap(
-                    onMapCreated: (GoogleMapController googleMapController){
-                      setState((){
+                    onMapCreated: (GoogleMapController googleMapController) {
+                      setState(() {
                         mapController = googleMapController;
                       });
                     },
                     initialCameraPosition: CameraPosition(
-                        zoom: 15.0,
-                        target: LatLng(9.8969, 124.5307)
-                    ),
+                        zoom: 15.0, target: LatLng(9.8969, 124.5307)),
                     mapType: MapType.normal,
                   ),
-                )
-            )
+                ))
           ],
         ),
       ),

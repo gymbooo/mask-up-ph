@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutterauth0/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -37,7 +36,7 @@ class COVIDData {
 
 class _HomeState extends State<Home> {
   final String url =
-      "https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true";
+      'https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true';
   COVIDData covidData;
   int infected;
   int tested;
@@ -52,7 +51,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     this.getJsonData();
   }
@@ -76,7 +74,7 @@ class _HomeState extends State<Home> {
       lastUpdatedAtApify = convertDataToJson['lastUpdatedAtApify'];
       covidData = COVIDData(infected, tested, recovered, deceased, activeCases,
           unique, country, historyData, sourceUrl, lastUpdatedAtApify);
-      print(covidData);
+      // print(covidData);
     });
 
     return "Success";
