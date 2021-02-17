@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.auth0.flutterauth0">
+
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
    <application
         android:label="flutterauth0"
         android:icon="@mipmap/ic_launcher">
