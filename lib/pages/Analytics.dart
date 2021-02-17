@@ -132,20 +132,29 @@ class _AnalyticsState extends State<Analytics> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: GridView.extent(
-        primary: false,
-        padding: const EdgeInsets.all(16),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        maxCrossAxisExtent: 200.0,
-        children: <Widget>[
-          CardData('Active Cases', '${covidData.activeCases}'),
-          CardData('Deceased', '${covidData.deceased}'),
-          CardData('Recovered', '${covidData.recovered}'),
-          CardData('Unique', '${covidData.unique}'),
-          CardData('Tested', '${covidData.tested}'),
-          CardData('Infected', '${covidData.infected}'),
-        ],
+          child: FutureBuilder<String>(
+        future: getJsonData(),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.hasData) {
+            return GridView.extent(
+              primary: false,
+              padding: const EdgeInsets.all(16),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              maxCrossAxisExtent: 200.0,
+              children: <Widget>[
+                CardData('Active Cases', '${covidData.activeCases}'),
+                CardData('Deceased', '${covidData.deceased}'),
+                CardData('Recovered', '${covidData.recovered}'),
+                CardData('Unique', '${covidData.unique}'),
+                CardData('Tested', '${covidData.tested}'),
+                CardData('Infected', '${covidData.infected}'),
+              ],
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       )),
     );
   }

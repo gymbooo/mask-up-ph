@@ -86,142 +86,151 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.deepPurple,
       body: SafeArea(
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 25, top: 30),
-              child: Text(
-                'Good morning, user!',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFEEEEEE)),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25, top: 25),
-              child: Text('Cases in the ${covidData.country}',
-                  style: TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w300,
-                      color: const Color(0xFFEEEEEE))),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 27, top: 1),
-              child: Text('Last updated: ${covidData.lastUpdatedAtApify}',
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w300,
-                      color: const Color(0xFFEEEEEE).withOpacity(0.5))),
-            ),
-            GridView(
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 3 / 2),
-              children: <Widget>[
-                Card(
-                    color: const Color(0xFF24006D),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Active',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFFEEEEEE),
-                              fontWeight: FontWeight.bold),
+        child: FutureBuilder<String>(
+          future: getJsonData(),
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            if (snapshot.hasData) {
+              return ListView(children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 25, top: 30),
+                  child: Text(
+                    'Good morning, user!',
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFEEEEEE)),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 25, top: 25),
+                  child: Text('Cases in the ${covidData.country}',
+                      style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w300,
+                          color: const Color(0xFFEEEEEE))),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 27, top: 1),
+                  child: Text('Last updated: ${covidData.lastUpdatedAtApify}',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300,
+                          color: const Color(0xFFEEEEEE).withOpacity(0.5))),
+                ),
+                GridView(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 3 / 2),
+                  children: <Widget>[
+                    Card(
+                        color: const Color(0xFF24006D),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Active',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFFEEEEEE),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${covidData.activeCases}',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFFFFE45B),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                        Text(
-                          '${covidData.activeCases}',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFFFFE45B),
-                              fontWeight: FontWeight.bold),
+                        margin: EdgeInsets.only(
+                            left: 25, top: 25, bottom: 15, right: 7)),
+                    Card(
+                        color: const Color(0xFF24006D),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Deceased',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFFEEEEEE),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${covidData.deceased}',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFFFF5454),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    margin: EdgeInsets.only(
-                        left: 25, top: 25, bottom: 15, right: 7)),
-                Card(
-                    color: const Color(0xFF24006D),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Deceased',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFFEEEEEE),
-                              fontWeight: FontWeight.bold),
+                        margin: EdgeInsets.only(
+                            right: 25, top: 25, left: 7, bottom: 15)),
+                    Card(
+                        color: const Color(0xFF24006D),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Recovered',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFFEEEEEE),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${covidData.recovered}',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFF5BC7FF),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                        Text(
-                          '${covidData.deceased}',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFFFF5454),
-                              fontWeight: FontWeight.bold),
+                        margin:
+                            EdgeInsets.only(left: 25, bottom: 40, right: 7)),
+                    Card(
+                        color: const Color(0xFF24006D),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Unique',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFFEEEEEE),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${covidData.unique}',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: const Color(0xFFEEEEEE),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    margin: EdgeInsets.only(
-                        right: 25, top: 25, left: 7, bottom: 15)),
-                Card(
-                    color: const Color(0xFF24006D),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Recovered',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFFEEEEEE),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '${covidData.recovered}',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFF5BC7FF),
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    margin: EdgeInsets.only(left: 25, bottom: 40, right: 7)),
-                Card(
-                    color: const Color(0xFF24006D),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Unique',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFFEEEEEE),
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '${covidData.unique}',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: const Color(0xFFEEEEEE),
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    margin: EdgeInsets.only(right: 25, left: 7, bottom: 40)),
-              ],
-            ),
-            ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                Card(
-                    child: Text('symptoms'),
-                    margin: const EdgeInsets.all(20.0)),
-                Card(
-                    child: Text('safety measures'),
-                    margin: const EdgeInsets.all(20.0)),
-                Card(
-                    child: Text('community'),
-                    margin: const EdgeInsets.all(20.0)),
-              ],
-            )
-          ],
+                        margin:
+                            EdgeInsets.only(right: 25, left: 7, bottom: 40)),
+                  ],
+                ),
+                ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    Card(
+                        child: Text('symptoms'),
+                        margin: const EdgeInsets.all(20.0)),
+                    Card(
+                        child: Text('safety measures'),
+                        margin: const EdgeInsets.all(20.0)),
+                    Card(
+                        child: Text('community'),
+                        margin: const EdgeInsets.all(20.0)),
+                  ],
+                )
+              ]);
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
     );
@@ -234,47 +243,47 @@ class _HomeState extends State<Home> {
         return Container(
           child: Center(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Card(
-                    child: Container(
-                      width: 20,
-                      child: Text('Infected: ${covidData.infected}'),
-                      padding: const EdgeInsets.all(20.0),
-                    ),
-                  ),
-                  Card(
-                    child: Container(
-                      child: Text('Tested: ${covidData.tested}'),
-                      padding: const EdgeInsets.all(20.0),
-                    ),
-                  ),
-                  Card(
-                    child: Container(
-                      child: Text('Recovered: ${covidData.recovered}'),
-                      padding: const EdgeInsets.all(20.0),
-                    ),
-                  ),
-                  Card(
-                    child: Container(
-                      child: Text('Deceased: ${covidData.deceased}'),
-                      padding: const EdgeInsets.all(20.0),
-                    ),
-                  ),
-                  Card(
-                    child: Container(
-                      child: Text('Active Cases: ${covidData.activeCases}'),
-                      padding: const EdgeInsets.all(20.0),
-                    ),
-                  ),
-                  Card(
-                    child: Container(
-                      child: Text('Unique: ${covidData.unique}'.toString()),
-                      padding: const EdgeInsets.all(20.0),
-                    ),
-                  ),
-                ],
-              )),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Card(
+                child: Container(
+                  width: 20,
+                  child: Text('Infected: ${covidData.infected}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Tested: ${covidData.tested}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Recovered: ${covidData.recovered}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Deceased: ${covidData.deceased}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Active Cases: ${covidData.activeCases}'),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+              Card(
+                child: Container(
+                  child: Text('Unique: ${covidData.unique}'.toString()),
+                  padding: const EdgeInsets.all(20.0),
+                ),
+              ),
+            ],
+          )),
         );
       },
     );
