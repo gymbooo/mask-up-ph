@@ -5,6 +5,10 @@
    <application
         android:label="flutterauth0"
         android:icon="@mipmap/ic_launcher">
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

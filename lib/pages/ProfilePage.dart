@@ -58,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child = News();
         break;
       case 3:
-        child = Hospitals();
+        child = Hospital();
         break;
     }
     return Scaffold(
