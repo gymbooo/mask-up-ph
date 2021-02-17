@@ -1,242 +1,101 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:mask_up_ph/CardData.dart';
+import 'package:mask_up_ph/pages/Analytics.dart';
+import 'package:mask_up_ph/pages/Hospital.dart';
+import 'package:mask_up_ph/pages/News.dart';
 
-void main() =>
-    runApp(new MaterialApp(
-      home: new HomePage(),
-    ));
 
-class HomePage extends StatefulWidget {
-  @override
-  HomePageState createState() => new HomePageState();
-}
+void main() => runApp(MyApp());
 
-class COVIDData {
-  int infected;
-  int tested;
-  int recovered;
-  int deceased;
-  int activeCases;
-  int unique;
-  String country;
-
-  COVIDData(this.infected, this.tested, this.recovered, this.deceased,
-      this.activeCases, this.unique, this.country);
-}
-
-class HomePageState extends State<HomePage> {
-  final String url =
-      "https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true";
-  COVIDData covidData;
-  int infected;
-  int tested;
-  int recovered;
-  int deceased;
-  int activeCases;
-  int unique;
-  String country;
-
-  @override
-  void initState() {
-    super.initState();
-    this.getJsonData();
-  }
-
-  Future<String> getJsonData() async {
-    var response = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-    print(response.body);
-
-    setState(() {
-      var convertDataToJson = json.decode(response.body);
-      infected = convertDataToJson['infected'];
-      tested = convertDataToJson['tested'];
-      recovered = convertDataToJson['recovered'];
-      deceased = convertDataToJson['deceased'];
-      activeCases = convertDataToJson['activeCases'];
-      unique = convertDataToJson['unique'];
-      country = convertDataToJson['country'];
-      covidData = COVIDData(
-          infected,
-          tested,
-          recovered,
-          deceased,
-          activeCases,
-          unique,
-          country);
-      print(covidData);
-    });
-
-    return "Success";
-  }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return new Scaffold(
-  //     appBar: new AppBar(
-  //       title: new Text("Retrieve JSON via HTTP GET"),
-  //     ),
-  //     body: new ListView.builder(
-  //       itemCount: covidData == null ? 0 : 1,
-  //       itemBuilder: (BuildContext context, int index) {
-  //         return new Container(
-  //           child: new Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //               children: [
-  //                 new Column(
-  //                   children: <Widget>[
-  //                     new Card(
-  //                       child: new Container(
-  //                         child: new Text(
-  //                             'Active Cases: ${covidData.activeCases}'),
-  //                         padding: const EdgeInsets.all(20.0),
-  //                       ),
-  //                     ),
-  //                     new Card(
-  //                       child: new Container(
-  //                         child: new Text('Recovered: ${covidData.recovered}'),
-  //                         padding: const EdgeInsets.all(20.0),
-  //                       ),
-  //                     ),
-  //                     new Card(
-  //                       child: new Container(
-  //                         child: new Text('Tested: ${covidData.tested}'),
-  //                         padding: const EdgeInsets.all(20.0),
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 new Column(
-  //                   children: <Widget>[
-  //                     new Card(
-  //                       child: new Container(
-  //                         child: new Text('Deceased: ${covidData.deceased}'),
-  //                         padding: const EdgeInsets.all(20.0),
-  //                       ),
-  //                     ),
-  //                     new Card(
-  //                       child: new Container(
-  //                         child: new Text(
-  //                             'Unique: ${covidData.unique}'.toString()),
-  //                         padding: const EdgeInsets.all(20.0),
-  //                       ),
-  //                     ),
-  //                     new Card(
-  //                       child: new Container(
-  //                         child: new Text('Infected: ${covidData.infected}'),
-  //                         padding: const EdgeInsets.all(20.0),
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 )
-  //               ]),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
+/// This is the main application widget.
+class MyApp extends StatelessWidget {
+  static const String _title = 'Flutter Code Sample';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter GridView"),
-        backgroundColor: Colors.green,
-      ),
-      body: Center(
-          child: GridView.extent(
-        primary: false,
-        padding: const EdgeInsets.all(16),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        maxCrossAxisExtent: 200.0,
-        children: <Widget>[
-          CardData('Active Cases', '${covidData.activeCases}'),
-          CardData('Deceased', '${covidData.deceased}'),
-          CardData('Recovered', '${covidData.recovered}'),
-          CardData('Unique', '${covidData.unique}'),
-          CardData('Tested', '${covidData.tested}'),
-          CardData('Infected', '${covidData.infected}'),
-        ],
-      )),
+    return MaterialApp(
+      title: _title,
+      home: MyStatefulWidget(),
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget({Key key}) : super(key: key);
+
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  int _index = 0;
+
+  // int _selectedIndex = 0;
+  // static const TextStyle optionStyle =
+  // TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // static const List<Widget> _pages = <Widget>[
+  //   Text(
+  //     'Index 0: Analytics',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Index 1: News',
+  //     style: optionStyle,
+  //   ),
+  //   Text(
+  //     'Index 2: Hospitals',
+  //     style: optionStyle,
+  //   ),
+  // ];
+  //
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
+
+  BottomNavigationBar _navigationBar() {
+    return BottomNavigationBar(
+      currentIndex: _index,
+      onTap: (int index) => setState(() => _index = index),
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.analytics_outlined),
+          label: 'Analytics',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.coronavirus_outlined),
+          label: 'News',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.business),
+          label: 'Hospitals',
+        ),
+      ],
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: Container(
-  //       decoration: BoxDecoration(
-  //           image: DecorationImage(
-  //             image: AssetImage('assets/images/background.png'),
-  //             fit: BoxFit.cover,
-  //           )),
-  //       child: Column(
-  //         children: [
-  //           buildContainerHeader(),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-  //
-  // Container buildContainerHeader() {
-  //   return Container(
-  //       child: Center(
-  //           child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.stretch,
-  //               children: <Widget>[
-  //                 Padding(
-  //                   padding: EdgeInsets.only(left: 25, top: 30),
-  //                   child: Text(
-  //                     'Good morning, user!',
-  //                     style: TextStyle(
-  //                         fontSize: 30,
-  //                         fontWeight: FontWeight.bold,
-  //                         color: Colors.white),
-  //                   ),
-  //                 ),
-  //                 Padding(
-  //                   padding: EdgeInsets.only(left: 25, top: 25),
-  //                   child: Text('Cases in the ${covidData.country}',
-  //                       style: TextStyle(
-  //                           fontSize: 23,
-  //                           fontWeight: FontWeight.w300,
-  //                           color: Colors.white)),
-  //                 ),
-  //                 Padding(
-  //                   padding: EdgeInsets.only(left: 27, top: 1),
-  //                   child: Text('Last updated \$dateTime.now()',
-  //                       style: TextStyle(
-  //                           fontSize: 15,
-  //                           fontWeight: FontWeight.w300,
-  //                           color: Colors.white.withOpacity(0.5))),
-  //                 ),
-  //                 buildGridView(),
-  //               ]
-  //           )
-  //       )
-  //   );
-  // }
-  //
-  // GridView buildGridView() {
-  //   return GridView.extent(
-  //     primary: false,
-  //     padding: const EdgeInsets.all(16),
-  //     crossAxisSpacing: 20,
-  //     mainAxisSpacing: 20,
-  //     maxCrossAxisExtent: 200.0,
-  //     children: <Widget>[
-  //       CardData('Active Cases', '${covidData.activeCases}'),
-  //       CardData('Deceased', '${covidData.deceased}'),
-  //       CardData('Recovered', '${covidData.recovered}'),
-  //       CardData('Unique', '${covidData.unique}'),
-  //       CardData('Tested', '${covidData.tested}'),
-  //       CardData('Infected', '${covidData.infected}'),
-  //     ],
-  //   );
-  // }
+  @override
+  Widget build(BuildContext context) {
+    Widget child = Container();
+    switch (_index) {
+      case 0:
+        child = Analytics();
+        break;
+      case 1:
+        child = News();
+        break;
+      case 2:
+        child = Hospitals();
+        break;
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('BottomNavigationBar Sample'),
+      ),
+      body: Center(
+        child: SizedBox.expand(child: child),
+      ),
+      bottomNavigationBar: _navigationBar(),
+    );
+  }
 }
