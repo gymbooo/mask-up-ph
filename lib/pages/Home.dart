@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutterauth0/main.dart';
 import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {

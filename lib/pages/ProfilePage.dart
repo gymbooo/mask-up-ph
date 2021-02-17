@@ -8,8 +8,10 @@ import 'package:flutterauth0/pages/News.dart';
 
 /// This is the main application widget.
 class ProfilePage extends StatefulWidget {
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
+
 }
 
 

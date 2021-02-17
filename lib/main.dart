@@ -40,9 +40,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ProfilePage(),
+    return ProfilePage();
         /*Text('Name: $name'),
         RaisedButton(
           onPressed: () {
@@ -50,8 +48,6 @@ class Profile extends StatelessWidget {
           },
           child: Text('Logout'),
         ),*/
-      ],
-    );
   }
 }
 
