@@ -8,6 +8,9 @@ class Hospitals extends StatefulWidget {
 class _HospitalsState extends State<Hospitals> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        body: SafeArea(
+      child: Text('HOSPITAL PAGE'),
+    ));
   }
 }

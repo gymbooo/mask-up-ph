@@ -131,11 +131,7 @@ class _AnalyticsState extends State<Analytics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter GridView"),
-        backgroundColor: Colors.green,
-      ),
-      body: Center(
+      body: SafeArea(
           child: GridView.extent(
         primary: false,
         padding: const EdgeInsets.all(16),
