@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 void main() => runApp(MaterialApp(
       home: HomePage(),
+      title: 'Mask Up PH',
     ));
 
 class HomePage extends StatefulWidget {
@@ -20,9 +21,21 @@ class COVIDData {
   int activeCases;
   int unique;
   String country;
+  String historyData;
+  String sourceUrl;
+  String lastUpdatedAtApify;
 
-  COVIDData(this.infected, this.tested, this.recovered, this.deceased,
-      this.activeCases, this.unique, this.country);
+  COVIDData(
+      this.infected,
+      this.tested,
+      this.recovered,
+      this.deceased,
+      this.activeCases,
+      this.unique,
+      this.country,
+      this.historyData,
+      this.sourceUrl,
+      this.lastUpdatedAtApify);
 }
 
 class HomePageState extends State<HomePage> {
@@ -36,6 +49,9 @@ class HomePageState extends State<HomePage> {
   int activeCases;
   int unique;
   String country;
+  String historyData;
+  String sourceUrl;
+  String lastUpdatedAtApify;
 
   @override
   void initState() {
@@ -58,8 +74,11 @@ class HomePageState extends State<HomePage> {
       activeCases = convertDataToJson['activeCases'];
       unique = convertDataToJson['unique'];
       country = convertDataToJson['country'];
-      covidData = COVIDData(
-          infected, tested, recovered, deceased, activeCases, unique, country);
+      historyData = convertDataToJson['historyData'];
+      sourceUrl = convertDataToJson['sourceUrl'];
+      lastUpdatedAtApify = convertDataToJson['lastUpdatedAtApify'];
+      covidData = COVIDData(infected, tested, recovered, deceased, activeCases,
+          unique, country, historyData, sourceUrl, lastUpdatedAtApify);
       print(covidData);
     });
 
@@ -69,13 +88,71 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
-          fit: BoxFit.cover,
-        )),
-        child: buildListView(),
+      backgroundColor: Colors.deepPurple,
+      body: SafeArea(
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 25, top: 30),
+              child: Text(
+                'Good morning, user!',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFFEEEEEE)),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 25, top: 25),
+              child: Text('Cases in the ${covidData.country}',
+                  style: TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w300,
+                      color: const Color(0xFFEEEEEE))),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 27, top: 1),
+              child: Text('Last updated: ${covidData.lastUpdatedAtApify}',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                      color: const Color(0xFFEEEEEE).withOpacity(0.5))),
+            ),
+            GridView(
+              shrinkWrap: true,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              children: <Widget>[
+                Card(
+                    child: Text('Active Cases: ${covidData.activeCases}'),
+                    margin: const EdgeInsets.all(20.0)),
+                Card(
+                    child: Text('Deceased: ${covidData.deceased}'),
+                    margin: const EdgeInsets.all(20.0)),
+                Card(
+                    child: Text('Recovered: ${covidData.recovered}'),
+                    margin: const EdgeInsets.all(20.0)),
+                Card(
+                    child: Text('Unique: ${covidData.unique}'),
+                    margin: const EdgeInsets.all(20.0)),
+              ],
+            ),
+            ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                Card(
+                    child: Text('symptoms'),
+                    margin: const EdgeInsets.all(20.0)),
+                Card(
+                    child: Text('safety measures'),
+                    margin: const EdgeInsets.all(20.0)),
+                Card(
+                    child: Text('community'),
+                    margin: const EdgeInsets.all(20.0)),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -89,32 +166,6 @@ class HomePageState extends State<HomePage> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 25, top: 30),
-                child: Text(
-                  'Good morning, user!',
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 25, top: 25),
-                child: Text('Cases in the ${covidData.country}',
-                    style: TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white)),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 27, top: 1),
-                child: Text('Last updated \$dateTime.now()',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white.withOpacity(0.5))),
-              ),
               Card(
                 child: Container(
                   width: 20,
