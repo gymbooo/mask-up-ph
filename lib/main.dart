@@ -1,5 +1,5 @@
 /// -----------------------------------
-///          External Packages        
+///          External Packages
 /// -----------------------------------
 
 import 'package:flutter/material.dart';
@@ -13,9 +13,8 @@ import 'package:flutterauth0/pages/ProfilePage.dart';
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-
 /// -----------------------------------
-///           Auth0 Variables          
+///           Auth0 Variables
 /// -----------------------------------
 
 const AUTH0_DOMAIN = 'dev-4hrsa1vu.us.auth0.com';
@@ -24,39 +23,33 @@ const AUTH0_CLIENT_ID = 'aGLkyywaQVlvDSwPLbusX9skHYltO0vi';
 const AUTH0_REDIRECT_URI = 'com.auth0.flutterauth0://login-callback';
 const AUTH0_ISSUER = 'https://$AUTH0_DOMAIN';
 
-
 /// -----------------------------------
-///           Profile Widget           
+///           Profile Widget
 /// -----------------------------------
 
 class Profile extends StatelessWidget {
   final logoutAction;
   final String name;
- // final String picture;
 
+  // final String picture;
 
   Profile(this.logoutAction, this.name);
 
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ProfilePage(),
-        /*Text('Name: $name'),
+    return ProfilePage();
+    /*Text('Name: $name'),
         RaisedButton(
           onPressed: () {
             logoutAction();
           },
-          child: Text('Logout'),
+          child: Text('Logout'),a
         ),*/
-      ],
-    );
   }
 }
 
 /// -----------------------------------
-///            Login Widget           
+///            Login Widget
 /// -----------------------------------
 
 class Login extends StatelessWidget {
@@ -83,7 +76,7 @@ class Login extends StatelessWidget {
 }
 
 /// -----------------------------------
-///                 App                
+///                 App
 /// -----------------------------------
 
 void main() => runApp(MyApp());
@@ -93,9 +86,8 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-
 /// -----------------------------------
-///              App State            
+///              App State
 /// -----------------------------------
 
 class _MyAppState extends State<MyApp> {
@@ -116,8 +108,8 @@ class _MyAppState extends State<MyApp> {
           child: isBusy
               ? CircularProgressIndicator()
               : isLoggedIn
-                ? Profile(logoutAction, name)
-                : Login(loginAction, errorMessage),
+                  ? Profile(logoutAction, name)
+                  : Login(loginAction, errorMessage),
         ),
       ),
     );
@@ -153,14 +145,11 @@ class _MyAppState extends State<MyApp> {
 
     try {
       final AuthorizationTokenResponse result =
-      await appAuth.authorizeAndExchangeCode(
-        AuthorizationTokenRequest(
-          AUTH0_CLIENT_ID,
-          AUTH0_REDIRECT_URI,
-          issuer: 'https://$AUTH0_DOMAIN',
-          scopes: ['openid', 'profile', 'offline_access'],
-           promptValues: ['login']
-        ),
+          await appAuth.authorizeAndExchangeCode(
+        AuthorizationTokenRequest(AUTH0_CLIENT_ID, AUTH0_REDIRECT_URI,
+            issuer: 'https://$AUTH0_DOMAIN',
+            scopes: ['openid', 'profile', 'offline_access'],
+            promptValues: ['login']),
       );
 
       final idToken = parseIdToken(result.idToken);
@@ -183,7 +172,6 @@ class _MyAppState extends State<MyApp> {
         errorMessage = e.toString();
       });
     }
-
   }
 
   void logoutAction() async {

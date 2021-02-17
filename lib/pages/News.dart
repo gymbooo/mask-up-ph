@@ -9,8 +9,9 @@ class _NewsState extends State<News> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-          child: Text('NEWS PAGE'),
-        ));
+      body: SafeArea(
+        child: Text('NEWS PAGE'),
+      ),
+    );
   }
 }

@@ -9,8 +9,9 @@ class _HospitalsState extends State<Hospitals> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Text('HOSPITAL PAGE'),
-    ));
+      body: SafeArea(
+        child: Text('HOSPITAL PAGE'),
+      ),
+    );
   }
 }
