@@ -21,7 +21,7 @@ class Article {
   String title = "";
   String description = "";
   String url = "";
-  String urlToImage = "";
+  String urlToImage = "https://via.placeholder.com/150";
   String publishedAt = "";
   String content = "";
 
@@ -32,7 +32,7 @@ class Article {
 class NewsData {
   String status;
   int totalResults;
-  List<Article> articles;
+  List<dynamic> articles;
 
   NewsData(this.status, this.totalResults, this.articles);
 }
@@ -44,6 +44,7 @@ class _NewsState extends State<News> {
   String status;
   int totalResults;
   List<dynamic> articles;
+  List<dynamic> listOfArticles = [];
 
   @override
   void initState() {
@@ -55,28 +56,46 @@ class _NewsState extends State<News> {
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     print(response.body);
+
     setState(() {
       var convertDataToJson = json.decode(response.body);
       status = convertDataToJson['status'];
       totalResults = convertDataToJson['totalResults'];
       articles = convertDataToJson['articles'];
       newsData = NewsData(status, totalResults, articles);
-      print(newsData);
+
+      for (var a in articles) {
+        listOfArticles.add(a);
+      }
+      print('loa $listOfArticles');
     });
 
     return "Success";
   }
 
   @override
+  // ignore: todo
+  //TODO: allow http access on imageurls
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: ListView(children: [
-        Text('$status'),
-        Text('$totalResults'),
-        Text('$articles')
-      ]),
-    ));
+            child: ListView.builder(
+      itemCount: totalResults,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          leading: Image.network(listOfArticles[index]['urlToImage']),
+          title: Text(listOfArticles[index]['title'].toString()),
+          subtitle: Text(listOfArticles[index]['content']),
+          onTap: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) =>
+                        NewsDetailPage(listOfArticles[index])));
+          },
+        );
+      },
+    )));
   }
 }
 
@@ -91,8 +110,10 @@ class _NewsState extends State<News> {
 //       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
 //         if (snapshot.hasData) {
 //           return ListView(children: [
-//             Text('$status'),
-//             Text('$totalResults'),
+//             Text('loa' + listOfArticles[0]['content'].toString()),
+// Text('$status'),
+// Text('$totalResults'),
+// Text('$articles')
 //           ]);
 //         } else {
 //           return Center(child: CircularProgressIndicator());
@@ -101,3 +122,14 @@ class _NewsState extends State<News> {
 //     )));
 //   }
 // }
+
+class NewsDetailPage extends StatelessWidget {
+  final Article article;
+
+  NewsDetailPage(this.article);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: Text(article.toString()));
+  }
+}
