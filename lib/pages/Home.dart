@@ -287,12 +287,71 @@ class _HomeState extends State<Home> {
                       color: const Color(0xFFEEEEEE),
                       fontWeight: FontWeight.bold),
                 ),
+                Icon(
+                  Icons.chevron_right,
+                  color: const Color(0xFFEEEEEE),
+                )
               ],
             ),
-            margin: EdgeInsets.only(right: 25.0, left: 25.0)),
+            margin: EdgeInsets.only(right: 25.0, left: 25.0, bottom: 15.0)),
         Card(
-            child: Text('safety measures'), margin: const EdgeInsets.all(20.0)),
-        Card(child: Text('community'), margin: const EdgeInsets.all(20.0)),
+            color: const Color(0xFF32A373),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: Image.asset(
+                    'lib/assets/images/safety.png',
+                    height: 70,
+                    width: 70,
+                  ),
+                ),
+                Text(
+                  'How do I prevent\ninfections?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: const Color(0xFFEEEEEE),
+                      fontWeight: FontWeight.bold),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: const Color(0xFFEEEEEE),
+                )
+              ],
+            ),
+            margin: EdgeInsets.only(right: 25.0, left: 25.0, bottom: 15.0)),
+        Card(
+            color: const Color(0xFF32A373),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: Image.asset(
+                    'lib/assets/images/share.png',
+                    height: 70,
+                    width: 70,
+                  ),
+                ),
+                Text(
+                  'Get support from\nthe community',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: const Color(0xFFEEEEEE),
+                      fontWeight: FontWeight.bold),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: const Color(0xFFEEEEEE),
+                )
+              ],
+            ),
+            margin: EdgeInsets.only(right: 25.0, left: 25.0, bottom: 15.0)),
       ],
     );
   }
