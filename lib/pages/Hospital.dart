@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:search_map_place/search_map_place.dart';

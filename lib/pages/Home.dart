@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -92,6 +93,7 @@ class _HomeState extends State<Home> {
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
               return ListView(children: <Widget>[
+                CustomAppBarWidget(),
                 Padding(
                   padding: EdgeInsets.only(left: 25, top: 30),
                   child: Text(

@@ -153,7 +153,7 @@ class Login extends StatelessWidget {
                     style: TextStyle(
                       color: AppColors.mainColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: 20,
                     ),
                   ),
                 ),

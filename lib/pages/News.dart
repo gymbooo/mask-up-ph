@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;

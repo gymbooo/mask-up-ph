@@ -57,6 +57,7 @@ flutter:
     - lib/assets/images/person.png
     - lib/assets/images/virus.png
     - lib/assets/images/logo.png
+    - lib/assets/images/profile.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -81,6 +82,14 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: lib/assets/fonts/Ubuntu-Regular.ttf
+    - family: FlutterIcons
+      fonts:
+        - asset: lib/assets/fonts/FlutterIcons.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
