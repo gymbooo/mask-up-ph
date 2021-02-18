@@ -85,48 +85,54 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.deepPurple,
-      body: SafeArea(
-        child: FutureBuilder<String>(
-          future: getJsonData(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.hasData) {
-              return ListView(children: <Widget>[
-                CustomAppBarWidget(),
-                Padding(
-                  padding: EdgeInsets.only(left: 25, top: 30),
-                  child: Text(
-                    'Good morning, user!',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFFEEEEEE)),
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('lib/assets/images/background.png'),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: FutureBuilder<String>(
+            future: getJsonData(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                return ListView(children: <Widget>[
+                  CustomAppBarWidget(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 25, top: 30),
+                    child: Text(
+                      'Good morning, user!',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFEEEEEE)),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 25, top: 25),
-                  child: Text('Cases in the ${covidData.country}',
-                      style: TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w300,
-                          color: const Color(0xFFEEEEEE))),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 27, top: 1),
-                  child: Text('Last updated: ${covidData.lastUpdatedAtApify}',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                          color: const Color(0xFFEEEEEE).withOpacity(0.5))),
-                ),
-                buildGridView(),
-                buildListView()
-              ]);
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
+                  Padding(
+                    padding: EdgeInsets.only(left: 25, top: 25),
+                    child: Text('Cases in the ${covidData.country}',
+                        style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w300,
+                            color: const Color(0xFFEEEEEE))),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 27, top: 1),
+                    child: Text('Last updated: ${covidData.lastUpdatedAtApify}',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                            color: const Color(0xFFEEEEEE).withOpacity(0.5))),
+                  ),
+                  buildGridView(),
+                  buildListView()
+                ]);
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         ),
       ),
     );
@@ -141,6 +147,8 @@ class _HomeState extends State<Home> {
           crossAxisCount: 2, childAspectRatio: 3 / 2),
       children: <Widget>[
         Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -167,6 +175,8 @@ class _HomeState extends State<Home> {
             ),
             margin: EdgeInsets.only(left: 25, top: 25, bottom: 15, right: 7)),
         Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -192,6 +202,8 @@ class _HomeState extends State<Home> {
             ),
             margin: EdgeInsets.only(right: 25, top: 25, left: 7, bottom: 15)),
         Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -217,6 +229,8 @@ class _HomeState extends State<Home> {
             ),
             margin: EdgeInsets.only(left: 25, bottom: 40, right: 7)),
         Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -252,19 +266,30 @@ class _HomeState extends State<Home> {
       shrinkWrap: true,
       children: <Widget>[
         Card(
+            color: const Color(0xFF32A373),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: Row(
               children: <Widget>[
                 Container(
+                  margin: EdgeInsets.all(10),
                   child: Image.asset(
                     'lib/assets/images/symptoms.png',
-                    height: 75,
-                    width: 75,
+                    height: 70,
+                    width: 70,
                   ),
                 ),
-                Text('What are the symptoms of Coronavirus?'),
+                Text(
+                  'What are the symptoms\nof Coronavirus?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: const Color(0xFFEEEEEE),
+                      fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-            margin: EdgeInsets.only(right: 20.0, left: 20.0)),
+            margin: EdgeInsets.only(right: 25.0, left: 25.0)),
         Card(
             child: Text('safety measures'), margin: const EdgeInsets.all(20.0)),
         Card(child: Text('community'), margin: const EdgeInsets.all(20.0)),

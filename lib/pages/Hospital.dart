@@ -15,7 +15,7 @@ class _HospitalState extends State<Hospital> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       body: Container(
         child: Column(
           children: [
