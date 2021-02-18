@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
+import 'package:flutterauth0/widgets/consts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -59,19 +60,112 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        RaisedButton(
-          onPressed: () {
-            loginAction();
-          },
-          child: Text('Login'),
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.mainColor,
+              AppColors.mainColor.withOpacity(.5),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
-        Text(loginError ?? ''),
-      ],
+        child: Stack(
+          children: <Widget>[
+            _buildHeader(),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .75,
+                child: Image.asset("lib/assets/images/virus.png"),
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * .25,
+              right: 25,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .4,
+                child: Image.asset("lib/assets/images/person.png"),
+              ),
+            ),
+            _buildFooter(context),
+          ],
+        ),
+      ),
     );
   }
+
+  Padding _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Image.asset("lib/assets/images/logo.png"),
+      ),
+    );
+  }
+
+  Widget _buildFooter(BuildContext context) {
+    return Positioned(
+      bottom: 50,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Coronavirus disease (COVID-19)",
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              "is an infectious disease caused by a new\nvirus.",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 25),
+            RaisedButton(
+              onPressed: () {
+                /*Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => loginAction(),
+                  ),
+                );*/
+                loginAction();
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * .85,
+                height: 60,
+                child: Center(
+                  child: Text(
+                    "SIGN IN WITH GOOGLE",
+                    style: TextStyle(
+                      color: AppColors.mainColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Text(loginError ?? ''),
+          ],
+        ),
+      ),
+    );
+  }
+
 }
 
 /// -----------------------------------
