@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterauth0/widgets/consts.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:flutterauth0/pages/MainDrawer.dart';
 import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
 
 class Home extends StatefulWidget {
@@ -49,6 +51,7 @@ class _HomeState extends State<Home> {
   String historyData;
   String sourceUrl;
   String lastUpdatedAtApify;
+  String givenName = 'user';
 
   @override
   void initState() {
@@ -91,8 +94,8 @@ class _HomeState extends State<Home> {
               image: AssetImage('lib/assets/images/background.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
-        appBar: AppBar(),
-        drawer: Drawer(),
+        appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
+        drawer: MainDrawer(),
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: FutureBuilder<String>(
@@ -104,7 +107,7 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text(
-                      'Good morning, user!',
+                      'Good morning, $givenName!',
                       style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,

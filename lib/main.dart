@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutterauth0/pages/ProfilePage.dart';
+import 'package:flutterauth0/pages/Home.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -130,7 +131,7 @@ class Login extends StatelessWidget {
             RaisedButton(
               onPressed: () {
                 loginAction();
-
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * .85,
@@ -251,7 +252,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void logoutAction() async {
+   void logoutAction() async {
     await secureStorage.delete(key: 'refresh_token');
     setState(() {
       isLoggedIn = false;
