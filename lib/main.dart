@@ -193,9 +193,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Mask Up PH',
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Mask Up PH'),
-        ),
         body: Center(
           child: isBusy
               ? CircularProgressIndicator()

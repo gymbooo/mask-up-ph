@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -80,3 +79,25 @@ class _NewsState extends State<News> {
     ));
   }
 }
+
+//--------with future builder
+
+// @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         body: SafeArea(
+//             child: FutureBuilder<String>(
+//       future: getJsonData(),
+//       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+//         if (snapshot.hasData) {
+//           return ListView(children: [
+//             Text('$status'),
+//             Text('$totalResults'),
+//           ]);
+//         } else {
+//           return Center(child: CircularProgressIndicator());
+//         }
+//       },
+//     )));
+//   }
+// }
