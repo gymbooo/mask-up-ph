@@ -3,7 +3,6 @@
 /// -----------------------------------
 
 import 'package:flutter/material.dart';
-
 import 'dart:convert';
 import 'package:flutterauth0/widgets/consts.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +34,7 @@ class Profile extends StatelessWidget {
 
   Profile(this.logoutAction, this.name);
 
+
   @override
   Widget build(BuildContext context) {
     return ProfilePage();
@@ -63,15 +63,9 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.mainColor,
-              AppColors.mainColor.withOpacity(.5),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+            image: DecorationImage(
+                image: AssetImage('lib/assets/images/background.png'),
+                fit: BoxFit.cover)),
         child: Stack(
           children: <Widget>[
             _buildHeader(),
@@ -135,12 +129,8 @@ class Login extends StatelessWidget {
             SizedBox(height: 25),
             RaisedButton(
               onPressed: () {
-                /*Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => loginAction(),
-                  ),
-                );*/
                 loginAction();
+
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * .85,

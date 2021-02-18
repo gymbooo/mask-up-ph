@@ -36,7 +36,7 @@ class _HospitalState extends State<Hospital> {
               Padding(
                   padding: const EdgeInsets.only(top: 5.0),
                   child: SizedBox(
-                    height: 400.0,
+                    height: 550.0,
                     child: GoogleMap(
                       onMapCreated: (GoogleMapController googleMapController) {
                         setState(() {

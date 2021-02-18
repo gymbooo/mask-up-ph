@@ -91,6 +91,8 @@ class _HomeState extends State<Home> {
               image: AssetImage('lib/assets/images/background.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
+        appBar: AppBar(),
+        drawer: Drawer(),
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: FutureBuilder<String>(
@@ -98,7 +100,7 @@ class _HomeState extends State<Home> {
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
                 return ListView(children: <Widget>[
-                  CustomAppBarWidget(),
+                  //CustomAppBarWidget(),
                   Padding(
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text(
