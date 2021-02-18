@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                 return ListView(children: <Widget>[
                   CustomAppBarWidget(),
                   Padding(
-                    padding: EdgeInsets.only(left: 25, top: 30),
+                    padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text(
                       'Good morning, user!',
                       style: TextStyle(
