@@ -80,7 +80,7 @@ class _NewsState extends State<News> {
     return Scaffold(
         body: SafeArea(
             child: ListView.builder(
-      itemCount: totalResults,
+      itemCount: totalResults - 1,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           leading: (listOfArticles[index]['urlToImage'] == null)
