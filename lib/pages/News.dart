@@ -74,56 +74,40 @@ class _NewsState extends State<News> {
   }
 
   @override
-  // ignore: todo
-  //TODO: allow http access on imageurls
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-            child: ListView.builder(
-      itemCount: totalResults - 1,
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          leading: (listOfArticles[index]['urlToImage'] == null)
-              ? Image.asset('lib/assets/images/symptoms.png')
-              : Image.network(listOfArticles[index]['urlToImage']),
-          title: Text(listOfArticles[index]['title'].toString() ?? 'title'),
-          subtitle: Text(listOfArticles[index]['content'] ?? 'content'),
-          onTap: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) =>
-                        NewsDetailPage(listOfArticles[index])));
-          },
-        );
+            child: FutureBuilder<String>(
+      future: getJsonData(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: totalResults - 1,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: (listOfArticles[index]['urlToImage'] == null)
+                    ? Image.asset('lib/assets/images/symptoms.png')
+                    : Image.network(listOfArticles[index]['urlToImage']),
+                title:
+                    Text(listOfArticles[index]['title'].toString() ?? 'title'),
+                subtitle: Text(listOfArticles[index]['content'] ?? 'content'),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) =>
+                              NewsDetailPage(listOfArticles[index])));
+                },
+              );
+            },
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
       },
     )));
   }
 }
-
-//--------with future builder
-
-// @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: SafeArea(
-//             child: FutureBuilder<String>(
-//       future: getJsonData(),
-//       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-//         if (snapshot.hasData) {
-//           return ListView(children: [
-//             Text('loa' + listOfArticles[0]['content'].toString()),
-// Text('$status'),
-// Text('$totalResults'),
-// Text('$articles')
-//           ]);
-//         } else {
-//           return Center(child: CircularProgressIndicator());
-//         }
-//       },
-//     )));
-//   }
-// }
 
 class NewsDetailPage extends StatelessWidget {
   final Article article;
