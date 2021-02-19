@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:flutterauth0/pages/MainDrawer.dart';
 import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -52,6 +53,8 @@ class _HomeState extends State<Home> {
   String sourceUrl;
   String lastUpdatedAtApify;
   String givenName = 'user';
+  DateTime date;
+  String formattedDate;
 
   @override
   void initState() {
@@ -79,6 +82,8 @@ class _HomeState extends State<Home> {
       covidData = COVIDData(infected, tested, recovered, deceased, activeCases,
           unique, country, historyData, sourceUrl, lastUpdatedAtApify);
       // print(covidData);
+      date = DateTime.parse(lastUpdatedAtApify);
+      formattedDate = DateFormat.yMMMMd('en_US').add_jm().format(date);
     });
 
     return "Success";
@@ -124,7 +129,7 @@ class _HomeState extends State<Home> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 27, top: 1),
-                    child: Text('Last updated: ${covidData.lastUpdatedAtApify}',
+                    child: Text('Last updated: $formattedDate',
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w300,
