@@ -3,12 +3,13 @@
 /// -----------------------------------
 
 import 'package:flutter/material.dart';
-
 import 'dart:convert';
+import 'package:flutterauth0/widgets/consts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutterauth0/pages/ProfilePage.dart';
+import 'package:flutterauth0/pages/Home.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -30,10 +31,10 @@ const AUTH0_ISSUER = 'https://$AUTH0_DOMAIN';
 class Profile extends StatelessWidget {
   final logoutAction;
   final String name;
-
   // final String picture;
 
   Profile(this.logoutAction, this.name);
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class Profile extends StatelessWidget {
           onPressed: () {
             logoutAction();
           },
-          child: Text('Logout'),a
+          child: Text('Logout'),
         ),*/
   }
 }
@@ -60,17 +61,97 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        RaisedButton(
-          onPressed: () {
-            loginAction();
-          },
-          child: Text('Login'),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('lib/assets/images/background.png'),
+                fit: BoxFit.cover)),
+        child: Stack(
+          children: <Widget>[
+            _buildHeader(),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .75,
+                child: Image.asset("lib/assets/images/virus.png"),
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * .25,
+              right: 25,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .4,
+                child: Image.asset("lib/assets/images/person.png"),
+              ),
+            ),
+            _buildFooter(context),
+          ],
         ),
-        Text(loginError ?? ''),
-      ],
+      ),
+    );
+  }
+
+  Padding _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 50),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Image.asset("lib/assets/images/logo.png"),
+      ),
+    );
+  }
+
+  Widget _buildFooter(BuildContext context) {
+    return Positioned(
+      bottom: 50,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Coronavirus disease (COVID-19)",
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              "is an infectious disease caused by a new\nvirus.",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 25),
+            RaisedButton(
+              onPressed: () {
+                loginAction();
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * .85,
+                height: 60,
+                child: Center(
+                  child: Text(
+                    "SIGN IN WITH GOOGLE",
+                    style: TextStyle(
+                      color: AppColors.mainColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Text(loginError ?? ''),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -101,9 +182,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Mask Up PH',
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Mask Up PH'),
-        ),
         body: Center(
           child: isBusy
               ? CircularProgressIndicator()
@@ -174,7 +252,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void logoutAction() async {
+   void logoutAction() async {
     await secureStorage.delete(key: 'refresh_token');
     setState(() {
       isLoggedIn = false;

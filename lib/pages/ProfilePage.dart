@@ -6,8 +6,10 @@ import 'package:flutterauth0/pages/News.dart';
 
 /// This is the main application widget.
 class ProfilePage extends StatefulWidget {
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
+
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -53,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child = News();
         break;
       case 3:
-        child = Hospitals();
+        child = Hospital();
         break;
     }
     return Scaffold(
