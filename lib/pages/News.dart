@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:flutterauth0/widgets/consts.dart';
 
 class News extends StatefulWidget {
   @override
@@ -75,47 +78,59 @@ class _NewsState extends State<News> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-            child: FutureBuilder<String>(
-      future: getJsonData(),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: totalResults - 1,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: (listOfArticles[index]['urlToImage'] == null)
-                    ? Image.asset('lib/assets/images/symptoms.png')
-                    : Image.network(listOfArticles[index]['urlToImage']),
-                title:
-                    Text(listOfArticles[index]['title'].toString() ?? 'title'),
-                subtitle: Text(listOfArticles[index]['content'] ?? 'content'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) =>
-                              NewsDetailPage(listOfArticles[index])));
-                },
-              );
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('lib/assets/images/background.png'),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+              child: FutureBuilder<String>(
+            future: getJsonData(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: totalResults - 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: const Color(0xFF32A373),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(15),
+                          leading: (listOfArticles[index]['urlToImage'] == null)
+                              ? Image.asset(
+                                  'lib/assets/images/symptoms.png',
+                                )
+                              : Image.network(
+                                  listOfArticles[index]['urlToImage'],
+                                ),
+                          title: Text(
+                            listOfArticles[index]['title'].toString() ?? '',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: const Color(0xFFEEEEEE),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            listOfArticles[index]['content'] ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                          onTap: () {
+                            launch(listOfArticles[index]['url']);
+                          },
+                        ),
+                        margin: EdgeInsets.only(
+                            top: 7.5, right: 25.0, left: 25.0, bottom: 7.5));
+                  },
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
             },
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    )));
-  }
-}
-
-class NewsDetailPage extends StatelessWidget {
-  final Article article;
-
-  NewsDetailPage(this.article);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(child: Text(article.toString()));
+          ))),
+    );
   }
 }
