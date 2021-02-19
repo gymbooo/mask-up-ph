@@ -21,7 +21,7 @@ class Article {
   String title = "";
   String description = "";
   String url = "";
-  String urlToImage = "https://via.placeholder.com/150";
+  String urlToImage = "";
   String publishedAt = "";
   String content = "";
 
@@ -83,9 +83,11 @@ class _NewsState extends State<News> {
       itemCount: totalResults,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
-          leading: Image.network(listOfArticles[index]['urlToImage']),
-          title: Text(listOfArticles[index]['title'].toString()),
-          subtitle: Text(listOfArticles[index]['content']),
+          leading: (listOfArticles[index]['urlToImage'] == null)
+              ? Image.asset('lib/assets/images/symptoms.png')
+              : Image.network(listOfArticles[index]['urlToImage']),
+          title: Text(listOfArticles[index]['title'].toString() ?? 'title'),
+          subtitle: Text(listOfArticles[index]['content'] ?? 'content'),
           onTap: () {
             Navigator.push(
                 context,
