@@ -101,7 +101,7 @@ class _NewsState extends State<News> {
                           contentPadding: EdgeInsets.all(15),
                           leading: (listOfArticles[index]['urlToImage'] == null)
                               ? Image.asset(
-                                  'lib/assets/images/symptoms.png',
+                                  'lib/assets/images/news.png',
                                 )
                               : Image.network(
                                   listOfArticles[index]['urlToImage'],

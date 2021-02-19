@@ -35,7 +35,6 @@ class Profile extends StatelessWidget {
 
   Profile(this.logoutAction, this.name);
 
-
   @override
   Widget build(BuildContext context) {
     return ProfilePage();
@@ -78,7 +77,7 @@ class Login extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * .25,
+              top: MediaQuery.of(context).size.height * .28,
               right: 25,
               child: Container(
                 width: MediaQuery.of(context).size.width * .4,
@@ -97,14 +96,14 @@ class Login extends StatelessWidget {
       padding: const EdgeInsets.only(top: 50),
       child: Align(
         alignment: Alignment.topCenter,
-        child: Image.asset("lib/assets/images/logo.png"),
+        child: Image.asset("lib/assets/images/logo.png", height: 200),
       ),
     );
   }
 
   Widget _buildFooter(BuildContext context) {
     return Positioned(
-      bottom: 50,
+      bottom: 30,
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -252,7 +251,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-   void logoutAction() async {
+  void logoutAction() async {
     await secureStorage.delete(key: 'refresh_token');
     setState(() {
       isLoggedIn = false;
