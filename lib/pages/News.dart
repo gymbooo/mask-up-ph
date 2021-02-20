@@ -90,47 +90,90 @@ class _NewsState extends State<News> {
             future: getJsonData(),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: totalResults - 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        color: const Color(0xFF32A373),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.all(15),
-                          leading: (listOfArticles[index]['urlToImage'] == null)
-                              ? Image.asset(
-                                  'lib/assets/images/news.png',
-                                )
-                              : Image.network(
-                                  listOfArticles[index]['urlToImage'],
-                                ),
-                          title: Text(
-                            listOfArticles[index]['title'].toString() ?? '',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: const Color(0xFFEEEEEE),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            listOfArticles[index]['content'] ?? '',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                          onTap: () {
-                            launch(listOfArticles[index]['url']);
-                          },
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, top: 25, bottom: 10),
+                        child: Text(
+                          'Top Headlines on COVID-19\nin the Philippines',
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFFEEEEEE)),
                         ),
-                        margin: EdgeInsets.only(
-                            top: 7.5, right: 25.0, left: 25.0, bottom: 7.5));
-                  },
-                );
+                      ),
+                      Expanded(child: buildListView())
+                    ]);
               } else {
                 return Center(child: CircularProgressIndicator());
               }
             },
           ))),
+    );
+  }
+
+  ListView buildListView() {
+    return ListView.builder(
+      itemCount: totalResults - 1,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            color: const Color(0xFF32A373),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ListTile(
+                  contentPadding:
+                      EdgeInsets.only(top: 6, right: 14.0, left: 14.0),
+                  leading: (listOfArticles[index]['urlToImage'] == null)
+                      ? Image.asset(
+                          'lib/assets/images/news.png',
+                          width: 80,
+                        )
+                      : Image.network(
+                          listOfArticles[index]['urlToImage'],
+                          width: 80,
+                        ),
+                  title: Text(
+                    listOfArticles[index]['title'] ?? 'Title not found',
+                    style:
+                        TextStyle(fontSize: 19, color: const Color(0xFFEEEEEE)),
+                  ),
+                  subtitle: Text(
+                    listOfArticles[index]['content'] ?? 'Tap to see content',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  onTap: () {
+                    launch(listOfArticles[index]['url']);
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 14, top: 6),
+                  child: Text(listOfArticles[index]['author'] ?? '',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.5)),
+                      overflow: TextOverflow.ellipsis),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 14, bottom: 6),
+                  child: Text(
+                    DateFormat.yMMMMd('en_US').add_jm().format(DateTime.parse(
+                            listOfArticles[index]['publishedAt'])) ??
+                        '',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(0.5)),
+                  ),
+                )
+              ],
+            ),
+            margin:
+                EdgeInsets.only(top: 5, right: 15.0, left: 15.0, bottom: 5));
+      },
     );
   }
 }

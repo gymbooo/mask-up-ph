@@ -135,8 +135,8 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.w300,
                             color: const Color(0xFFEEEEEE).withOpacity(0.5))),
                   ),
-                  buildGridView(),
-                  buildListView()
+                  Expanded(child: buildGridView()),
+                  Expanded(child: buildListView())
                 ]);
               } else {
                 return Center(child: CircularProgressIndicator());
@@ -152,6 +152,7 @@ class _HomeState extends State<Home> {
 
   GridView buildGridView() {
     return GridView(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 3 / 2),
@@ -273,6 +274,7 @@ class _HomeState extends State<Home> {
 
   ListView buildListView() {
     return ListView(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: <Widget>[
         Card(
