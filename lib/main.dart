@@ -31,9 +31,9 @@ const AUTH0_ISSUER = 'https://$AUTH0_DOMAIN';
 class Profile extends StatelessWidget {
   final logoutAction;
   final String name;
-  // final String picture;
+  final String picture;
 
-  Profile(this.logoutAction, this.name);
+  Profile(this.logoutAction, this.name, this.picture);
 
 
   @override
@@ -176,6 +176,7 @@ class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
   String errorMessage;
   String name;
+  String picture;
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +187,7 @@ class _MyAppState extends State<MyApp> {
           child: isBusy
               ? CircularProgressIndicator()
               : isLoggedIn
-                  ? Profile(logoutAction, name)
+                  ? Profile(logoutAction, name, picture)
                   : Login(loginAction, errorMessage),
         ),
       ),
@@ -240,6 +241,7 @@ class _MyAppState extends State<MyApp> {
         isBusy = false;
         isLoggedIn = true;
         name = idToken['given_name'];
+        picture = profile['picture'];
       });
     } catch (e, s) {
       print('login error: $e - stack: $s');
