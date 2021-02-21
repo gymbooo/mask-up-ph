@@ -4,23 +4,20 @@ import 'package:flutterauth0/pages/Home.dart';
 import 'package:flutterauth0/pages/Hospital.dart';
 import 'package:flutterauth0/pages/News.dart';
 
-
-
 /// This is the main application widget.
 class ProfilePage extends StatefulWidget {
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
-
 }
-
 
 class _ProfilePageState extends State<ProfilePage> {
   int _index = 0;
 
   BottomNavigationBar _navigationBar() {
     return BottomNavigationBar(
-      type : BottomNavigationBarType.fixed,
+      backgroundColor: const Color(0xFF400060),
+      unselectedItemColor: const Color(0xFFEEEEEE),
+      type: BottomNavigationBarType.fixed,
       currentIndex: _index,
       onTap: (int index) => setState(() => _index = index),
       items: const <BottomNavigationBarItem>[

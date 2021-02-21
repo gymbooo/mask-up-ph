@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:flutterauth0/widgets/consts.dart';
 
 class News extends StatefulWidget {
   @override
@@ -75,47 +78,102 @@ class _NewsState extends State<News> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-            child: FutureBuilder<String>(
-      future: getJsonData(),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: totalResults - 1,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: (listOfArticles[index]['urlToImage'] == null)
-                    ? Image.asset('lib/assets/images/symptoms.png')
-                    : Image.network(listOfArticles[index]['urlToImage']),
-                title:
-                    Text(listOfArticles[index]['title'].toString() ?? 'title'),
-                subtitle: Text(listOfArticles[index]['content'] ?? 'content'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) =>
-                              NewsDetailPage(listOfArticles[index])));
-                },
-              );
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('lib/assets/images/background.png'),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+              child: FutureBuilder<String>(
+            future: getJsonData(),
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, top: 25, bottom: 10),
+                        child: Text(
+                          'Top Headlines on COVID-19\nin the Philippines',
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFFEEEEEE)),
+                        ),
+                      ),
+                      Expanded(child: buildListView())
+                    ]);
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
             },
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    )));
+          ))),
+    );
   }
-}
 
-class NewsDetailPage extends StatelessWidget {
-  final Article article;
-
-  NewsDetailPage(this.article);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(child: Text(article.toString()));
+  ListView buildListView() {
+    return ListView.builder(
+      itemCount: totalResults - 1,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            color: const Color(0xFF32A373),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ListTile(
+                  contentPadding:
+                      EdgeInsets.only(top: 6, right: 14.0, left: 14.0),
+                  leading: (listOfArticles[index]['urlToImage'] == null)
+                      ? Image.asset(
+                          'lib/assets/images/news.png',
+                          width: 80,
+                        )
+                      : Image.network(
+                          listOfArticles[index]['urlToImage'],
+                          width: 80,
+                        ),
+                  title: Text(
+                    listOfArticles[index]['title'] ?? 'Title not found',
+                    style:
+                        TextStyle(fontSize: 19, color: const Color(0xFFEEEEEE)),
+                  ),
+                  subtitle: Text(
+                    listOfArticles[index]['content'] ?? 'Tap to see content',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  onTap: () {
+                    launch(listOfArticles[index]['url']);
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 14, top: 6),
+                  child: Text(listOfArticles[index]['author'] ?? '',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.5)),
+                      overflow: TextOverflow.ellipsis),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 14, bottom: 6),
+                  child: Text(
+                    DateFormat.yMMMMd('en_US').add_jm().format(DateTime.parse(
+                            listOfArticles[index]['publishedAt'])) ??
+                        '',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(0.5)),
+                  ),
+                )
+              ],
+            ),
+            margin:
+                EdgeInsets.only(top: 5, right: 15.0, left: 15.0, bottom: 5));
+      },
+    );
   }
 }
