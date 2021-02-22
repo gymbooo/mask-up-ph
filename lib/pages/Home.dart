@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:mask_up_ph/pages/MainDrawer.dart';
+import 'package:expansion_card/expansion_card.dart';
 
 class Home extends StatefulWidget {
   final String givenName;
@@ -280,93 +281,172 @@ class _HomeState extends State<Home> {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: <Widget>[
-        Card(
-            color: const Color(0xFF32A373),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: Image.asset(
-                    'lib/assets/images/symptoms.png',
-                    height: 70,
-                    width: 70,
+         ExpansionCard(
+            backgroundColor: const Color(0xFF32A373),
+            borderRadius: 10,
+            margin: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 15.0),
+            title: Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset('lib/assets/images/symptoms.png', width: 70, height: 70),
+                  Text(
+                    'What are the symptoms\nof Coronavirus?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 22,
+                        color: const Color(0xFFEEEEEE),
+                        fontWeight: FontWeight.bold),
                   ),
-                ),
-                Text(
-                  'What are the symptoms\nof Coronavirus?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 22,
-                      color: const Color(0xFFEEEEEE),
-                      fontWeight: FontWeight.bold),
-                ),
-                Icon(
-                  Icons.chevron_right,
-                  color: const Color(0xFFEEEEEE),
-                )
-              ],
+                ],
+              ),
             ),
-            margin: EdgeInsets.only(right: 25.0, left: 25.0, bottom: 15.0)),
-        Card(
-            color: const Color(0xFF32A373),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: Image.asset(
-                    'lib/assets/images/safety.png',
-                    height: 70,
-                    width: 70,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 7),
+               // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
+                  height: 130,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.only(left: 16),
+                    physics: BouncingScrollPhysics(),
+                    children: <Widget>[
+                      _buildSymptomItem("lib/assets/images/1.png", "Fever"),
+                      _buildSymptomItem("lib/assets/images/2.png", "Dry Cough"),
+                      _buildSymptomItem("lib/assets/images/3.png", "Headache"),
+                      _buildSymptomItem("lib/assets/images/4.png", "Breathless"),
+                    ],
                   ),
                 ),
+            ],
+          ),
+
+        ExpansionCard(
+          backgroundColor: const Color(0xFF32A373),
+          borderRadius: 10,
+          margin: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 15.0),
+          title: Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset('lib/assets/images/safety.png', width: 70, height: 70),
                 Text(
                   'How do I prevent\ninfections?',
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.right,
                   style: TextStyle(
                       fontSize: 22,
                       color: const Color(0xFFEEEEEE),
                       fontWeight: FontWeight.bold),
                 ),
-                Icon(
-                  Icons.chevron_right,
-                  color: const Color(0xFFEEEEEE),
-                )
               ],
             ),
-            margin: EdgeInsets.only(right: 25.0, left: 25.0, bottom: 15.0)),
-        Card(
-            color: const Color(0xFF32A373),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 7),
+             // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
+              height: 140,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.only(left: 16),
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  _buildSymptomItem("lib/assets/images/protection-1.png", "Avoid close\ncontact"),
+                  _buildSymptomItem("lib/assets/images/protection-2.png", "Stay at\nhome"),
+                  _buildSymptomItem("lib/assets/images/protection-3.png", "Wash your\nhands"),
+                  _buildSymptomItem("lib/assets/images/protection-4.png", "Cover sneeze"),
+                  _buildSymptomItem("lib/assets/images/protection-5.png", "Wear your\nfacemask"),
+                  _buildSymptomItem("lib/assets/images/protection-6.png", "Clean objects"),
+                ],
+              ),
+            )
+          ],
+        ),
+
+        ExpansionCard(
+          backgroundColor: const Color(0xFF32A373),
+          borderRadius: 10,
+          margin: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 15.0),
+          title: Container(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: Image.asset(
-                    'lib/assets/images/share.png',
-                    height: 70,
-                    width: 70,
-                  ),
-                ),
+                Image.asset('lib/assets/images/share.png', width: 70, height: 70),
                 Text(
-                  'Get support from\nthe community',
+                  'Give support to\nthe community',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 22,
                       color: const Color(0xFFEEEEEE),
                       fontWeight: FontWeight.bold),
                 ),
-                Icon(
-                  Icons.chevron_right,
-                  color: const Color(0xFFEEEEEE),
-                )
               ],
             ),
-            margin: EdgeInsets.only(right: 25.0, left: 25.0, bottom: 15.0)),
+          ),
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 7),
+             // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
+              height: 140,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.only(left: 16),
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  _buildSymptomItem("lib/assets/images/icon.png", "Support local\ncharities"),
+                  _buildSymptomItem("lib/assets/images/12.png", "Support local\nbusinesses"),
+                  _buildSymptomItem("lib/assets/images/11.png", "Be a great\nfriend"),
+                  _buildSymptomItem("lib/assets/images/13.png", "Have healthy\nconversation"),
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSymptomItem(String path, String text) {
+    return Column(
+      children: <Widget>[
+        Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+            gradient: LinearGradient(
+              colors: [
+                AppColors.backgroundColor,
+                Colors.white,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            border: Border.all(color: Colors.white),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(1, 1),
+                spreadRadius: 1,
+                blurRadius: 3,
+              )
+            ],
+          ),
+          padding: EdgeInsets.only(top: 15),
+          child: Image.asset(path),
+          margin: EdgeInsets.only(right: 20),
+        ),
+        SizedBox(height: 7),
+        Text(
+          text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
