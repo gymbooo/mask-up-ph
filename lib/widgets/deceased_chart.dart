@@ -57,7 +57,7 @@ class DeceasedChartState extends State<DeceasedChart> {
     return [
       new charts.Series<DeceasedData, DateTime>(
         id: 'Deceased Cases',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.purple.shadeDefault,
         domainFn: (DeceasedData deceased, _) => deceased.month,
         measureFn: (DeceasedData deceased, _) => deceased.total,
         data: data,

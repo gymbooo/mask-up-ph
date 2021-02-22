@@ -57,7 +57,7 @@ class RecoveredChartState extends State<RecoveredChart> {
     return [
       new charts.Series<RecoveredData, DateTime>(
         id: 'Recovered Cases',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
         domainFn: (RecoveredData recovered, _) => recovered.month,
         measureFn: (RecoveredData recovered, _) => recovered.total,
         data: data,

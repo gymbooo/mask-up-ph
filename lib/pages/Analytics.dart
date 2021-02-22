@@ -118,19 +118,21 @@ class _AnalyticsState extends State<Analytics> {
         ),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
         drawer: MainDrawer(),
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: ListView(
-            children: [
-              MultipleChart(),
-              ConfirmedChart(),
-              RecoveredChart(),
-              DeceasedChart(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                MultipleChart(),
+                ConfirmedChart(),
+                RecoveredChart(),
+                DeceasedChart(),
+              ],
+            ),
           ),
-
         ),
       ),
     );
