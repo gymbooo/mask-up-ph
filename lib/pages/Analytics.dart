@@ -1,100 +1,125 @@
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
-import 'package:flutterauth0/widgets/flutter_icons.dart';
-import 'package:flutterauth0/widgets/chart_widget.dart';
-import 'package:flutterauth0/widgets/consts.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutterauth0/widgets/CardData.dart';
+import 'package:mask_up_ph/widgets/deceased_chart.dart';
+import 'package:mask_up_ph/widgets/flutter_icons.dart';
+import 'package:mask_up_ph/widgets/chart_widget.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
+import 'package:mask_up_ph/pages/MainDrawer.dart';
+import 'package:mask_up_ph/widgets/confirmed_chart.dart';
+import 'package:mask_up_ph/widgets/recovered_chart.dart';
 
 class Analytics extends StatefulWidget {
   @override
   _AnalyticsState createState() => _AnalyticsState();
 }
 
-class COVIDData {
-  int infected;
-  int tested;
-  int recovered;
-  int deceased;
-  int activeCases;
-  int unique;
-  String country;
+// class COVIDData {
+//   int infected;
+//   int tested;
+//   int recovered;
+//   int deceased;
+//   int activeCases;
+//   int unique;
+//   String country;
+//
+//   COVIDData(this.infected, this.tested, this.recovered, this.deceased,
+//       this.activeCases, this.unique, this.country);
+// }
 
-  COVIDData(this.infected, this.tested, this.recovered, this.deceased,
-      this.activeCases, this.unique, this.country);
-}
+// class COVIDGraphData {
+//   int confirmed;
+//   int recovered;
+//   int deceased;
+//
+//   COVIDGraphData(this.confirmed, this.recovered, this.deceased);
+// }
 
 class _AnalyticsState extends State<Analytics> {
-  final String url =
-      "https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true";
-  COVIDData covidData;
-  int infected;
-  int tested;
-  int recovered;
-  int deceased;
-  int activeCases;
-  int unique;
-  String country;
+  // final String url =
+  //     "https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true";
+  // COVIDData covidData;
+  // int infected;
+  // int tested;
+  // int recovered;
+  // int deceased;
+  // int activeCases;
+  // int unique;
+  // String country;
+
+  // final String url2 =
+  //     "https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1";
+  // COVIDGraphData covidDataGraph;
+  // int confirmedGraph;
+  // int recoveredGraph;
+  // int deceasedGraph;
+  // Map mapData = new Map();
+  // DateTime date;
+  // String formattedDate;
 
   @override
   void initState() {
     super.initState();
-    this.getJsonData();
+    // this.getJsonData();
+    // this.getGraphData();
   }
 
-  Future<String> getJsonData() async {
-    var response = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-    print(response.body);
+  // Future<String> getJsonData() async {
+  //   var response = await http
+  //       .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+  //   print(response.body);
+  //
+  //   setState(() {
+  //     var convertDataToJson = json.decode(response.body);
+  //     infected = convertDataToJson['infected'];
+  //     tested = convertDataToJson['tested'];
+  //     recovered = convertDataToJson['recovered'];
+  //     deceased = convertDataToJson['deceased'];
+  //     activeCases = convertDataToJson['activeCases'];
+  //     unique = convertDataToJson['unique'];
+  //     country = convertDataToJson['country'];
+  //     covidData = COVIDData(
+  //         infected, tested, recovered, deceased, activeCases, unique, country);
+  //     print('analytics coviddata  $covidData');
+  //   });
+  //
+  //   return "Success";
+  // }
 
-    setState(() {
-      var convertDataToJson = json.decode(response.body);
-      infected = convertDataToJson['infected'];
-      tested = convertDataToJson['tested'];
-      recovered = convertDataToJson['recovered'];
-      deceased = convertDataToJson['deceased'];
-      activeCases = convertDataToJson['activeCases'];
-      unique = convertDataToJson['unique'];
-      country = convertDataToJson['country'];
-      covidData = COVIDData(
-          infected, tested, recovered, deceased, activeCases, unique, country);
-      print(covidData);
-    });
-
-    return "Success";
-  }
+  // Future<String> getGraphData() async {
+  //   var response = await http
+  //       .get(Uri.encodeFull(url2), headers: {"Accept": "application/json"});
+  //   print(response.body);
+  //
+  //   setState(() {
+  //     var convertDataToJson = json.decode(response.body);
+  //
+  //     for (var data in convertDataToJson) {
+  //       confirmedGraph = data['infected'];
+  //       recoveredGraph = data['recovered'];
+  //       deceasedGraph = data['deceased'];
+  //       covidDataGraph = COVIDGraphData(confirmedGraph, recoveredGraph, deceasedGraph);
+  //       date = DateTime.parse(data['lastUpdatedAtApify']);
+  //       formattedDate = DateFormat.yMMMMd('en_US').add_jm().format(date);
+  //       mapData[formattedDate] = covidDataGraph;
+  //     }
+  //     print('line mapdata $mapData');
+  //   });
+  //
+  //   return "Success";
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
+      drawer: MainDrawer(),
       backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
-          child: FutureBuilder<String>(
-        future: getJsonData(),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.hasData) {
-            return GridView.extent(
-              primary: false,
-              padding: const EdgeInsets.all(16),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              maxCrossAxisExtent: 200.0,
-              children: <Widget>[
-                CardData('Active Cases', '${covidData.activeCases}'),
-                CardData('Deceased', '${covidData.deceased}'),
-                CardData('Recovered', '${covidData.recovered}'),
-                CardData('Unique', '${covidData.unique}'),
-                CardData('Tested', '${covidData.tested}'),
-                CardData('Infected', '${covidData.infected}'),
-              ],
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      )),
+      body: ListView(
+        children: [
+          ConfirmedChart(),
+          RecoveredChart(),
+          DeceasedChart(),
+        ],
+      ),
     );
   }
 

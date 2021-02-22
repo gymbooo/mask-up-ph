@@ -1,13 +1,10 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/pages/ProfilePage.dart';
-import 'package:flutterauth0/widgets/consts.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutterauth0/pages/FAQPage.dart';
-import 'package:flutterauth0/main.dart';
+import 'package:mask_up_ph/pages/FAQPage.dart';
+import 'package:mask_up_ph/main.dart';
 
 class MainDrawer extends StatelessWidget{
-
   @override
   Widget build(BuildContext context){
     return Drawer(
@@ -32,7 +29,7 @@ class MainDrawer extends StatelessWidget{
                       ),
                       ),
                     ),
-                    Text('user', style: TextStyle(fontSize: 22, color: Colors.white)),
+                    Text('username', style: TextStyle(fontSize: 22, color: Colors.white)),
                     Text('email@gmail.com', style: TextStyle(color: Colors.white)),
                   ],
                 ),
@@ -72,7 +69,6 @@ class MainDrawer extends StatelessWidget{
                 leading: Icon(Icons.logout),
                 title: Text('Logout', style: TextStyle(fontSize: 19)),
                 onTap: () {
-
                 },
               ),
           ],

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/main.dart';
-import 'package:flutterauth0/widgets/consts.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:flutterauth0/pages/MainDrawer.dart';
-import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
-import 'package:intl/intl.dart';
+import 'package:mask_up_ph/pages/MainDrawer.dart';
 
 class Home extends StatefulWidget {
   @override

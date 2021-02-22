@@ -4,7 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:flutterauth0/widgets/consts.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
+import 'package:mask_up_ph/pages/MainDrawer.dart';
 
 class News extends StatefulWidget {
   @override
@@ -84,6 +85,8 @@ class _NewsState extends State<News> {
               image: AssetImage('lib/assets/images/background.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
+          appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
+          drawer: MainDrawer(),
           backgroundColor: Colors.transparent,
           body: SafeArea(
               child: FutureBuilder<String>(

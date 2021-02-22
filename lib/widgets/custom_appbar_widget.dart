@@ -1,6 +1,6 @@
-import 'package:flutterauth0/widgets/flutter_icons.dart';
+import 'package:mask_up_ph/widgets/flutter_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/main.dart';
+import 'package:mask_up_ph/main.dart';
 
 class CustomAppBarWidget extends StatelessWidget {
   @override
