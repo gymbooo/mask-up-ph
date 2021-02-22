@@ -5,16 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:async';
 
-class ConfirmedChart extends StatefulWidget {
+class MultipleChart extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => ConfirmedChartState();
-}
-
-class ConfirmedData {
-  final DateTime month;
-  final int total;
-
-  ConfirmedData(this.month, this.total);
+  State<StatefulWidget> createState() => MultipleChartState();
 }
 
 class COVIDGraphData {
@@ -31,14 +24,23 @@ class COVIDGraphData {
   int get getDeceased => deceased;
 }
 
-class ConfirmedChartState extends State<ConfirmedChart> {
+class COVIDData {
+  final DateTime month;
+  final int total;
+
+  COVIDData(this.month, this.total);
+}
+
+class MultipleChartState extends State<MultipleChart> {
   final String url2 =
       "https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1";
   COVIDGraphData covidDataGraph;
   int confirmedGraph;
   int recoveredGraph;
   int deceasedGraph;
-  Map<String, int> mapData = Map();
+  Map<String, int> confirmedDataMap = Map();
+  Map<String, int> recoveredDataMap = Map();
+  Map<String, int> deceasedDataMap = Map();
 
   DateTime date;
   String formattedDate;
@@ -46,29 +48,53 @@ class ConfirmedChartState extends State<ConfirmedChart> {
   Timer timer;
   List data;
 
-  static List<charts.Series<ConfirmedData, DateTime>> _createData(
-      Map<String, int> map) {
-    final data = [
-      new ConfirmedData(new DateTime(2020, 4), 8488),
+  static List<charts.Series<COVIDData, DateTime>> _createSampleData(
+      Map<String, int> map1, Map<String, int> map2, Map<String, int> map3) {
+    final confirmedData = [
+      new COVIDData(new DateTime(2020, 4), 8488),
     ];
-    map.forEach((k, v) => data
-        .add(new ConfirmedData(new DateFormat('M/yyyy').parse(k), v.toInt())));
+    map1.forEach((k, v) => confirmedData
+        .add(new COVIDData(new DateFormat('M/yyyy').parse(k), v.toInt())));
+
+    final recoveredData = [
+      new COVIDData(new DateTime(2020, 4), 1043),
+    ];
+    map2.forEach((k, v) => recoveredData
+        .add(new COVIDData(new DateFormat('M/yyyy').parse(k), v.toInt())));
+
+    final deceasedData = [
+      new COVIDData(new DateTime(2020, 4), 568),
+    ];
+    map3.forEach((k, v) => deceasedData
+        .add(new COVIDData(new DateFormat('M/yyyy').parse(k), v.toInt())));
 
     return [
-      new charts.Series<ConfirmedData, DateTime>(
-        id: 'Confirmed Cases',
+      new charts.Series<COVIDData, DateTime>(
+        id: 'Confirmed',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (ConfirmedData confirmed, _) => confirmed.month,
-        measureFn: (ConfirmedData confirmed, _) => confirmed.total,
-        data: data,
-      )
+        domainFn: (COVIDData cases, _) => cases.month,
+        measureFn: (COVIDData cases, _) => cases.total,
+        data: confirmedData,
+      ),
+      new charts.Series<COVIDData, DateTime>(
+          id: 'Recovered',
+          colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+          domainFn: (COVIDData cases, _) => cases.month,
+          measureFn: (COVIDData cases, _) => cases.total,
+          data: recoveredData),
+      new charts.Series<COVIDData, DateTime>(
+        id: 'Deceased',
+        colorFn: (_, __) => charts.MaterialPalette.purple.shadeDefault,
+        domainFn: (COVIDData cases, _) => cases.month,
+        measureFn: (COVIDData cases, _) => cases.total,
+        data: deceasedData,
+      ),
     ];
   }
 
   @override
   void initState() {
     super.initState();
-    // timer = new Timer.periodic(new Duration(seconds: 2), (t) => getGraphData());
     this.getGraphData();
   }
 
@@ -87,11 +113,13 @@ class ConfirmedChartState extends State<ConfirmedChart> {
             COVIDGraphData(confirmedGraph, recoveredGraph, deceasedGraph);
         date = DateTime.parse(data['lastUpdatedAtApify']);
         formattedDate = DateFormat.yM().format(date);
-        mapData[formattedDate] = covidDataGraph.getConfirmed;
+        confirmedDataMap[formattedDate] = covidDataGraph.getConfirmed;
+        recoveredDataMap[formattedDate] = covidDataGraph.getRecovered;
+        deceasedDataMap[formattedDate] = covidDataGraph.getDeceased;
       }
-      // List<charts.Series<TimeSeriesSales, DateTime>> newList = [];
-      // mapData.forEach((k,v) => newList.add(createSeries(k,v)));
-      print('confirmed $mapData');
+      print('multiple confirmed $confirmedDataMap');
+      print('multiple recovered $recoveredDataMap');
+      print('multiple deceased $deceasedDataMap');
     });
 
     return "Success";
@@ -109,7 +137,7 @@ class ConfirmedChartState extends State<ConfirmedChart> {
             child: Column(
               children: <Widget>[
                 Text(
-                  "COVID 19 Total Confirmed Cases",
+                  "COVID 19 Cases",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -122,7 +150,8 @@ class ConfirmedChartState extends State<ConfirmedChart> {
                         (BuildContext context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.hasData) {
                         return new charts.TimeSeriesChart(
-                          _createData(mapData),
+                          _createSampleData(confirmedDataMap, recoveredDataMap,
+                              deceasedDataMap),
                           animate: true,
                           behaviors: [new charts.SeriesLegend()],
                         );

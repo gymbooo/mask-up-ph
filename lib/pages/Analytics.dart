@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mask_up_ph/widgets/deceased_chart.dart';
+import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:mask_up_ph/widgets/flutter_icons.dart';
 import 'package:mask_up_ph/widgets/chart_widget.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
-import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:mask_up_ph/widgets/confirmed_chart.dart';
 import 'package:mask_up_ph/widgets/recovered_chart.dart';
+import 'package:mask_up_ph/widgets/deceased_chart.dart';
+import 'package:mask_up_ph/widgets/multiple_chart.dart';
 
 class Analytics extends StatefulWidget {
   @override
@@ -109,16 +110,30 @@ class _AnalyticsState extends State<Analytics> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
-      drawer: MainDrawer(),
-      backgroundColor: AppColors.backgroundColor,
-      body: ListView(
-        children: [
-          ConfirmedChart(),
-          RecoveredChart(),
-          DeceasedChart(),
-        ],
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('lib/assets/images/background.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
+        drawer: MainDrawer(),
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                MultipleChart(),
+                ConfirmedChart(),
+                RecoveredChart(),
+                DeceasedChart(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

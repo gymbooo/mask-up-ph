@@ -10,11 +10,11 @@ class RecoveredChart extends StatefulWidget {
   State<StatefulWidget> createState() => RecoveredChartState();
 }
 
-class ConfirmedData {
-  final int month;
-  final int confirmed;
+class RecoveredData {
+  final DateTime month;
+  final int total;
 
-  ConfirmedData(this.month, this.confirmed);
+  RecoveredData(this.month, this.total);
 }
 
 class COVIDGraphData {
@@ -29,14 +29,6 @@ class COVIDGraphData {
   int get getRecovered => recovered;
 
   int get getDeceased => deceased;
-}
-
-/// Sample time series data type.
-class TimeSeriesSales {
-  final DateTime time;
-  final int sales;
-
-  TimeSeriesSales(this.time, this.sales);
 }
 
 class RecoveredChartState extends State<RecoveredChart> {
@@ -54,30 +46,20 @@ class RecoveredChartState extends State<RecoveredChart> {
   Timer timer;
   List data;
 
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(
+  static List<charts.Series<RecoveredData, DateTime>> _createData(
       Map<String, int> map) {
     final data = [
-      new TimeSeriesSales(new DateTime(2020, 4), 1043),
-      new TimeSeriesSales(new DateTime(2020, 5), 3909),
-      new TimeSeriesSales(new DateTime(2020, 6), 10233),
-      new TimeSeriesSales(new DateTime(2020, 7), 65178),
-      new TimeSeriesSales(new DateTime(2020, 8), 157403),
-      new TimeSeriesSales(new DateTime(2020, 9), 5381),
-      new TimeSeriesSales(new DateTime(2020, 10), 328602),
-      new TimeSeriesSales(new DateTime(2020, 11), 398658),
-      new TimeSeriesSales(new DateTime(2020, 12), 439796),
-      new TimeSeriesSales(new DateTime(2021, 1), 487551),
-      new TimeSeriesSales(new DateTime(2021, 2), 522843),
+      new RecoveredData(new DateTime(2020, 4), 1043),
     ];
-    // map.forEach((k, v) => data.add(
-    //     new TimeSeriesSales(new DateFormat('M/yyyy').parse(k), v.toInt())));
+    map.forEach((k, v) => data
+        .add(new RecoveredData(new DateFormat('M/yyyy').parse(k), v.toInt())));
 
     return [
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<RecoveredData, DateTime>(
         id: 'Recovered Cases',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        domainFn: (RecoveredData recovered, _) => recovered.month,
+        measureFn: (RecoveredData recovered, _) => recovered.total,
         data: data,
       )
     ];
@@ -86,8 +68,7 @@ class RecoveredChartState extends State<RecoveredChart> {
   @override
   void initState() {
     super.initState();
-    // this.getGraphData();
-    timer = new Timer.periodic(new Duration(seconds: 2), (t) => getGraphData());
+    this.getGraphData();
   }
 
   Future<String> getGraphData() async {
@@ -107,7 +88,7 @@ class RecoveredChartState extends State<RecoveredChart> {
         formattedDate = DateFormat.yM().format(date);
         mapData[formattedDate] = covidDataGraph.getRecovered;
       }
-      print('line mapdata $mapData');
+      print('recovered $mapData');
     });
 
     return "Success";
@@ -116,34 +97,43 @@ class RecoveredChartState extends State<RecoveredChart> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Container(
-          height: 550,
-          padding: EdgeInsets.all(10),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    "COVID 19 Total Recovered Cases",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+      child: Container(
+        height: 550,
+        padding: EdgeInsets.all(10),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "COVID 19 Total Recovered Cases",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: FutureBuilder<String>(
+                    future: getGraphData(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.hasData) {
+                        return new charts.TimeSeriesChart(
+                          _createData(mapData),
+                          animate: true,
+                          behaviors: [new charts.SeriesLegend()],
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: new charts.TimeSeriesChart(
-                      _createSampleData(mapData),
-                      animate: true,
-                      behaviors: [new charts.SeriesLegend()],
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ),
-      );
-
+      ),
+    );
   }
 }

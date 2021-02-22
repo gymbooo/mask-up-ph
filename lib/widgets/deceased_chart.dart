@@ -10,11 +10,11 @@ class DeceasedChart extends StatefulWidget {
   State<StatefulWidget> createState() => DeceasedChartState();
 }
 
-class ConfirmedData {
-  final int month;
-  final int confirmed;
+class DeceasedData {
+  final DateTime month;
+  final int total;
 
-  ConfirmedData(this.month, this.confirmed);
+  DeceasedData(this.month, this.total);
 }
 
 class COVIDGraphData {
@@ -29,14 +29,6 @@ class COVIDGraphData {
   int get getRecovered => recovered;
 
   int get getDeceased => deceased;
-}
-
-/// Sample time series data type.
-class TimeSeriesSales {
-  final DateTime time;
-  final int sales;
-
-  TimeSeriesSales(this.time, this.sales);
 }
 
 class DeceasedChartState extends State<DeceasedChart> {
@@ -54,31 +46,20 @@ class DeceasedChartState extends State<DeceasedChart> {
   Timer timer;
   List data;
 
-
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(
+  static List<charts.Series<DeceasedData, DateTime>> _createData(
       Map<String, int> map) {
     final data = [
-      new TimeSeriesSales(new DateTime(2020, 4), 568),
-      new TimeSeriesSales(new DateTime(2020, 5), 957),
-      new TimeSeriesSales(new DateTime(2020, 6), 1266),
-      new TimeSeriesSales(new DateTime(2020, 7), 2023),
-      new TimeSeriesSales(new DateTime(2020, 8), 3520),
-      new TimeSeriesSales(new DateTime(2020, 9), 5381),
-      new TimeSeriesSales(new DateTime(2020, 10), 7053),
-      new TimeSeriesSales(new DateTime(2020, 11), 8392),
-      new TimeSeriesSales(new DateTime(2020, 12), 9244),
-      new TimeSeriesSales(new DateTime(2021, 1), 10749),
-      new TimeSeriesSales(new DateTime(2021, 2), 12088),
+      new DeceasedData(new DateTime(2020, 4), 568),
     ];
-    // map.forEach((k, v) => data.add(
-    //     new TimeSeriesSales(new DateFormat('M/yyyy').parse(k), v.toInt())));
+    map.forEach((k, v) => data
+        .add(new DeceasedData(new DateFormat('M/yyyy').parse(k), v.toInt())));
 
     return [
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<DeceasedData, DateTime>(
         id: 'Deceased Cases',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        colorFn: (_, __) => charts.MaterialPalette.purple.shadeDefault,
+        domainFn: (DeceasedData deceased, _) => deceased.month,
+        measureFn: (DeceasedData deceased, _) => deceased.total,
         data: data,
       )
     ];
@@ -87,8 +68,7 @@ class DeceasedChartState extends State<DeceasedChart> {
   @override
   void initState() {
     super.initState();
-    // this.getGraphData();
-    timer = new Timer.periodic(new Duration(seconds: 2), (t) => getGraphData());
+    this.getGraphData();
   }
 
   Future<String> getGraphData() async {
@@ -108,7 +88,7 @@ class DeceasedChartState extends State<DeceasedChart> {
         formattedDate = DateFormat.yM().format(date);
         mapData[formattedDate] = covidDataGraph.getDeceased;
       }
-      print('line mapdata $mapData');
+      print('deceased $mapData');
     });
 
     return "Success";
@@ -133,18 +113,27 @@ class DeceasedChartState extends State<DeceasedChart> {
                   height: 20,
                 ),
                 Expanded(
-                  child: new charts.TimeSeriesChart(
-                     _createSampleData(mapData),
-                    animate: true,
-                    behaviors: [new charts.SeriesLegend()],
+                  child: FutureBuilder<String>(
+                    future: getGraphData(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.hasData) {
+                        return new charts.TimeSeriesChart(
+                          _createData(mapData),
+                          animate: true,
+                          behaviors: [new charts.SeriesLegend()],
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
                   ),
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
     );
-
   }
 }

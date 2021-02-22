@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:search_map_place/search_map_place.dart';
 import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Hospital extends StatefulWidget {
   @override
@@ -11,6 +14,9 @@ class Hospital extends StatefulWidget {
 
 class _HospitalState extends State<Hospital> {
   GoogleMapController mapController;
+  Position currentPosition;
+  var geoLocator = Geolocator();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +46,27 @@ class _HospitalState extends State<Hospital> {
                   child: SizedBox(
                     height: 550.0,
                     child: GoogleMap(
-                      onMapCreated: (GoogleMapController googleMapController) {
+                      myLocationButtonEnabled: true,
+                      zoomGesturesEnabled: true,
+                      zoomControlsEnabled: true,
+                      onMapCreated:
+                          (GoogleMapController googleMapController) async {
+                        Position position = await Geolocator.getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.best);
+                        currentPosition = position;
+
                         setState(() {
                           mapController = googleMapController;
+                          CameraPosition cameraPosition = new CameraPosition(
+                              zoom: 15.0,
+                              target: LatLng(currentPosition.latitude,
+                                  currentPosition.longitude));
+                          googleMapController.animateCamera(
+                              CameraUpdate.newCameraPosition(cameraPosition));
                         });
                       },
                       initialCameraPosition: CameraPosition(
-                          zoom: 15.0, target: LatLng(9.8969, 124.5307)),
+                          zoom: 6, target: LatLng(12.8797, 121.7740)),
                       mapType: MapType.normal,
                     ),
                   ))
