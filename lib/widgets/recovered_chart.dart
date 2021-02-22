@@ -57,17 +57,17 @@ class RecoveredChartState extends State<RecoveredChart> {
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(
       Map<String, int> map) {
     final data = [
-      new TimeSeriesSales(new DateTime(2020, 4), 8488),
-      new TimeSeriesSales(new DateTime(2020, 5), 18086),
-      new TimeSeriesSales(new DateTime(2020, 6), 37514),
-      new TimeSeriesSales(new DateTime(2020, 7), 93354),
-      new TimeSeriesSales(new DateTime(2020, 8), 217396),
-      new TimeSeriesSales(new DateTime(2020, 9), 307288),
-      new TimeSeriesSales(new DateTime(2020, 10), 373144),
-      new TimeSeriesSales(new DateTime(2020, 11), 431630),
-      new TimeSeriesSales(new DateTime(2020, 12), 474064),
-      new TimeSeriesSales(new DateTime(2021, 1), 525618),
-      new TimeSeriesSales(new DateTime(2021, 2), 561169),
+      new TimeSeriesSales(new DateTime(2020, 4), 1043),
+      new TimeSeriesSales(new DateTime(2020, 5), 3909),
+      new TimeSeriesSales(new DateTime(2020, 6), 10233),
+      new TimeSeriesSales(new DateTime(2020, 7), 65178),
+      new TimeSeriesSales(new DateTime(2020, 8), 157403),
+      new TimeSeriesSales(new DateTime(2020, 9), 5381),
+      new TimeSeriesSales(new DateTime(2020, 10), 328602),
+      new TimeSeriesSales(new DateTime(2020, 11), 398658),
+      new TimeSeriesSales(new DateTime(2020, 12), 439796),
+      new TimeSeriesSales(new DateTime(2021, 1), 487551),
+      new TimeSeriesSales(new DateTime(2021, 2), 522843),
     ];
     // map.forEach((k, v) => data.add(
     //     new TimeSeriesSales(new DateFormat('M/yyyy').parse(k), v.toInt())));
@@ -115,8 +115,7 @@ class RecoveredChartState extends State<RecoveredChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return Center(
         child: Container(
           height: 550,
           padding: EdgeInsets.all(10),
@@ -126,7 +125,7 @@ class RecoveredChartState extends State<RecoveredChart> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "COVID 19 Recovered Cases",
+                    "COVID 19 Total Recovered Cases",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -144,7 +143,7 @@ class RecoveredChartState extends State<RecoveredChart> {
             ),
           ),
         ),
-      ),
-    );
+      );
+
   }
 }

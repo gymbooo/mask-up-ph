@@ -58,17 +58,17 @@ class DeceasedChartState extends State<DeceasedChart> {
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(
       Map<String, int> map) {
     final data = [
-      new TimeSeriesSales(new DateTime(2020, 4), 8488),
-      new TimeSeriesSales(new DateTime(2020, 5), 18086),
-      new TimeSeriesSales(new DateTime(2020, 6), 37514),
-      new TimeSeriesSales(new DateTime(2020, 7), 93354),
-      new TimeSeriesSales(new DateTime(2020, 8), 217396),
-      new TimeSeriesSales(new DateTime(2020, 9), 307288),
-      new TimeSeriesSales(new DateTime(2020, 10), 373144),
-      new TimeSeriesSales(new DateTime(2020, 11), 431630),
-      new TimeSeriesSales(new DateTime(2020, 12), 474064),
-      new TimeSeriesSales(new DateTime(2021, 1), 525618),
-      new TimeSeriesSales(new DateTime(2021, 2), 561169),
+      new TimeSeriesSales(new DateTime(2020, 4), 568),
+      new TimeSeriesSales(new DateTime(2020, 5), 957),
+      new TimeSeriesSales(new DateTime(2020, 6), 1266),
+      new TimeSeriesSales(new DateTime(2020, 7), 2023),
+      new TimeSeriesSales(new DateTime(2020, 8), 3520),
+      new TimeSeriesSales(new DateTime(2020, 9), 5381),
+      new TimeSeriesSales(new DateTime(2020, 10), 7053),
+      new TimeSeriesSales(new DateTime(2020, 11), 8392),
+      new TimeSeriesSales(new DateTime(2020, 12), 9244),
+      new TimeSeriesSales(new DateTime(2021, 1), 10749),
+      new TimeSeriesSales(new DateTime(2021, 2), 12088),
     ];
     // map.forEach((k, v) => data.add(
     //     new TimeSeriesSales(new DateFormat('M/yyyy').parse(k), v.toInt())));
@@ -116,8 +116,7 @@ class DeceasedChartState extends State<DeceasedChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
+    return Center(
       child: Container(
         height: 550,
         padding: EdgeInsets.all(10),
@@ -127,7 +126,7 @@ class DeceasedChartState extends State<DeceasedChart> {
             child: Column(
               children: <Widget>[
                 Text(
-                  "COVID 19 Deceased Cases",
+                  "COVID 19 Total Deceased Cases",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -145,6 +144,7 @@ class DeceasedChartState extends State<DeceasedChart> {
           ),
         ),
       ),
-    ));
+    );
+
   }
 }

@@ -235,8 +235,7 @@ class ConfirmedChartState extends State<ConfirmedChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
+    return Center(
       child: Container(
         height: 550,
         padding: EdgeInsets.all(10),
@@ -246,7 +245,7 @@ class ConfirmedChartState extends State<ConfirmedChart> {
             child: Column(
               children: <Widget>[
                 Text(
-                  "COVID 19 Confirmed Cases",
+                  "COVID 19 Total Confirmed Cases",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -254,7 +253,7 @@ class ConfirmedChartState extends State<ConfirmedChart> {
                 ),
                 Expanded(
                   child: new charts.TimeSeriesChart(
-                     _createSampleData(mapData),
+                    _createSampleData(mapData),
                     animate: true,
                     behaviors: [new charts.SeriesLegend()],
                   ),
@@ -264,6 +263,6 @@ class ConfirmedChartState extends State<ConfirmedChart> {
           ),
         ),
       ),
-    ));
+    );
   }
 }
