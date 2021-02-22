@@ -3,15 +3,34 @@ import 'package:mask_up_ph/pages/Analytics.dart';
 import 'package:mask_up_ph/pages/Home.dart';
 import 'package:mask_up_ph/pages/Hospital.dart';
 import 'package:mask_up_ph/pages/News.dart';
+import 'package:mask_up_ph/pages/MainDrawer.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
 
-/// This is the main application widget.
 class ProfilePage extends StatefulWidget {
+  final String name;
+  final String givenName;
+  final String email;
+  final String picture;
+  final logoutAction;
+
+  ProfilePage(
+      this.name, this.givenName, this.email, this.picture, this.logoutAction);
+
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfilePageState createState() =>
+      _ProfilePageState(name, givenName, email, picture, logoutAction);
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   int _index = 0;
+  final String name;
+  final String givenName;
+  final String email;
+  final String picture;
+  final logoutAction;
+
+  _ProfilePageState(
+      this.name, this.givenName, this.email, this.picture, this.logoutAction);
 
   BottomNavigationBar _navigationBar() {
     return BottomNavigationBar(
@@ -46,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Widget child = Container();
     switch (_index) {
       case 0:
-        child = Home();
+        child = Home(givenName);
         break;
       case 1:
         child = Analytics();
@@ -59,6 +78,9 @@ class _ProfilePageState extends State<ProfilePage> {
         break;
     }
     return Scaffold(
+      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
+      drawer: MainDrawer(name, email, picture, logoutAction),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: SizedBox.expand(child: child),
       ),

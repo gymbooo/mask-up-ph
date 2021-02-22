@@ -20,8 +20,6 @@ class _HospitalState extends State<Hospital> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
-      drawer: MainDrawer(),
       resizeToAvoidBottomInset: false,
       // resizeToAvoidBottomPadding: false,
       body: SafeArea(

@@ -29,15 +29,23 @@ const AUTH0_ISSUER = 'https://$AUTH0_DOMAIN';
 /// -----------------------------------
 
 class Profile extends StatelessWidget {
-  final logoutAction;
   final String name;
-  // final String picture;
+  final String givenName;
+  final String email;
+  final String picture;
+  final logoutAction;
 
-  Profile(this.logoutAction, this.name);
+  Profile(
+      this.name, this.givenName, this.email, this.picture, this.logoutAction);
 
   @override
   Widget build(BuildContext context) {
-    return ProfilePage();
+    print('name $name');
+    print('givenName $givenName');
+    print('email $email');
+    print('picture $picture');
+    print('logoutAction $logoutAction');
+    return ProfilePage(name, givenName, email, picture, logoutAction);
     /*Text('Name: $name'),
         RaisedButton(
           onPressed: () {
@@ -175,6 +183,9 @@ class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
   String errorMessage;
   String name;
+  String givenName;
+  String email;
+  String picture;
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +196,7 @@ class _MyAppState extends State<MyApp> {
           child: isBusy
               ? CircularProgressIndicator()
               : isLoggedIn
-                  ? Profile(logoutAction, name)
+                  ? Profile(name, givenName, email, picture, logoutAction)
                   : Login(loginAction, errorMessage),
         ),
       ),
@@ -225,7 +236,7 @@ class _MyAppState extends State<MyApp> {
           await appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(AUTH0_CLIENT_ID, AUTH0_REDIRECT_URI,
             issuer: 'https://$AUTH0_DOMAIN',
-            scopes: ['openid', 'profile', 'offline_access'],
+            scopes: ['openid', 'profile', 'offline_access','email'],
             promptValues: ['login']),
       );
 
@@ -238,7 +249,10 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         isBusy = false;
         isLoggedIn = true;
-        name = idToken['given_name'];
+        name = idToken['name'];
+        givenName = idToken['given_name'];
+        email = idToken['email'];
+        picture = profile['picture'];
       });
     } catch (e, s) {
       print('login error: $e - stack: $s');
@@ -289,7 +303,10 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         isBusy = false;
         isLoggedIn = true;
-        name = idToken['given_name'];
+        name = idToken['name'];
+        givenName = idToken['given_name'];
+        email = idToken['email'];
+        picture = profile['picture'];
       });
     } catch (e, s) {
       print('error on refresh token: $e - stack: $s');

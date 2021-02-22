@@ -85,8 +85,6 @@ class _NewsState extends State<News> {
               image: AssetImage('lib/assets/images/background.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
-          appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
-          drawer: MainDrawer(),
           backgroundColor: Colors.transparent,
           body: SafeArea(
               child: FutureBuilder<String>(

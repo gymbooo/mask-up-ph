@@ -7,8 +7,12 @@ import 'package:intl/intl.dart';
 import 'package:mask_up_ph/pages/MainDrawer.dart';
 
 class Home extends StatefulWidget {
+  final String givenName;
+
+  Home(this.givenName);
+
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(givenName);
 }
 
 class COVIDData {
@@ -37,6 +41,10 @@ class COVIDData {
 }
 
 class _HomeState extends State<Home> {
+  final String givenName;
+
+  _HomeState(this.givenName);
+
   final String url =
       'https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true';
   COVIDData covidData;
@@ -50,7 +58,6 @@ class _HomeState extends State<Home> {
   String historyData;
   String sourceUrl;
   String lastUpdatedAtApify;
-  String givenName = 'user';
   DateTime date;
   String formattedDate;
 
@@ -97,8 +104,6 @@ class _HomeState extends State<Home> {
               image: AssetImage('lib/assets/images/background.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
-        appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
-        drawer: MainDrawer(),
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: FutureBuilder<String>(
