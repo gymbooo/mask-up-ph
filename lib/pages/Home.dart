@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterauth0/main.dart';
 import 'package:flutterauth0/widgets/consts.dart';
 import 'dart:async';
 import 'dart:convert';

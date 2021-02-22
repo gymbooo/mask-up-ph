@@ -163,19 +163,21 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
 /// -----------------------------------
 ///              App State
 /// -----------------------------------
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   bool isBusy = false;
   bool isLoggedIn = false;
   String errorMessage;
   String name;
   String picture;
+  String username;
+
 
   @override
   Widget build(BuildContext context) {
@@ -186,12 +188,13 @@ class _MyAppState extends State<MyApp> {
           child: isBusy
               ? CircularProgressIndicator()
               : isLoggedIn
-                  ? Profile(logoutAction, name, picture)
+                  ?  Profile(logoutAction, name, picture)
                   : Login(loginAction, errorMessage),
         ),
       ),
     );
   }
+
 
   Map<String, dynamic> parseIdToken(String idToken) {
     final parts = idToken.split(r'.');
@@ -292,6 +295,7 @@ class _MyAppState extends State<MyApp> {
         isBusy = false;
         isLoggedIn = true;
         name = idToken['given_name'];
+        picture = profile['picture'];
       });
     } catch (e, s) {
       print('error on refresh token: $e - stack: $s');
