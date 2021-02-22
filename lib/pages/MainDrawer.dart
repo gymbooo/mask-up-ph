@@ -8,11 +8,6 @@ import 'package:flutterauth0/main.dart';
 
 class MainDrawer extends StatelessWidget{
 
-
-  final MyAppState user = new MyAppState();
-
-
-
   @override
   Widget build(BuildContext context){
     return Drawer(
@@ -37,7 +32,7 @@ class MainDrawer extends StatelessWidget{
                       ),
                       ),
                     ),
-                    Text('${user.username}', style: TextStyle(fontSize: 22, color: Colors.white)),
+                    Text('user', style: TextStyle(fontSize: 22, color: Colors.white)),
                     Text('email@gmail.com', style: TextStyle(color: Colors.white)),
                   ],
                 ),

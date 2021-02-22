@@ -163,14 +163,14 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
-  MyAppState createState() => MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 /// -----------------------------------
 ///              App State
 /// -----------------------------------
 
-class MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
   bool isBusy = false;
   bool isLoggedIn = false;
   String errorMessage;
