@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/pages/Analytics.dart';
-import 'package:flutterauth0/pages/Home.dart';
-import 'package:flutterauth0/pages/Hospital.dart';
-import 'package:flutterauth0/pages/News.dart';
+import 'package:mask_up_ph/pages/Analytics.dart';
+import 'package:mask_up_ph/pages/Home.dart';
+import 'package:mask_up_ph/pages/Hospital.dart';
+import 'package:mask_up_ph/pages/News.dart';
 
 /// This is the main application widget.
 class ProfilePage extends StatefulWidget {

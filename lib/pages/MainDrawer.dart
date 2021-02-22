@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/widgets/consts.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutterauth0/pages/FAQPage.dart';
-import 'package:flutterauth0/main.dart';
+import 'package:mask_up_ph/pages/FAQPage.dart';
+import 'package:mask_up_ph/main.dart';
 
 class MainDrawer extends StatelessWidget{
   @override

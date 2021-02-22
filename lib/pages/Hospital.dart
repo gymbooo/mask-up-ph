@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/widgets/custom_appbar_widget.dart';
-import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:search_map_place/search_map_place.dart';
+import 'package:mask_up_ph/pages/MainDrawer.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
 
 class Hospital extends StatefulWidget {
   @override
@@ -14,6 +14,8 @@ class _HospitalState extends State<Hospital> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
+      drawer: MainDrawer(),
       resizeToAvoidBottomInset: false,
       // resizeToAvoidBottomPadding: false,
       body: SafeArea(

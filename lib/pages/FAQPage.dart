@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterauth0/DataSource.dart';
-import 'package:flutterauth0/widgets/consts.dart';
+import 'package:mask_up_ph/DataSource.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
 
 class FAQPage extends StatelessWidget {
   @override

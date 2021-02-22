@@ -4,12 +4,12 @@
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:flutterauth0/widgets/consts.dart';
+import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutterauth0/pages/ProfilePage.dart';
-import 'package:flutterauth0/pages/Home.dart';
+import 'package:mask_up_ph/pages/ProfilePage.dart';
+import 'package:mask_up_ph/pages/Home.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
