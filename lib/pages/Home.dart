@@ -368,7 +368,7 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Image.asset('lib/assets/images/share.png', width: 70, height: 70),
                 Text(
-                  'Get support from\nthe community',
+                  'Give support to\nthe community',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 22,
@@ -381,7 +381,19 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Container(
               margin: EdgeInsets.symmetric(horizontal: 7),
-              child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
+             // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
+              height: 140,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.only(left: 16),
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  _buildSymptomItem("lib/assets/images/icon.png", "Support local\ncharities"),
+                  _buildSymptomItem("lib/assets/images/12.png", "Support local\nbusinesses"),
+                  _buildSymptomItem("lib/assets/images/11.png", "Be a great\nfriend"),
+                  _buildSymptomItem("lib/assets/images/13.png", "Have healthy\nconversation"),
+                ],
+              ),
             )
           ],
         ),
