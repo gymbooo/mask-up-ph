@@ -11,10 +11,10 @@ class ConfirmedChart extends StatefulWidget {
 }
 
 class ConfirmedData {
-  final int month;
-  final int confirmed;
+  final DateTime month;
+  final int total;
 
-  ConfirmedData(this.month, this.confirmed);
+  ConfirmedData(this.month, this.total);
 }
 
 class COVIDGraphData {
@@ -29,22 +29,6 @@ class COVIDGraphData {
   int get getRecovered => recovered;
 
   int get getDeceased => deceased;
-}
-
-/// Sample ordinal data type.
-// class OrdinalSales {
-//   final String year;
-//   final int sales;
-//
-//   OrdinalSales(this.year, this.sales);
-// }
-
-/// Sample time series data type.
-class TimeSeriesSales {
-  final DateTime time;
-  final int sales;
-
-  TimeSeriesSales(this.time, this.sales);
 }
 
 class ConfirmedChartState extends State<ConfirmedChart> {
@@ -62,150 +46,30 @@ class ConfirmedChartState extends State<ConfirmedChart> {
   Timer timer;
   List data;
 
-  // Defining the data
-  // mapData.forEach((k,v) => dataChart.add(new ConfirmedData(new DateTime(k), v)));
-  // final dataChart = [
-  //   new ConfirmedData(0, 1500000),
-  //   new ConfirmedData(1, 1735000),
-  //   new ConfirmedData(2, 1678000),
-  //   new ConfirmedData(3, 1890000),
-  //   new ConfirmedData(4, 1907000),
-  //   new ConfirmedData(5, 2300000),
-  //   new ConfirmedData(6, 2360000),
-  //   new ConfirmedData(7, 1980000),
-  //   new ConfirmedData(8, 2654000),
-  //   new ConfirmedData(9, 2789070),
-  //   new ConfirmedData(10, 3020000),
-  //   new ConfirmedData(11, 3245900),
-  //   new ConfirmedData(12, 4098500),
-  //   new ConfirmedData(13, 4500000),
-  //   new ConfirmedData(14, 4456500),
-  //   new ConfirmedData(15, 3900500),
-  //   new ConfirmedData(16, 5123400),
-  //   new ConfirmedData(17, 5589000),
-  //   new ConfirmedData(18, 5940000),
-  //   new ConfirmedData(19, 6367000),
-  // ];
-  //
-  // _getSeriesData() {
-  //   List<charts.Series<ConfirmedData, int>> series = [
-  //     charts.Series(
-  //         id: "Sales",
-  //         data: dataChart,
-  //         domainFn: (ConfirmedData series, _) => series.month,
-  //         measureFn: (ConfirmedData series, _) => series.confirmed,
-  //         colorFn: (ConfirmedData series, _) =>
-  //             charts.MaterialPalette.blue.shadeDefault)
-  //   ];
-  //   return series;
-  // }
-
-  // /// Create series list with multiple series
-  // static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-  //   final desktopSalesData = [
-  //     new OrdinalSales('2014', 5),
-  //     new OrdinalSales('2015', 25),
-  //     new OrdinalSales('2016', 100),
-  //     new OrdinalSales('2017', 75),
-  //   ];
-  //
-  //   final tabletSalesData = [
-  //     new OrdinalSales('2014', 25),
-  //     new OrdinalSales('2015', 50),
-  //     new OrdinalSales('2016', 10),
-  //     new OrdinalSales('2017', 20),
-  //   ];
-  //
-  //   final mobileSalesData = [
-  //     new OrdinalSales('2014', 10),
-  //     new OrdinalSales('2015', 15),
-  //     new OrdinalSales('2016', 50),
-  //     new OrdinalSales('2017', 45),
-  //   ];
-  //
-  //   final otherSalesData = [
-  //     new OrdinalSales('2014', 20),
-  //     new OrdinalSales('2015', 35),
-  //     new OrdinalSales('2016', 15),
-  //     new OrdinalSales('2017', 10),
-  //   ];
-  //
-  //   return [
-  //     new charts.Series<OrdinalSales, String>(
-  //       id: 'Desktop',
-  //       domainFn: (OrdinalSales sales, _) => sales.year,
-  //       measureFn: (OrdinalSales sales, _) => sales.sales,
-  //       data: desktopSalesData,
-  //     ),
-  //     new charts.Series<OrdinalSales, String>(
-  //       id: 'Tablet',
-  //       domainFn: (OrdinalSales sales, _) => sales.year,
-  //       measureFn: (OrdinalSales sales, _) => sales.sales,
-  //       data: tabletSalesData,
-  //     ),
-  //     new charts.Series<OrdinalSales, String>(
-  //       id: 'Mobile',
-  //       domainFn: (OrdinalSales sales, _) => sales.year,
-  //       measureFn: (OrdinalSales sales, _) => sales.sales,
-  //       data: mobileSalesData,
-  //     ),
-  //     new charts.Series<OrdinalSales, String>(
-  //       id: 'Other',
-  //       domainFn: (OrdinalSales sales, _) => sales.year,
-  //       measureFn: (OrdinalSales sales, _) => sales.sales,
-  //       data: otherSalesData,
-  //     ),
-  //   ];
-  // }
-
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(
+  static List<charts.Series<ConfirmedData, DateTime>> _createData(
       Map<String, int> map) {
     final data = [
-      new TimeSeriesSales(new DateTime(2020, 4), 8488),
-      new TimeSeriesSales(new DateTime(2020, 5), 18086),
-      new TimeSeriesSales(new DateTime(2020, 6), 37514),
-      new TimeSeriesSales(new DateTime(2020, 7), 93354),
-      new TimeSeriesSales(new DateTime(2020, 8), 217396),
-      new TimeSeriesSales(new DateTime(2020, 9), 307288),
-      new TimeSeriesSales(new DateTime(2020, 10), 373144),
-      new TimeSeriesSales(new DateTime(2020, 11), 431630),
-      new TimeSeriesSales(new DateTime(2020, 12), 474064),
-      new TimeSeriesSales(new DateTime(2021, 1), 525618),
-      new TimeSeriesSales(new DateTime(2021, 2), 561169),
+      new ConfirmedData(new DateTime(2020, 4), 8488),
     ];
-    // map.forEach((k, v) => data.add(
-    //     new TimeSeriesSales(new DateFormat('M/yyyy').parse(k), v.toInt())));
+    map.forEach((k, v) => data
+        .add(new ConfirmedData(new DateFormat('M/yyyy').parse(k), v.toInt())));
 
     return [
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<ConfirmedData, DateTime>(
         id: 'Confirmed Cases',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        domainFn: (ConfirmedData confirmed, _) => confirmed.month,
+        measureFn: (ConfirmedData confirmed, _) => confirmed.total,
         data: data,
       )
     ];
   }
 
-  // charts.Series<TimeSeriesSales, DateTime> createSeries(String id, int i) {
-  //   return charts.Series<TimeSeriesSales, DateTime>(
-  //     id: id,
-  //     domainFn: (TimeSeriesSales series, _) => series.time,
-  //     measureFn: (TimeSeriesSales series, _) => series.sales,
-  //     // data is a List<LiveWerkzeuge> - extract the information from data
-  //     // could use i as index - there isn't enough information in the question
-  //     // map from 'data' to the series
-  //     // this is a guess
-  //     data: [
-  //     ],
-  //   );
-  // }
-
   @override
   void initState() {
     super.initState();
-    // this.getGraphData();
-    timer = new Timer.periodic(new Duration(seconds: 2), (t) => getGraphData());
+    // timer = new Timer.periodic(new Duration(seconds: 2), (t) => getGraphData());
+    this.getGraphData();
   }
 
   Future<String> getGraphData() async {
@@ -227,7 +91,7 @@ class ConfirmedChartState extends State<ConfirmedChart> {
       }
       // List<charts.Series<TimeSeriesSales, DateTime>> newList = [];
       // mapData.forEach((k,v) => newList.add(createSeries(k,v)));
-      print('line mapdata $mapData');
+      print('confirmed $mapData');
     });
 
     return "Success";
@@ -252,10 +116,20 @@ class ConfirmedChartState extends State<ConfirmedChart> {
                   height: 20,
                 ),
                 Expanded(
-                  child: new charts.TimeSeriesChart(
-                    _createSampleData(mapData),
-                    animate: true,
-                    behaviors: [new charts.SeriesLegend()],
+                  child: FutureBuilder<String>(
+                    future: getGraphData(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.hasData) {
+                        return new charts.TimeSeriesChart(
+                          _createData(mapData),
+                          animate: true,
+                          behaviors: [new charts.SeriesLegend()],
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
                   ),
                 )
               ],
