@@ -113,13 +113,7 @@ class _AnalyticsState extends State<Analytics> {
       appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
       drawer: MainDrawer(),
       backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
-        child: ListView(
-          children: [
-            ConfirmedChart(),
-          ],
-        ),
-      ),
+      body: ConfirmedChart(),
     );
   }
 
