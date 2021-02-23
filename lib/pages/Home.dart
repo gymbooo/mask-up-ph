@@ -96,9 +96,27 @@ class _HomeState extends State<Home> {
   }
 
   final formatter = new NumberFormat("###,###,###");
+  String greeting;
+
+ // TimeOfDay now = TimeOfDay.now();
+  final int time = TimeOfDay.now().hour;
+  final int timeMin = TimeOfDay.now().minute;
+
 
   @override
   Widget build(BuildContext context) {
+    if(time < 12){
+      greeting = 'Good morning, ';
+    }
+    else if(time == 12 && timeMin == 0){
+      greeting = 'Good noon, ';
+    }
+    else if(time >= 12 && time <= 17 && timeMin > 0){
+      greeting = 'Good afternoon, ';
+    }
+    else{
+      greeting = 'Good evening, ';
+    }
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
@@ -116,7 +134,7 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text(
-                      'Good morning, $givenName!',
+                      '$greeting$givenName!',
                       style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
