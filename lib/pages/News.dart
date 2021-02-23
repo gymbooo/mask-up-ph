@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:mask_up_ph/widgets/consts.dart';
-import 'package:mask_up_ph/pages/MainDrawer.dart';
+
 
 class News extends StatefulWidget {
   @override
@@ -77,7 +77,7 @@ class _NewsState extends State<News> {
                         padding: EdgeInsets.only(left: 15, top: 25, bottom: 10),
                         child: Text(
                           'Top Headlines on COVID-19\nin the Philippines',
-                          style: TextStyle(
+                          style: GoogleFonts.amaranth(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFFEEEEEE)),
@@ -121,7 +121,7 @@ class _NewsState extends State<News> {
                   title: Text(
                     listOfArticles[index]['title'] ?? 'Title not found',
                     style:
-                        TextStyle(fontSize: 19, color: const Color(0xFFEEEEEE)),
+                        GoogleFonts.buenard(fontSize: 19, color: const Color(0xFFEEEEEE)),
                   ),
                   subtitle: Text(
                     listOfArticles[index]['content'] ?? 'Tap to see content',

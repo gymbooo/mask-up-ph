@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mask_up_ph/pages/ProfilePage.dart';
@@ -119,7 +120,7 @@ class Login extends StatelessWidget {
           children: <Widget>[
             Text(
               "Coronavirus disease (COVID-19)",
-              style: TextStyle(
+              style: GoogleFonts.gentiumBookBasic(
                 fontSize: 24,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -127,7 +128,7 @@ class Login extends StatelessWidget {
             ),
             Text(
               "is an infectious disease caused by a new\nvirus.",
-              style: TextStyle(
+              style: GoogleFonts.gentiumBookBasic(
                 fontSize: 18,
                 color: Colors.white,
                 height: 1.5,
@@ -146,7 +147,7 @@ class Login extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "SIGN IN WITH GOOGLE",
-                    style: TextStyle(
+                    style: GoogleFonts.amaranth(
                       color: AppColors.mainColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

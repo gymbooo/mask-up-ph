@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_up_ph/pages/FAQPage.dart';
 import 'package:mask_up_ph/main.dart';
 
@@ -48,7 +49,7 @@ class MainDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.question_answer_outlined),
-          title: Text('FAQs', style: TextStyle(fontSize: 19)),
+          title: Text('FAQs', style: GoogleFonts.amaranth(fontSize: 19)),
           onTap: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => FAQPage()));
@@ -56,7 +57,7 @@ class MainDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.attach_money_outlined),
-          title: Text('Donations', style: TextStyle(fontSize: 19)),
+          title: Text('Donations', style: GoogleFonts.amaranth(fontSize: 19)),
           onTap: () {
             launch(
                 'https://give2asia.org/covid-19-pandemic-response-philippines/');
@@ -64,7 +65,7 @@ class MainDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.warning_amber_outlined),
-          title: Text('Myth Busters', style: TextStyle(fontSize: 19)),
+          title: Text('Myth Busters', style: GoogleFonts.amaranth(fontSize: 19)),
           onTap: () {
             launch(
                 'https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters');
@@ -72,14 +73,14 @@ class MainDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.call_outlined),
-          title: Text('Emergency Hotlines', style: TextStyle(fontSize: 19)),
+          title: Text('Emergency Hotlines', style: GoogleFonts.amaranth(fontSize: 19)),
           onTap: () {
             launch('https://www.gov.ph/hotlines');
           },
         ),
         ListTile(
           leading: Icon(Icons.logout),
-          title: Text('Logout', style: TextStyle(fontSize: 19)),
+          title: Text('Logout', style: GoogleFonts.amaranth(fontSize: 19)),
           onTap: () {
             logoutAction();
           },

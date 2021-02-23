@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -135,8 +136,8 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text(
                       '$greeting$givenName!',
-                      style: TextStyle(
-                          fontSize: 30,
+                      style: GoogleFonts.amaranth(
+                          fontSize: 27.5,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFFEEEEEE)),
                     ),
@@ -144,7 +145,7 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text('Cases in the ${covidData.country}',
-                        style: TextStyle(
+                        style: GoogleFonts.amaranth(
                             fontSize: 23,
                             fontWeight: FontWeight.w300,
                             color: const Color(0xFFEEEEEE))),
@@ -152,8 +153,8 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.only(left: 27, top: 1),
                     child: Text('Last updated: $formattedDate',
-                        style: TextStyle(
-                            fontSize: 15,
+                        style: GoogleFonts.lobster(
+                            fontSize: 12,
                             fontWeight: FontWeight.w300,
                             color: const Color(0xFFEEEEEE).withOpacity(0.5))),
                   ),
@@ -191,7 +192,7 @@ class _HomeState extends State<Home> {
                   Text(
                     'Active',
                     textAlign: TextAlign.left,
-                    style: TextStyle(
+                    style: GoogleFonts.vollkorn(
                         fontSize: 30,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
@@ -218,7 +219,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     'Deceased',
-                    style: TextStyle(
+                    style: GoogleFonts.vollkorn(
                         fontSize: 30,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
@@ -245,7 +246,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     'Recovered',
-                    style: TextStyle(
+                    style: GoogleFonts.vollkorn(
                         fontSize: 30,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
@@ -272,7 +273,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     'Unique',
-                    style: TextStyle(
+                    style: GoogleFonts.vollkorn(
                         fontSize: 30,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
@@ -311,7 +312,7 @@ class _HomeState extends State<Home> {
                   Text(
                     'What are the symptoms\nof Coronavirus?',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: GoogleFonts.amaranth(
                         fontSize: 22,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
@@ -351,7 +352,7 @@ class _HomeState extends State<Home> {
                 Text(
                   'How do I prevent\ninfections?',
                   textAlign: TextAlign.right,
-                  style: TextStyle(
+                  style: GoogleFonts.amaranth(
                       fontSize: 22,
                       color: const Color(0xFFEEEEEE),
                       fontWeight: FontWeight.bold),
@@ -393,7 +394,7 @@ class _HomeState extends State<Home> {
                 Text(
                   'Give support to\nthe community',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.amaranth(
                       fontSize: 22,
                       color: const Color(0xFFEEEEEE),
                       fontWeight: FontWeight.bold),
@@ -460,7 +461,7 @@ class _HomeState extends State<Home> {
         SizedBox(height: 7),
         Text(
           text,
-          style: TextStyle(
+          style: GoogleFonts.amaranth(
             color: Colors.black87,
             fontWeight: FontWeight.bold,
           ),

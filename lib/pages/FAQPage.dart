@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_up_ph/DataSource.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FAQPage extends StatelessWidget {
   @override
@@ -16,7 +17,7 @@ class FAQPage extends StatelessWidget {
             return ExpansionTile(
               title: Text(
                 DataSource.questionAnswers[index]['question'],
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: GoogleFonts.amaranth(fontWeight: FontWeight.bold),
               ),
               children: <Widget>[
                 Padding(
