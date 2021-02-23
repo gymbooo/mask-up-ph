@@ -137,6 +137,7 @@ class _NewsState extends State<News> {
                   child: Text(listOfArticles[index]['author'] ?? '',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
                           color: Colors.black.withOpacity(0.5)),
                       overflow: TextOverflow.ellipsis),
                 ),
@@ -148,6 +149,7 @@ class _NewsState extends State<News> {
                         '',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,
                         color: Colors.black.withOpacity(0.5)),
                   ),
                 )
