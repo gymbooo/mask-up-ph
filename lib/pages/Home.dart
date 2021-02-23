@@ -136,8 +136,8 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text(
                       '$greeting$givenName!',
-                      style: GoogleFonts.amaranth(
-                          fontSize: 27.5,
+                      style: GoogleFonts.montserrat(
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFFEEEEEE)),
                     ),
@@ -145,16 +145,17 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text('Cases in the ${covidData.country}',
-                        style: GoogleFonts.amaranth(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w300,
+                        style: GoogleFonts.montserrat(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
                             color: const Color(0xFFEEEEEE))),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 27, top: 1),
                     child: Text('Last updated: $formattedDate',
-                        style: GoogleFonts.lobster(
-                            fontSize: 12,
+                        style: GoogleFonts.montserrat(
+                            fontSize: 15,
+                            fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w300,
                             color: const Color(0xFFEEEEEE).withOpacity(0.5))),
                   ),
@@ -192,14 +193,14 @@ class _HomeState extends State<Home> {
                   Text(
                     'Active',
                     textAlign: TextAlign.left,
-                    style: GoogleFonts.vollkorn(
-                        fontSize: 30,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 27,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     formatter.format(activeCases),
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFFFFE45B),
                         fontWeight: FontWeight.bold),
@@ -219,14 +220,14 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     'Deceased',
-                    style: GoogleFonts.vollkorn(
-                        fontSize: 30,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 27,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     formatter.format(deceased),
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFFFF5454),
                         fontWeight: FontWeight.bold),
@@ -246,14 +247,14 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     'Recovered',
-                    style: GoogleFonts.vollkorn(
-                        fontSize: 30,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 27,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     formatter.format(recovered),
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFF5BC7FF),
                         fontWeight: FontWeight.bold),
@@ -273,14 +274,14 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     'Unique',
-                    style: GoogleFonts.vollkorn(
-                        fontSize: 30,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 27,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     formatter.format(unique),
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFFEEEEEE),
                         fontWeight: FontWeight.bold),
@@ -310,12 +311,13 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   Image.asset('lib/assets/images/symptoms.png', width: 70, height: 70),
                   Text(
-                    'What are the symptoms\nof Coronavirus?',
+                    'What are the symptoms of\nCoronavirus?',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.amaranth(
-                        fontSize: 22,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 18,
                         color: const Color(0xFFEEEEEE),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold
+                        ),
                   ),
                 ],
               ),
@@ -350,12 +352,13 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Image.asset('lib/assets/images/safety.png', width: 70, height: 70),
                 Text(
-                  'How do I prevent\ninfections?',
-                  textAlign: TextAlign.right,
-                  style: GoogleFonts.amaranth(
-                      fontSize: 22,
+                  'How do I prevent infections?',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 18,
                       color: const Color(0xFFEEEEEE),
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ],
             ),
@@ -392,12 +395,13 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Image.asset('lib/assets/images/share.png', width: 70, height: 70),
                 Text(
-                  'Give support to\nthe community',
+                  'Give support to the community',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.amaranth(
-                      fontSize: 22,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 15.90,
                       color: const Color(0xFFEEEEEE),
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ],
             ),
@@ -459,12 +463,17 @@ class _HomeState extends State<Home> {
           margin: EdgeInsets.only(right: 20),
         ),
         SizedBox(height: 7),
+        Padding(
+          padding: EdgeInsets.zero,
+          child:
         Text(
           text,
+          textAlign: TextAlign.center,
           style: GoogleFonts.amaranth(
             color: Colors.black87,
             fontWeight: FontWeight.bold,
           ),
+        ),
         ),
       ],
     );

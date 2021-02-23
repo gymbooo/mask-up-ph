@@ -120,8 +120,8 @@ class Login extends StatelessWidget {
           children: <Widget>[
             Text(
               "Coronavirus disease (COVID-19)",
-              style: GoogleFonts.gentiumBookBasic(
-                fontSize: 24,
+              style: GoogleFonts.montserrat(
+                fontSize: 25,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -147,7 +147,7 @@ class Login extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "SIGN IN WITH GOOGLE",
-                    style: GoogleFonts.amaranth(
+                    style: GoogleFonts.montserrat(
                       color: AppColors.mainColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

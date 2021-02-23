@@ -77,7 +77,7 @@ class _NewsState extends State<News> {
                         padding: EdgeInsets.only(left: 15, top: 25, bottom: 10),
                         child: Text(
                           'Top Headlines on COVID-19\nin the Philippines',
-                          style: GoogleFonts.amaranth(
+                          style: GoogleFonts.montserrat(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFFEEEEEE)),
@@ -121,7 +121,7 @@ class _NewsState extends State<News> {
                   title: Text(
                     listOfArticles[index]['title'] ?? 'Title not found',
                     style:
-                        GoogleFonts.buenard(fontSize: 19, color: const Color(0xFFEEEEEE)),
+                        GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.bold, color: const Color(0xFFEEEEEE)),
                   ),
                   subtitle: Text(
                     listOfArticles[index]['content'] ?? 'Tap to see content',
