@@ -54,8 +54,12 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Colors.transparent,
       body: SizedBox.expand(
         child: PageView(
+          physics: _selectedIndex == 3
+              ? NeverScrollableScrollPhysics()
+              : AlwaysScrollableScrollPhysics(),
           controller: _pageController,
           onPageChanged: (index) {
+            print('page index $index');
             setState(() => _selectedIndex = index);
           },
           children: <Widget>[
@@ -101,7 +105,8 @@ class _ProfilePageState extends State<ProfilePage> {
       //
       //using this page controller you can make beautiful animation effects
       _pageController.animateToPage(index,
-          duration: new Duration(milliseconds: 800), curve: Curves.easeInOutExpo);
+          duration: new Duration(milliseconds: 800),
+          curve: Curves.easeInOutExpo);
     });
   }
 }
