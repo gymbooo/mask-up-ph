@@ -85,9 +85,9 @@ class _NewsState extends State<News> {
               image: AssetImage('lib/assets/images/background.png'),
               fit: BoxFit.cover)),
       child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-              child: FutureBuilder<String>(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: FutureBuilder<String>(
             future: getJsonData(),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
@@ -110,7 +110,9 @@ class _NewsState extends State<News> {
                 return Center(child: CircularProgressIndicator());
               }
             },
-          ))),
+          ),
+        ),
+      ),
     );
   }
 

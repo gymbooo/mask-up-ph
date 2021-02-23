@@ -57,36 +57,36 @@ class _HospitalState extends State<Hospital> {
                   },
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: GoogleMap(
-                        myLocationEnabled: true,
-                        zoomGesturesEnabled: true,
-                        zoomControlsEnabled: true,
-                        onMapCreated:
-                            (GoogleMapController googleMapController) async {
-                          Position position =
-                              await Geolocator.getCurrentPosition(
-                                  desiredAccuracy: LocationAccuracy.best);
-                          currentPosition = position;
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: GoogleMap(
+                      myLocationEnabled: true,
+                      zoomGesturesEnabled: true,
+                      zoomControlsEnabled: true,
+                      onMapCreated:
+                          (GoogleMapController googleMapController) async {
+                        Position position = await Geolocator.getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.best);
+                        currentPosition = position;
 
-                          setState(() {
-                            mapController = googleMapController;
-                            CameraPosition cameraPosition = new CameraPosition(
-                                zoom: 15.0,
-                                target: LatLng(currentPosition.latitude,
-                                    currentPosition.longitude));
-                            googleMapController.animateCamera(
-                                CameraUpdate.newCameraPosition(cameraPosition));
-                          });
-                        },
-                        initialCameraPosition: CameraPosition(
-                            zoom: 6, target: LatLng(12.8797, 121.7740)),
-                        mapType: MapType.normal,
-                        markers: {testMarker},
-                      ),
-                    ))
+                        setState(() {
+                          mapController = googleMapController;
+                          CameraPosition cameraPosition = new CameraPosition(
+                              zoom: 15.0,
+                              target: LatLng(currentPosition.latitude,
+                                  currentPosition.longitude));
+                          googleMapController.animateCamera(
+                              CameraUpdate.newCameraPosition(cameraPosition));
+                        });
+                      },
+                      initialCameraPosition: CameraPosition(
+                          zoom: 6, target: LatLng(12.8797, 121.7740)),
+                      mapType: MapType.normal,
+                      markers: {testMarker},
+                    ),
+                  ),
+                )
               ],
             ),
             Container(

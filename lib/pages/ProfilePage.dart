@@ -22,7 +22,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int _index = 0;
   final String name;
   final String givenName;
   final String email;
@@ -32,59 +31,77 @@ class _ProfilePageState extends State<ProfilePage> {
   _ProfilePageState(
       this.name, this.givenName, this.email, this.picture, this.logoutAction);
 
-  BottomNavigationBar _navigationBar() {
-    return BottomNavigationBar(
-      backgroundColor: const Color(0xFF400060),
-      unselectedItemColor: const Color(0xFFEEEEEE),
-      type: BottomNavigationBarType.fixed,
-      currentIndex: _index,
-      onTap: (int index) => setState(() => _index = index),
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.analytics_outlined),
-          label: 'Analytics',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.coronavirus_outlined),
-          label: 'News',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.business),
-          label: 'Hospitals',
-        ),
-      ],
-    );
+  int _selectedIndex = 0;
+  PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget child = Container();
-    switch (_index) {
-      case 0:
-        child = Home(givenName);
-        break;
-      case 1:
-        child = Analytics();
-        break;
-      case 2:
-        child = News();
-        break;
-      case 3:
-        child = Hospital();
-        break;
-    }
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
       drawer: MainDrawer(name, email, picture, logoutAction),
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: SizedBox.expand(child: child),
+      body: SizedBox.expand(
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() => _selectedIndex = index);
+          },
+          children: <Widget>[
+            Home(givenName),
+            Analytics(),
+            News(),
+            Hospital(),
+          ],
+        ),
       ),
-      bottomNavigationBar: _navigationBar(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        backgroundColor: const Color(0xFF400060),
+        unselectedItemColor: const Color(0xFFEEEEEE),
+        type: BottomNavigationBarType.fixed,
+        onTap: _onItemTapped,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.analytics_outlined),
+            label: 'Analytics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.coronavirus_outlined),
+            label: 'News',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Hospitals',
+          ),
+        ],
+      ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      //
+      //
+      //using this page controller you can make beautiful animation effects
+      _pageController.animateToPage(index,
+          duration: new Duration(milliseconds: 800), curve: Curves.easeInOutExpo);
+    });
   }
 }
