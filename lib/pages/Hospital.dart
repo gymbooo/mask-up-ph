@@ -7,9 +7,8 @@ import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
-//TODO: get json, put latlng to list
-//https://maps.googleapis.com/maps/api/place/textsearch/json?query=covid+test&key=AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0
 //TODO: try bottom pop up w/ loc info on marker tap (info also on json)
 //TODO: test w/ diff location via search - need ata ng new endpoint
 
@@ -18,16 +17,80 @@ class Hospital extends StatefulWidget {
   _HospitalState createState() => _HospitalState();
 }
 
+class MapData {
+  List<dynamic> html_attributions;
+  String next_page_token;
+  List<dynamic> results;
+  String status;
+
+  MapData(
+      this.html_attributions, this.next_page_token, this.results, this.status);
+}
+
 class _HospitalState extends State<Hospital> {
+  final String url =
+      'https://maps.googleapis.com/maps/api/place/textsearch/json?query=covid+test&key=AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0';
+  MapData mapData;
+  List<dynamic> html_attributions;
+  String next_page_token;
+  List<dynamic> results;
+  String status;
+  List<dynamic> listOfResults = [];
+  Set<Marker> setOfMarkers = {};
+
   GoogleMapController mapController;
   Position currentPosition;
   var geoLocator = Geolocator();
 
   @override
+  void initState() {
+    super.initState();
+    this.getJsonData();
+  }
+
+  Future<String> getJsonData() async {
+    var response = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    print(response.body);
+
+    setState(() {
+      var convertDataToJson = json.decode(response.body);
+      html_attributions = convertDataToJson['html_attributions'];
+      next_page_token = convertDataToJson['next_page_token'];
+      results = convertDataToJson['results'];
+      status = convertDataToJson['status'];
+
+      mapData = MapData(html_attributions, next_page_token, results, status);
+
+      for (var i = 0; i < results.length - 1; i++) {
+        listOfResults.add(results[i]);
+        setOfMarkers.add(Marker(
+            markerId: MarkerId(listOfResults[i]['name']),
+            position: LatLng(listOfResults[i]['geometry']['location']['lat'],
+                listOfResults[i]['geometry']['location']['lng']),
+            infoWindow: InfoWindow(
+                title: listOfResults[i]['name'],
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Text(listOfResults[i]['formatted_address']);
+                      });
+                }),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueViolet)));
+      }
+
+      print('set of markers $setOfMarkers');
+      print('lor $listOfResults');
+    });
+
+    return "Success";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      // resizeToAvoidBottomPadding: false,
       body: SafeArea(
         child: Column(
           children: [
@@ -47,7 +110,7 @@ class _HospitalState extends State<Hospital> {
             Padding(
                 padding: const EdgeInsets.only(top: 5.0),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
+                  height: 400,
                   child: GoogleMap(
                     myLocationEnabled: true,
                     zoomGesturesEnabled: true,
@@ -71,23 +134,7 @@ class _HospitalState extends State<Hospital> {
                     initialCameraPosition: CameraPosition(
                         zoom: 6, target: LatLng(12.8797, 121.7740)),
                     mapType: MapType.normal,
-                    markers: {
-                      Marker(
-                          markerId: MarkerId('testmarker'),
-                          position: LatLng(14.4098693, 121.0372225),
-                          infoWindow: InfoWindow(
-                              title: 'Location Name',
-                              onTap: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return Text(
-                                          'bottom panel\nlocation info from json\n\n\n\n');
-                                    });
-                              }),
-                          icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueViolet))
-                    },
+                    markers: setOfMarkers,
                   ),
                 ))
           ],
