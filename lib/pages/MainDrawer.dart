@@ -80,7 +80,9 @@ class MainDrawer extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.logout),
           title: Text('Logout', style: TextStyle(fontSize: 19)),
-          onTap: () {},
+          onTap: () {
+            logoutAction();
+          },
         ),
       ],
     ));
