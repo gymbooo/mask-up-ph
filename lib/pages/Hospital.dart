@@ -9,9 +9,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
-//TODO: try bottom pop up w/ loc info on marker tap (info also on json)
-//TODO: test w/ diff location via search - need ata ng new endpoint
-
 class Hospital extends StatefulWidget {
   @override
   _HospitalState createState() => _HospitalState();
@@ -37,6 +34,7 @@ class _HospitalState extends State<Hospital> {
   String status;
   List<dynamic> listOfResults = [];
   Set<Marker> setOfMarkers = {};
+  List<String> listOfPhotos = [];
 
   GoogleMapController mapController;
   Position currentPosition;
@@ -74,7 +72,27 @@ class _HospitalState extends State<Hospital> {
                   showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return Text(listOfResults[i]['formatted_address']);
+                        return Column(
+                          children: [
+                            ListTile(
+                              leading: (listOfResults[i]['photos'] == null)
+                                  ? Image.asset('lib/assets/images/news.png')
+                                  : Image.network(
+                                      'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${listOfResults[i]['photos'][0]['photo_reference']}&key=AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0'),
+                              title: Text(listOfResults[i]['name']),
+                              subtitle:
+                                  Text(listOfResults[i]['formatted_address']),
+                            ),
+                            (listOfResults[i]['opening_hours'] == null)
+                                ? Text('Open now: no data')
+                                : Text('Open now: ' +
+                                    listOfResults[i]['opening_hours']
+                                            ['open_now']
+                                        .toString()),
+                            Text('Rating: ' +
+                                listOfResults[i]['rating'].toString())
+                          ],
+                        );
                       });
                 }),
             icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -105,6 +123,8 @@ class _HospitalState extends State<Hospital> {
                     CameraUpdate.newLatLng(geolocation.coordinates));
                 mapController.animateCamera(
                     CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+
+                //TODO implement nearby search from location entered in search bar
               },
             ),
             Padding(
@@ -124,7 +144,7 @@ class _HospitalState extends State<Hospital> {
                       setState(() {
                         mapController = googleMapController;
                         CameraPosition cameraPosition = new CameraPosition(
-                            zoom: 15.0,
+                            zoom: 12.0,
                             target: LatLng(currentPosition.latitude,
                                 currentPosition.longitude));
                         googleMapController.animateCamera(
@@ -132,7 +152,7 @@ class _HospitalState extends State<Hospital> {
                       });
                     },
                     initialCameraPosition: CameraPosition(
-                        zoom: 6, target: LatLng(12.8797, 121.7740)),
+                        zoom: 8, target: LatLng(12.8797, 121.7740)),
                     mapType: MapType.normal,
                     markers: setOfMarkers,
                   ),
