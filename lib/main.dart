@@ -11,7 +11,6 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mask_up_ph/pages/ProfilePage.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:mask_up_ph/auth.dart';
 
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
