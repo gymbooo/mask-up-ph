@@ -7,6 +7,7 @@ import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class Hospital extends StatefulWidget {
@@ -75,11 +76,15 @@ class _HospitalState extends State<Hospital> {
                         return Column(
                           children: [
                             ListTile(
+                              contentPadding: EdgeInsets.all(10),
                               leading: (listOfResults[i]['photos'] == null)
                                   ? Image.asset('lib/assets/images/news.png')
                                   : Image.network(
                                       'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${listOfResults[i]['photos'][0]['photo_reference']}&key=AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0'),
-                              title: Text(listOfResults[i]['name']),
+                              title: Text(listOfResults[i]['name'],
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500)),
                               subtitle:
                                   Text(listOfResults[i]['formatted_address']),
                             ),

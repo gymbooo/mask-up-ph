@@ -7,6 +7,7 @@ import 'package:mask_up_ph/widgets/confirmed_chart.dart';
 import 'package:mask_up_ph/widgets/recovered_chart.dart';
 import 'package:mask_up_ph/widgets/deceased_chart.dart';
 import 'package:mask_up_ph/widgets/multiple_chart.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Analytics extends StatefulWidget {
   @override
@@ -124,6 +125,17 @@ class _AnalyticsState extends State<Analytics> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Container(
+                  padding: EdgeInsets.only(top: 25, bottom: 10),
+                  child: Text(
+                    'An overview of COVID-19\ncases in the Philippines',
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFFEEEEEE)),
+                  ),
+                ),
                 MultipleChart(),
                 ConfirmedChart(),
                 RecoveredChart(),

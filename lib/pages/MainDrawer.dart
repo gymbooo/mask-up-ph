@@ -41,15 +41,22 @@ class MainDrawer extends StatelessWidget {
                   ),
                 ),
                 Text('$name',
-                    style: GoogleFonts.montserrat(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white)),
-                Text('$email', style: GoogleFonts.alike(color: Colors.white)),
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 22,
+                        color: Colors.white)),
+                Text('$email',
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white, fontWeight: FontWeight.w200)),
               ],
             ),
           ),
         ),
         ListTile(
           leading: Icon(Icons.question_answer_outlined),
-          title: Text('FAQs', style: GoogleFonts.montserrat(fontSize: 17,fontWeight: FontWeight.bold)),
+          title: Text('FAQs',
+              style: GoogleFonts.montserrat(
+                  fontSize: 17, fontWeight: FontWeight.w500)),
           onTap: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => FAQPage()));
@@ -57,7 +64,9 @@ class MainDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.attach_money_outlined),
-          title: Text('Donations', style: GoogleFonts.montserrat(fontSize: 17,fontWeight: FontWeight.bold)),
+          title: Text('Donations',
+              style: GoogleFonts.montserrat(
+                  fontSize: 17, fontWeight: FontWeight.w500)),
           onTap: () {
             launch(
                 'https://give2asia.org/covid-19-pandemic-response-philippines/');
@@ -65,7 +74,9 @@ class MainDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.warning_amber_outlined),
-          title: Text('Myth Busters', style: GoogleFonts.montserrat(fontSize: 17,fontWeight: FontWeight.bold)),
+          title: Text('Myth Busters',
+              style: GoogleFonts.montserrat(
+                  fontSize: 17, fontWeight: FontWeight.w500)),
           onTap: () {
             launch(
                 'https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters');
@@ -73,14 +84,18 @@ class MainDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.call_outlined),
-          title: Text('Emergency Hotlines', style: GoogleFonts.montserrat(fontSize: 17,fontWeight: FontWeight.bold)),
+          title: Text('Emergency Hotlines',
+              style: GoogleFonts.montserrat(
+                  fontSize: 17, fontWeight: FontWeight.w500)),
           onTap: () {
             launch('https://www.gov.ph/hotlines');
           },
         ),
         ListTile(
           leading: Icon(Icons.logout),
-          title: Text('Logout', style: GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.bold)),
+          title: Text('Logout',
+              style: GoogleFonts.montserrat(
+                  fontSize: 17, fontWeight: FontWeight.w500)),
           onTap: () {
             logoutAction();
           },

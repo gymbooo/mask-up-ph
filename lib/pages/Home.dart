@@ -99,23 +99,19 @@ class _HomeState extends State<Home> {
   final formatter = new NumberFormat("###,###,###");
   String greeting;
 
- // TimeOfDay now = TimeOfDay.now();
+  // TimeOfDay now = TimeOfDay.now();
   final int time = TimeOfDay.now().hour;
   final int timeMin = TimeOfDay.now().minute;
 
-
   @override
   Widget build(BuildContext context) {
-    if(time < 12){
+    if (time < 12) {
       greeting = 'Good morning, ';
-    }
-    else if(time == 12 && timeMin == 0){
+    } else if (time == 12 && timeMin == 0) {
       greeting = 'Good noon, ';
-    }
-    else if(time >= 12 && time <= 17 && timeMin > 0){
+    } else if (time >= 12 && time <= 17 && timeMin > 0) {
       greeting = 'Good afternoon, ';
-    }
-    else{
+    } else {
       greeting = 'Good evening, ';
     }
     return Container(
@@ -131,31 +127,29 @@ class _HomeState extends State<Home> {
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
                 return ListView(children: <Widget>[
-                  //CustomAppBarWidget(),
-                  Padding(
+                  Container(
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text(
                       '$greeting$givenName!',
                       style: GoogleFonts.montserrat(
                           fontSize: 30,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           color: const Color(0xFFEEEEEE)),
                     ),
                   ),
-                  Padding(
+                  Container(
                     padding: EdgeInsets.only(left: 25, top: 25),
                     child: Text('Cases in the ${covidData.country}',
                         style: GoogleFonts.montserrat(
                             fontSize: 25,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w300,
                             color: const Color(0xFFEEEEEE))),
                   ),
-                  Padding(
+                  Container(
                     padding: EdgeInsets.only(left: 27, top: 1),
                     child: Text('Last updated: $formattedDate',
                         style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontStyle: FontStyle.italic,
+                            fontSize: 13,
                             fontWeight: FontWeight.w300,
                             color: const Color(0xFFEEEEEE).withOpacity(0.5))),
                   ),
@@ -181,11 +175,14 @@ class _HomeState extends State<Home> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 3 / 2),
       children: <Widget>[
-        Card(
+        Container(
+          margin: EdgeInsets.only(left: 20, top: 25),
+          color: Colors.transparent,
+          child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,24 +193,28 @@ class _HomeState extends State<Home> {
                     style: GoogleFonts.montserrat(
                         fontSize: 27,
                         color: const Color(0xFFEEEEEE),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   ),
                   Text(
                     formatter.format(activeCases),
                     style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFFFFE45B),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-            margin: EdgeInsets.only(left: 25, top: 25, bottom: 15, right: 7)),
-        Card(
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(right: 20, top: 25),
+          color: Colors.transparent,
+          child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,24 +224,28 @@ class _HomeState extends State<Home> {
                     style: GoogleFonts.montserrat(
                         fontSize: 27,
                         color: const Color(0xFFEEEEEE),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   ),
                   Text(
                     formatter.format(deceased),
                     style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFFFF5454),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-            margin: EdgeInsets.only(right: 25, top: 25, left: 7, bottom: 15)),
-        Card(
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 20, bottom: 25),
+          color: Colors.transparent,
+          child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,24 +255,28 @@ class _HomeState extends State<Home> {
                     style: GoogleFonts.montserrat(
                         fontSize: 27,
                         color: const Color(0xFFEEEEEE),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   ),
                   Text(
                     formatter.format(recovered),
                     style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFF5BC7FF),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-            margin: EdgeInsets.only(left: 25, bottom: 40, right: 7)),
-        Card(
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(right: 20, bottom: 25),
+          color: Colors.transparent,
+          child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
             color: const Color(0xFF24006D),
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,19 +286,20 @@ class _HomeState extends State<Home> {
                     style: GoogleFonts.montserrat(
                         fontSize: 27,
                         color: const Color(0xFFEEEEEE),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   ),
                   Text(
                     formatter.format(unique),
                     style: GoogleFonts.montserrat(
                         fontSize: 30,
                         color: const Color(0xFFEEEEEE),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-            margin: EdgeInsets.only(right: 25, left: 7, bottom: 40)),
+          ),
+        ),
       ],
     );
   }
@@ -301,125 +311,124 @@ class _HomeState extends State<Home> {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: <Widget>[
-         ExpansionCard(
-            backgroundColor: const Color(0xFF32A373),
-            borderRadius: 10,
-            margin: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 15.0),
-            title: Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset('lib/assets/images/symptoms.png', width: 70, height: 70),
-                  Text(
-                    'What are the symptoms of\nCoronavirus?',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        color: const Color(0xFFEEEEEE),
-                        fontWeight: FontWeight.bold
-                        ),
-                  ),
-                ],
-              ),
-            ),
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 7),
-               // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
-                  height: 130,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.only(left: 16),
-                    physics: BouncingScrollPhysics(),
-                    children: <Widget>[
-                      _buildSymptomItem("lib/assets/images/1.png", "Fever"),
-                      _buildSymptomItem("lib/assets/images/2.png", "Dry Cough"),
-                      _buildSymptomItem("lib/assets/images/3.png", "Headache"),
-                      _buildSymptomItem("lib/assets/images/4.png", "Breathless"),
-                    ],
-                  ),
-                ),
-            ],
-          ),
-
         ExpansionCard(
           backgroundColor: const Color(0xFF32A373),
           borderRadius: 10,
           margin: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 15.0),
           title: Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('lib/assets/images/safety.png', width: 70, height: 70),
-                Text(
-                  'How do I prevent infections?',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                      fontSize: 18,
-                      color: const Color(0xFFEEEEEE),
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-              ],
+            child: ListTile(
+              leading: Image.asset('lib/assets/images/symptoms.png',
+                  width: 60, height: 60),
+              title: Text(
+                'Symptoms of Coronavirus',
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    color: const Color(0xFFEEEEEE),
+                    fontWeight: FontWeight.w500),
+              ),
             ),
           ),
           children: <Widget>[
             Container(
               margin: EdgeInsets.symmetric(horizontal: 7),
-             // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
+              height: 130,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.only(left: 16),
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  _buildSymptomItem("lib/assets/images/1.png", "Fever"),
+                  _buildSymptomItem("lib/assets/images/2.png", "Dry Cough"),
+                  _buildSymptomItem("lib/assets/images/3.png", "Headache"),
+                  _buildSymptomItem("lib/assets/images/4.png", "Breathless"),
+                ],
+              ),
+            ),
+          ],
+        ),
+        ExpansionCard(
+          backgroundColor: const Color(0xFF32A373),
+          borderRadius: 10,
+          margin: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 15.0),
+          title: Container(
+            child: ListTile(
+              leading: Image.asset('lib/assets/images/safety.png',
+                  width: 60, height: 60),
+              title: Text(
+                'How do I prevent infections?',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    color: const Color(0xFFEEEEEE),
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 7),
+              // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
               height: 140,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(left: 16),
                 physics: BouncingScrollPhysics(),
                 children: <Widget>[
-                  _buildSymptomItem("lib/assets/images/protection-1.png", "Avoid close\ncontact"),
-                  _buildSymptomItem("lib/assets/images/protection-2.png", "Stay at\nhome"),
-                  _buildSymptomItem("lib/assets/images/protection-3.png", "Wash your\nhands"),
-                  _buildSymptomItem("lib/assets/images/protection-4.png", "Cover sneeze"),
-                  _buildSymptomItem("lib/assets/images/protection-5.png", "Wear your\nfacemask"),
-                  _buildSymptomItem("lib/assets/images/protection-6.png", "Clean objects"),
+                  _buildSymptomItem("lib/assets/images/protection-1.png",
+                      "Avoid close\ncontact"),
+                  _buildSymptomItem(
+                      "lib/assets/images/protection-2.png", "Stay at\nhome"),
+                  _buildSymptomItem(
+                      "lib/assets/images/protection-3.png", "Wash your\nhands"),
+                  _buildSymptomItem(
+                      "lib/assets/images/protection-4.png", "Cover sneeze"),
+                  _buildSymptomItem("lib/assets/images/protection-5.png",
+                      "Wear your\nfacemask"),
+                  _buildSymptomItem(
+                      "lib/assets/images/protection-6.png", "Clean objects"),
                 ],
               ),
             )
           ],
         ),
-
         ExpansionCard(
           backgroundColor: const Color(0xFF32A373),
           borderRadius: 10,
           margin: EdgeInsets.only(right: 15.0, left: 15.0, bottom: 15.0),
           title: Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('lib/assets/images/share.png', width: 70, height: 70),
-                Text(
-                  'Give support to the community',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
-                      fontSize: 15.90,
-                      color: const Color(0xFFEEEEEE),
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-              ],
+            child: ListTile(
+              leading: Image.asset('lib/assets/images/share.png',
+                  width: 60, height: 60),
+              title: Text(
+                'Give support to the community',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    color: const Color(0xFFEEEEEE),
+                    fontWeight: FontWeight.w500),
+              ),
             ),
           ),
           children: <Widget>[
             Container(
               margin: EdgeInsets.symmetric(horizontal: 7),
-             // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
+              // child: Text("Content goes over here!", style: TextStyle(fontSize: 20, color: Colors.white),),
               height: 140,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(left: 16),
                 physics: BouncingScrollPhysics(),
                 children: <Widget>[
-                  _buildSymptomItem("lib/assets/images/icon.png", "Support local\ncharities"),
-                  _buildSymptomItem("lib/assets/images/12.png", "Support local\nbusinesses"),
-                  _buildSymptomItem("lib/assets/images/11.png", "Be a great\nfriend"),
-                  _buildSymptomItem("lib/assets/images/13.png", "Have healthy\nconversation"),
+                  _buildSymptomItem(
+                      "lib/assets/images/icon.png", "Support local\ncharities"),
+                  _buildSymptomItem(
+                      "lib/assets/images/12.png", "Support local\nbusinesses"),
+                  _buildSymptomItem(
+                      "lib/assets/images/11.png", "Be a great\nfriend"),
+                  _buildSymptomItem(
+                      "lib/assets/images/13.png", "Have healthy\nconversation"),
                 ],
               ),
             )
@@ -465,15 +474,14 @@ class _HomeState extends State<Home> {
         SizedBox(height: 7),
         Padding(
           padding: EdgeInsets.zero,
-          child:
-        Text(
-          text,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.amaranth(
-            color: Colors.black87,
-            fontWeight: FontWeight.bold,
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.montserrat(
+              color: Colors.black87,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
         ),
       ],
     );

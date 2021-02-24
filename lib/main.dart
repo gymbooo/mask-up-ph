@@ -112,7 +112,7 @@ class Login extends StatelessWidget {
 
   Widget _buildFooter(BuildContext context) {
     return Positioned(
-      bottom: 30,
+      bottom: 70,
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -136,27 +136,27 @@ class Login extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 25),
-            RaisedButton(
-              onPressed: () {
-                loginAction();
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width * .85,
-                height: 60,
-                child: Center(
-                  child: Text(
-                    "SIGN IN WITH GOOGLE",
+            ElevatedButton(
+                onPressed: () {
+                  loginAction();
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * .75, 45),
+                    primary: Colors.white,
+                    onPrimary: Colors.green,
+                    onSurface: Colors.purple,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18))),
+                child: Text('Sign in with Google',
                     style: GoogleFonts.montserrat(
                       color: AppColors.mainColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Text(loginError ?? ''),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25,
+                    ))),
+            // Text(loginError ?? ''),
           ],
         ),
       ),
@@ -237,7 +237,7 @@ class _MyAppState extends State<MyApp> {
           await appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(AUTH0_CLIENT_ID, AUTH0_REDIRECT_URI,
             issuer: 'https://$AUTH0_DOMAIN',
-            scopes: ['openid', 'profile', 'offline_access','email'],
+            scopes: ['openid', 'profile', 'offline_access', 'email'],
             promptValues: ['login']),
       );
 

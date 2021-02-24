@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-
 class News extends StatefulWidget {
   @override
   _NewsState createState() => _NewsState();
@@ -79,7 +78,7 @@ class _NewsState extends State<News> {
                           'Top Headlines on COVID-19\nin the Philippines',
                           style: GoogleFonts.montserrat(
                               fontSize: 30,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w400,
                               color: const Color(0xFFEEEEEE)),
                         ),
                       ),
@@ -120,8 +119,8 @@ class _NewsState extends State<News> {
                         ),
                   title: Text(
                     listOfArticles[index]['title'] ?? 'Title not found',
-                    style:
-                        GoogleFonts.montserrat(fontSize: 17, fontWeight: FontWeight.bold, color: const Color(0xFFEEEEEE)),
+                    style: GoogleFonts.montserrat(
+                        fontSize: 17, color: const Color(0xFFEEEEEE)),
                   ),
                   subtitle: Text(
                     listOfArticles[index]['content'] ?? 'Tap to see content',

@@ -101,9 +101,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      //
-      //
-      //using this page controller you can make beautiful animation effects
       _pageController.animateToPage(index,
           duration: new Duration(milliseconds: 800),
           curve: Curves.easeInOutExpo);
