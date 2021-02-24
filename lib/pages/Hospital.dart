@@ -163,56 +163,81 @@ class _HospitalState extends State<Hospital> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            SearchMapPlaceWidget(
-              hasClearButton: true,
-              placeType: PlaceType.address,
-              placeholder: 'Enter the location',
-              apiKey: 'AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0',
-              onSelected: (Place place) async {
-                Geolocation geolocation = await place.geolocation;
-                mapController.animateCamera(
-                    CameraUpdate.newLatLng(geolocation.coordinates));
-                mapController.animateCamera(
-                    CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('lib/assets/images/background.png'),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 20, bottom: 15),
+                child: Text(
+                  'Nearby Testing Centers',
+                  textAlign: TextAlign.left,
+                  style: GoogleFonts.montserrat(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFEEEEEE)),
+                ),
+              ),
+              Column(
+                children: [
+                  SearchMapPlaceWidget(
+                    hasClearButton: true,
+                    placeType: PlaceType.address,
+                    placeholder: 'Enter the location',
+                    apiKey: 'AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0',
+                    onSelected: (Place place) async {
+                      Geolocation geolocation = await place.geolocation;
+                      mapController.animateCamera(
+                          CameraUpdate.newLatLng(geolocation.coordinates));
+                      mapController.animateCamera(
+                          CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
 
-                //TODO: implement nearby search from location entered in search bar
-              },
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * .65,
-                  child: GoogleMap(
-                    myLocationEnabled: true,
-                    zoomGesturesEnabled: true,
-                    zoomControlsEnabled: true,
-                    onMapCreated:
-                        (GoogleMapController googleMapController) async {
-                      Position position = await Geolocator.getCurrentPosition(
-                          desiredAccuracy: LocationAccuracy.best);
-                      currentPosition = position;
-
-                      setState(() {
-                        mapController = googleMapController;
-                        CameraPosition cameraPosition = new CameraPosition(
-                            zoom: 12.0,
-                            target: LatLng(currentPosition.latitude,
-                                currentPosition.longitude));
-                        googleMapController.animateCamera(
-                            CameraUpdate.newCameraPosition(cameraPosition));
-                      });
+                      //TODO: implement nearby search from location entered in search bar
                     },
-                    initialCameraPosition: CameraPosition(
-                        zoom: 8, target: LatLng(12.8797, 121.7740)),
-                    mapType: MapType.normal,
-                    markers: setOfMarkers,
                   ),
-                ))
-          ],
+                  Container(
+                      padding: EdgeInsets.only(top: 5),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * .60,
+                        child: GoogleMap(
+                          myLocationEnabled: true,
+                          zoomGesturesEnabled: true,
+                          zoomControlsEnabled: true,
+                          onMapCreated:
+                              (GoogleMapController googleMapController) async {
+                            Position position =
+                                await Geolocator.getCurrentPosition(
+                                    desiredAccuracy: LocationAccuracy.best);
+                            currentPosition = position;
+
+                            setState(() {
+                              mapController = googleMapController;
+                              CameraPosition cameraPosition =
+                                  new CameraPosition(
+                                      zoom: 12.0,
+                                      target: LatLng(currentPosition.latitude,
+                                          currentPosition.longitude));
+                              googleMapController.animateCamera(
+                                  CameraUpdate.newCameraPosition(
+                                      cameraPosition));
+                            });
+                          },
+                          initialCameraPosition: CameraPosition(
+                              zoom: 8, target: LatLng(12.8797, 121.7740)),
+                          mapType: MapType.normal,
+                          markers: setOfMarkers,
+                        ),
+                      ))
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
