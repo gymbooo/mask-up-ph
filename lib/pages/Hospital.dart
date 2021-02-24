@@ -47,6 +47,20 @@ class _HospitalState extends State<Hospital> {
     this.getJsonData();
   }
 
+  String checkIfOpen(i) {
+    String status;
+    if (listOfResults[i]['opening_hours'] == null) {
+      status = '';
+    } else if (listOfResults[i]['opening_hours']['open_now'] == false) {
+      status = 'Closed Now';
+    } else if (listOfResults[i]['opening_hours']['open_now'] == true) {
+      status = 'Open Now';
+    } else {
+      status = '';
+    }
+    return status;
+  }
+
   Future<String> getJsonData() async {
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
@@ -73,30 +87,66 @@ class _HospitalState extends State<Hospital> {
                   showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return Column(
-                          children: [
-                            ListTile(
-                              contentPadding: EdgeInsets.all(10),
-                              leading: (listOfResults[i]['photos'] == null)
-                                  ? Image.asset('lib/assets/images/news.png')
-                                  : Image.network(
-                                      'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${listOfResults[i]['photos'][0]['photo_reference']}&key=AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0'),
-                              title: Text(listOfResults[i]['name'],
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500)),
-                              subtitle:
-                                  Text(listOfResults[i]['formatted_address']),
-                            ),
-                            (listOfResults[i]['opening_hours'] == null)
-                                ? Text('Open now: no data')
-                                : Text('Open now: ' +
-                                    listOfResults[i]['opening_hours']
-                                            ['open_now']
-                                        .toString()),
-                            Text('Rating: ' +
-                                listOfResults[i]['rating'].toString())
-                          ],
+                        return Container(
+                          color: Colors.transparent,
+                          height: 200,
+                          child: Column(
+                            children: [
+                              ListTile(
+                                tileColor: Colors.purple[50],
+                                contentPadding: EdgeInsets.all(10),
+                                leading: (listOfResults[i]['photos'] == null)
+                                    ? Image.asset(
+                                        'lib/assets/images/hospital.png')
+                                    : Image.network(
+                                        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${listOfResults[i]['photos'][0]['photo_reference']}&key=AIzaSyDmGhS77Xm9peRvlmiPYGF4vYOZQrV0ei0'),
+                                title: Text(listOfResults[i]['name'],
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500)),
+                                subtitle:
+                                    Text(listOfResults[i]['formatted_address'],
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                        )),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: (checkIfOpen(i).toString() ==
+                                            'Open now')
+                                        ? Text(checkIfOpen(i),
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.red))
+                                        : Text(checkIfOpen(i),
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.green)),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: (listOfResults[i]['rating'] == 0)
+                                        ? Text('')
+                                        : Text(
+                                            'User Rating: ' +
+                                                listOfResults[i]['rating']
+                                                    .toString() +
+                                                '/5',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
+                                            )),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         );
                       });
                 }),
@@ -129,13 +179,13 @@ class _HospitalState extends State<Hospital> {
                 mapController.animateCamera(
                     CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
 
-                //TODO implement nearby search from location entered in search bar
+                //TODO: implement nearby search from location entered in search bar
               },
             ),
             Padding(
                 padding: const EdgeInsets.only(top: 5.0),
                 child: SizedBox(
-                  height: 400,
+                  height: MediaQuery.of(context).size.height * .65,
                   child: GoogleMap(
                     myLocationEnabled: true,
                     zoomGesturesEnabled: true,
