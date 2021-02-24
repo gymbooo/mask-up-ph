@@ -10,7 +10,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mask_up_ph/pages/ProfilePage.dart';
-import 'package:mask_up_ph/pages/Home.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:mask_up_ph/auth.dart';
+
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -66,7 +68,6 @@ class Login extends StatelessWidget {
   final String loginError;
 
   const Login(this.loginAction, this.loginError);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +112,8 @@ class Login extends StatelessWidget {
   }
 
   Widget _buildFooter(BuildContext context) {
+    LocalAuthentication localAuthentication = LocalAuthentication();
+    bool canAuth = false;
     return Positioned(
       bottom: 70,
       child: Container(
@@ -151,6 +154,50 @@ class Login extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18))),
                 child: Text('Sign in with Google',
+                    style: GoogleFonts.montserrat(
+                      color: AppColors.mainColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25,
+                    ))),
+
+            ElevatedButton(
+                onPressed: () async {
+                  List<BiometricType> list = List();
+                  canAuth = await localAuthentication.canCheckBiometrics;
+                  try {
+                    if (canAuth) {
+                      list = await localAuthentication.getAvailableBiometrics();
+
+                      if (list.length > 0) {
+                        bool result =
+                        await localAuthentication.authenticateWithBiometrics(
+                            localizedReason:
+                            'Please enter your fingerprint to unlock',
+                            useErrorDialogs: true,
+                            stickyAuth: false);
+
+                        print('resultis $result');
+
+                        if (list.contains(BiometricType.fingerprint)) {
+                          print('fingerprint');
+                        }
+                      }
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+
+                style: ElevatedButton.styleFrom(
+                    minimumSize:
+                    Size(MediaQuery.of(context).size.width * .75, 45),
+                    primary: Colors.white,
+                    onPrimary: Colors.green,
+                    onSurface: Colors.purple,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18))),
+                child: Text('Use Fingerprint',
                     style: GoogleFonts.montserrat(
                       color: AppColors.mainColor,
                       fontWeight: FontWeight.w500,
@@ -315,3 +362,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 }
+
+
+

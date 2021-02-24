@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_up_ph/pages/Analytics.dart';
 import 'package:mask_up_ph/pages/Home.dart';
 import 'package:mask_up_ph/pages/Hospital.dart';
@@ -49,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor),
+      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor, title: Text('Mask Up PH', style: GoogleFonts.montserrat(fontWeight: FontWeight.bold)), centerTitle: true),
       drawer: MainDrawer(name, email, picture, logoutAction),
       backgroundColor: Colors.transparent,
       body: SizedBox.expand(
