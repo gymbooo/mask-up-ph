@@ -7,6 +7,7 @@ import 'package:mask_up_ph/pages/Hospital.dart';
 import 'package:mask_up_ph/pages/News.dart';
 import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:mask_up_ph/widgets/consts.dart';
+import 'package:mask_up_ph/pages/QR.dart';
 
 class ProfilePage extends StatefulWidget {
   final String name;
@@ -51,7 +52,28 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.mainAppBarColor, title: Text('Mask Up PH', style: GoogleFonts.montserrat(fontWeight: FontWeight.bold)), centerTitle: true),
+      appBar: AppBar(
+        backgroundColor: AppColors.mainAppBarColor,
+        title: Text('Mask Up PH',
+            style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
+        centerTitle: true,
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  print('qr icon tapped');
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => QR()));
+                  // QR();
+                },
+                child: Icon(
+                  Icons.qr_code,
+                  size: 26.0,
+                ),
+              )),
+        ],
+      ),
       drawer: MainDrawer(name, email, picture, logoutAction),
       backgroundColor: Colors.transparent,
       body: SizedBox.expand(
