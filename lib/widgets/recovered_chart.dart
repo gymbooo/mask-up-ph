@@ -18,33 +18,39 @@ class RecoveredData {
 }
 
 class COVIDGraphData {
-  int confirmed;
-  int recovered;
-  int deceased;
+  final List recoveredList;
 
-  COVIDGraphData(this.confirmed, this.recovered, this.deceased);
+  COVIDGraphData({this.recoveredList});
 
-  int get getConfirmed => confirmed;
+  List get getDeceased => recoveredList;
 
-  int get getRecovered => recovered;
+  factory COVIDGraphData.fromJson(List<dynamic> json) {
+    return COVIDGraphData(
+      recoveredList: json,
+    );
+  }
+}
 
-  int get getDeceased => deceased;
+Future<COVIDGraphData> fetchCOVIDData() async {
+  final response = await http.get(
+      'https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return COVIDGraphData.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load COVID data');
+  }
 }
 
 class RecoveredChartState extends State<RecoveredChart> {
-  final String url2 =
-      "https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1";
-  COVIDGraphData covidDataGraph;
-  int confirmedGraph;
-  int recoveredGraph;
-  int deceasedGraph;
   Map<String, int> mapData = Map();
-
   DateTime date;
   String formattedDate;
-
-  Timer timer;
-  List data;
+  Future<COVIDGraphData> futureCOVIDGraphData;
 
   static List<charts.Series<RecoveredData, DateTime>> _createData(
       Map<String, int> map) {
@@ -68,30 +74,7 @@ class RecoveredChartState extends State<RecoveredChart> {
   @override
   void initState() {
     super.initState();
-    this.getGraphData();
-  }
-
-  Future<String> getGraphData() async {
-    var response = await http
-        .get(Uri.encodeFull(url2), headers: {"Accept": "application/json"});
-    // print(response.body);
-
-    setState(() {
-      var convertDataToJson = json.decode(response.body);
-      for (var data in convertDataToJson) {
-        confirmedGraph = data['infected'];
-        recoveredGraph = data['recovered'];
-        deceasedGraph = data['deceased'];
-        covidDataGraph =
-            COVIDGraphData(confirmedGraph, recoveredGraph, deceasedGraph);
-        date = DateTime.parse(data['lastUpdatedAtApify']);
-        formattedDate = DateFormat.yM().format(date);
-        mapData[formattedDate] = covidDataGraph.getRecovered;
-      }
-      print('recovered $mapData');
-    });
-
-    return "Success";
+    futureCOVIDGraphData = fetchCOVIDData();
   }
 
   @override
@@ -113,19 +96,25 @@ class RecoveredChartState extends State<RecoveredChart> {
                   height: 20,
                 ),
                 Expanded(
-                  child: FutureBuilder<String>(
-                    future: getGraphData(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  child: FutureBuilder<COVIDGraphData>(
+                    future: futureCOVIDGraphData,
+                    builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        for (var data in snapshot.data.recoveredList) {
+                          date = DateTime.parse(data['lastUpdatedAtApify']);
+                          formattedDate = DateFormat.yM().format(date);
+                          mapData[formattedDate] = data['recovered'];
+                        }
+                        print('deceased $mapData');
                         return new charts.TimeSeriesChart(
                           _createData(mapData),
                           animate: true,
                           behaviors: [new charts.SeriesLegend()],
                         );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
                       }
+                      return Center(child: CircularProgressIndicator());
                     },
                   ),
                 )

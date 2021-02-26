@@ -18,33 +18,39 @@ class ConfirmedData {
 }
 
 class COVIDGraphData {
-  int confirmed;
-  int recovered;
-  int deceased;
+  final List confirmedList;
 
-  COVIDGraphData(this.confirmed, this.recovered, this.deceased);
+  COVIDGraphData({this.confirmedList});
 
-  int get getConfirmed => confirmed;
+  List get getConfirmed => confirmedList;
 
-  int get getRecovered => recovered;
+  factory COVIDGraphData.fromJson(List<dynamic> json) {
+    return COVIDGraphData(
+      confirmedList: json,
+    );
+  }
+}
 
-  int get getDeceased => deceased;
+Future<COVIDGraphData> fetchCOVIDData() async {
+  final response = await http.get(
+      'https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return COVIDGraphData.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load COVID data');
+  }
 }
 
 class ConfirmedChartState extends State<ConfirmedChart> {
-  final String url2 =
-      "https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1";
-  COVIDGraphData covidDataGraph;
-  int confirmedGraph;
-  int recoveredGraph;
-  int deceasedGraph;
   Map<String, int> mapData = Map();
-
   DateTime date;
   String formattedDate;
-
-  Timer timer;
-  List data;
+  Future<COVIDGraphData> futureCOVIDGraphData;
 
   static List<charts.Series<ConfirmedData, DateTime>> _createData(
       Map<String, int> map) {
@@ -68,33 +74,7 @@ class ConfirmedChartState extends State<ConfirmedChart> {
   @override
   void initState() {
     super.initState();
-    // timer = new Timer.periodic(new Duration(seconds: 2), (t) => getGraphData());
-    this.getGraphData();
-  }
-
-  Future<String> getGraphData() async {
-    var response = await http
-        .get(Uri.encodeFull(url2), headers: {"Accept": "application/json"});
-    // print(response.body);
-
-    setState(() {
-      var convertDataToJson = json.decode(response.body);
-      for (var data in convertDataToJson) {
-        confirmedGraph = data['infected'];
-        recoveredGraph = data['recovered'];
-        deceasedGraph = data['deceased'];
-        covidDataGraph =
-            COVIDGraphData(confirmedGraph, recoveredGraph, deceasedGraph);
-        date = DateTime.parse(data['lastUpdatedAtApify']);
-        formattedDate = DateFormat.yM().format(date);
-        mapData[formattedDate] = covidDataGraph.getConfirmed;
-      }
-      // List<charts.Series<TimeSeriesSales, DateTime>> newList = [];
-      // mapData.forEach((k,v) => newList.add(createSeries(k,v)));
-      print('confirmed $mapData');
-    });
-
-    return "Success";
+    futureCOVIDGraphData = fetchCOVIDData();
   }
 
   @override
@@ -116,19 +96,25 @@ class ConfirmedChartState extends State<ConfirmedChart> {
                   height: 20,
                 ),
                 Expanded(
-                  child: FutureBuilder<String>(
-                    future: getGraphData(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  child: FutureBuilder<COVIDGraphData>(
+                    future: futureCOVIDGraphData,
+                    builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        for (var data in snapshot.data.confirmedList) {
+                          date = DateTime.parse(data['lastUpdatedAtApify']);
+                          formattedDate = DateFormat.yM().format(date);
+                          mapData[formattedDate] = data['infected'];
+                        }
+                        print('confirmed $mapData');
                         return new charts.TimeSeriesChart(
                           _createData(mapData),
                           animate: true,
                           behaviors: [new charts.SeriesLegend()],
                         );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
                       }
+                      return Center(child: CircularProgressIndicator());
                     },
                   ),
                 )

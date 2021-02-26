@@ -10,20 +10,6 @@ class MultipleChart extends StatefulWidget {
   State<StatefulWidget> createState() => MultipleChartState();
 }
 
-class COVIDGraphData {
-  int confirmed;
-  int recovered;
-  int deceased;
-
-  COVIDGraphData(this.confirmed, this.recovered, this.deceased);
-
-  int get getConfirmed => confirmed;
-
-  int get getRecovered => recovered;
-
-  int get getDeceased => deceased;
-}
-
 class COVIDData {
   final DateTime month;
   final int total;
@@ -31,24 +17,44 @@ class COVIDData {
   COVIDData(this.month, this.total);
 }
 
+class COVIDGraphData {
+  final List covidDataList;
+
+  COVIDGraphData({this.covidDataList});
+
+  List get getDeceased => covidDataList;
+
+  factory COVIDGraphData.fromJson(List<dynamic> json) {
+    return COVIDGraphData(
+      covidDataList: json,
+    );
+  }
+}
+
+Future<COVIDGraphData> fetchCOVIDData() async {
+  final response = await http.get(
+      'https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return COVIDGraphData.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load COVID data');
+  }
+}
+
 class MultipleChartState extends State<MultipleChart> {
-  final String url2 =
-      "https://api.apify.com/v2/datasets/sFSef5gfYg3soj8mb/items?format=json&clean=1";
-  COVIDGraphData covidDataGraph;
-  int confirmedGraph;
-  int recoveredGraph;
-  int deceasedGraph;
   Map<String, int> confirmedDataMap = Map();
   Map<String, int> recoveredDataMap = Map();
   Map<String, int> deceasedDataMap = Map();
-
   DateTime date;
   String formattedDate;
+  Future<COVIDGraphData> futureCOVIDGraphData;
 
-  Timer timer;
-  List data;
-
-  static List<charts.Series<COVIDData, DateTime>> _createSampleData(
+  static List<charts.Series<COVIDData, DateTime>> _createData(
       Map<String, int> map1, Map<String, int> map2, Map<String, int> map3) {
     final confirmedData = [
       new COVIDData(new DateTime(2020, 4), 8488),
@@ -95,34 +101,7 @@ class MultipleChartState extends State<MultipleChart> {
   @override
   void initState() {
     super.initState();
-    this.getGraphData();
-  }
-
-  Future<String> getGraphData() async {
-    var response = await http
-        .get(Uri.encodeFull(url2), headers: {"Accept": "application/json"});
-    // print(response.body);
-
-    setState(() {
-      var convertDataToJson = json.decode(response.body);
-      for (var data in convertDataToJson) {
-        confirmedGraph = data['infected'];
-        recoveredGraph = data['recovered'];
-        deceasedGraph = data['deceased'];
-        covidDataGraph =
-            COVIDGraphData(confirmedGraph, recoveredGraph, deceasedGraph);
-        date = DateTime.parse(data['lastUpdatedAtApify']);
-        formattedDate = DateFormat.yM().format(date);
-        confirmedDataMap[formattedDate] = covidDataGraph.getConfirmed;
-        recoveredDataMap[formattedDate] = covidDataGraph.getRecovered;
-        deceasedDataMap[formattedDate] = covidDataGraph.getDeceased;
-      }
-      print('multiple confirmed $confirmedDataMap');
-      print('multiple recovered $recoveredDataMap');
-      print('multiple deceased $deceasedDataMap');
-    });
-
-    return "Success";
+    futureCOVIDGraphData = fetchCOVIDData();
   }
 
   @override
@@ -144,20 +123,29 @@ class MultipleChartState extends State<MultipleChart> {
                   height: 20,
                 ),
                 Expanded(
-                  child: FutureBuilder<String>(
-                    future: getGraphData(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  child: FutureBuilder<COVIDGraphData>(
+                    future: futureCOVIDGraphData,
+                    builder: (context, snapshot) {
                       if (snapshot.hasData) {
+                        for (var data in snapshot.data.covidDataList) {
+                          date = DateTime.parse(data['lastUpdatedAtApify']);
+                          formattedDate = DateFormat.yM().format(date);
+                          confirmedDataMap[formattedDate] = data['infected'];
+                          recoveredDataMap[formattedDate] = data['recovered'];
+                          deceasedDataMap[formattedDate] = data['deceased'];
+                        }
+                        print('multiple confirmed $confirmedDataMap');
+                        print('multiple recovered $recoveredDataMap');
+                        print('multiple deceased $deceasedDataMap');
                         return new charts.TimeSeriesChart(
-                          _createSampleData(confirmedDataMap, recoveredDataMap,
-                              deceasedDataMap),
+                          _createData(confirmedDataMap,recoveredDataMap,deceasedDataMap),
                           animate: true,
                           behaviors: [new charts.SeriesLegend()],
                         );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
                       }
+                      return Center(child: CircularProgressIndicator());
                     },
                   ),
                 )

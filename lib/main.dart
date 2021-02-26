@@ -145,7 +145,7 @@ class Login extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize:
-                        Size(MediaQuery.of(context).size.width * .75, 45),
+                    Size(MediaQuery.of(context).size.width * .75, 45),
                     primary: Colors.white,
                     onPrimary: Colors.green,
                     onSurface: Colors.purple,
@@ -243,8 +243,8 @@ class _MyAppState extends State<MyApp> {
           child: isBusy
               ? CircularProgressIndicator()
               : isLoggedIn
-                  ? Profile(name, givenName, email, picture, logoutAction)
-                  : Login(loginAction, errorMessage),
+              ? Profile(name, givenName, email, picture, logoutAction)
+              : Login(loginAction, errorMessage),
         ),
       ),
     );
@@ -280,7 +280,7 @@ class _MyAppState extends State<MyApp> {
 
     try {
       final AuthorizationTokenResponse result =
-          await appAuth.authorizeAndExchangeCode(
+      await appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(AUTH0_CLIENT_ID, AUTH0_REDIRECT_URI,
             issuer: 'https://$AUTH0_DOMAIN',
             scopes: ['openid', 'profile', 'offline_access', 'email'],
@@ -361,6 +361,3 @@ class _MyAppState extends State<MyApp> {
     }
   }
 }
-
-
-
