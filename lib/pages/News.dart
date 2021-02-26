@@ -94,69 +94,72 @@ class _NewsState extends State<News> {
     );
   }
 
-  ListView buildListView() {
-    return ListView.builder(
-      itemCount: totalResults - 1,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            color: const Color(0xFF32A373),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                ListTile(
-                  contentPadding:
-                      EdgeInsets.only(top: 6, right: 14.0, left: 14.0),
-                  leading: (listOfArticles[index]['urlToImage'] == null)
-                      ? Image.asset(
-                          'lib/assets/images/news.png',
-                          width: 80,
-                        )
-                      : Image.network(
-                          listOfArticles[index]['urlToImage'],
-                          width: 80,
-                        ),
-                  title: Text(
-                    listOfArticles[index]['title'] ?? 'Title not found',
-                    style: GoogleFonts.montserrat(
-                        fontSize: 17, color: const Color(0xFFEEEEEE)),
+  RefreshIndicator buildListView() {
+    return RefreshIndicator(
+      child: ListView.builder(
+        itemCount: totalResults - 1,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              color: const Color(0xFF32A373),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ListTile(
+                    contentPadding:
+                        EdgeInsets.only(top: 6, right: 14.0, left: 14.0),
+                    leading: (listOfArticles[index]['urlToImage'] == null)
+                        ? Image.asset(
+                            'lib/assets/images/news.png',
+                            width: 80,
+                          )
+                        : Image.network(
+                            listOfArticles[index]['urlToImage'],
+                            width: 80,
+                          ),
+                    title: Text(
+                      listOfArticles[index]['title'] ?? 'Title not found',
+                      style: GoogleFonts.montserrat(
+                          fontSize: 17, color: const Color(0xFFEEEEEE)),
+                    ),
+                    subtitle: Text(
+                      listOfArticles[index]['content'] ?? 'Tap to see content',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    onTap: () {
+                      launch(listOfArticles[index]['url']);
+                    },
                   ),
-                  subtitle: Text(
-                    listOfArticles[index]['content'] ?? 'Tap to see content',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  Padding(
+                    padding: EdgeInsets.only(right: 14, top: 6),
+                    child: Text(listOfArticles[index]['author'] ?? '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.black.withOpacity(0.5)),
+                        overflow: TextOverflow.ellipsis),
                   ),
-                  onTap: () {
-                    launch(listOfArticles[index]['url']);
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 14, top: 6),
-                  child: Text(listOfArticles[index]['author'] ?? '',
+                  Padding(
+                    padding: EdgeInsets.only(right: 14, bottom: 6),
+                    child: Text(
+                      DateFormat.yMMMMd('en_US').add_jm().format(DateTime.parse(
+                              listOfArticles[index]['publishedAt'])) ??
+                          '',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic,
                           color: Colors.black.withOpacity(0.5)),
-                      overflow: TextOverflow.ellipsis),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 14, bottom: 6),
-                  child: Text(
-                    DateFormat.yMMMMd('en_US').add_jm().format(DateTime.parse(
-                            listOfArticles[index]['publishedAt'])) ??
-                        '',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.black.withOpacity(0.5)),
-                  ),
-                )
-              ],
-            ),
-            margin:
-                EdgeInsets.only(top: 5, right: 15.0, left: 15.0, bottom: 5));
-      },
+                    ),
+                  )
+                ],
+              ),
+              margin:
+                  EdgeInsets.only(top: 5, right: 15.0, left: 15.0, bottom: 5));
+        },
+      ),
+      onRefresh: getJsonData,
     );
   }
 }

@@ -126,36 +126,7 @@ class _HomeState extends State<Home> {
             future: getJsonData(),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
-                return ListView(children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(left: 25, top: 25),
-                    child: Text(
-                      '$greeting$givenName!',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFFEEEEEE)),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 25, top: 25),
-                    child: Text('Cases in the ${covidData.country}',
-                        style: GoogleFonts.montserrat(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w300,
-                            color: const Color(0xFFEEEEEE))),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 27, top: 1),
-                    child: Text('Last updated: $formattedDate',
-                        style: GoogleFonts.montserrat(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w300,
-                            color: const Color(0xFFEEEEEE).withOpacity(0.5))),
-                  ),
-                  Expanded(child: buildGridView()),
-                  Expanded(child: buildListView())
-                ]);
+                return buildListView();
               } else {
                 return Center(child: CircularProgressIndicator());
               }
@@ -163,6 +134,42 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
+    );
+  }
+
+  RefreshIndicator buildListView() {
+    return RefreshIndicator(
+      child: ListView(children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(left: 25, top: 25),
+          child: Text(
+            '$greeting$givenName!',
+            style: GoogleFonts.montserrat(
+                fontSize: 30,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFFEEEEEE)),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 25, top: 25),
+          child: Text('Cases in the ${covidData.country}',
+              style: GoogleFonts.montserrat(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w300,
+                  color: const Color(0xFFEEEEEE))),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 27, top: 1),
+          child: Text('Last updated: $formattedDate',
+              style: GoogleFonts.montserrat(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w300,
+                  color: const Color(0xFFEEEEEE).withOpacity(0.5))),
+        ),
+        Expanded(child: buildGridView()),
+        Expanded(child: buildSymptomsListView())
+      ]),
+      onRefresh: getJsonData,
     );
   }
 
@@ -306,7 +313,7 @@ class _HomeState extends State<Home> {
 
   //-----------listview
 
-  ListView buildListView() {
+  ListView buildSymptomsListView() {
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
