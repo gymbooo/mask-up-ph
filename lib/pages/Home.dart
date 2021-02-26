@@ -5,7 +5,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:expansion_card/expansion_card.dart';
 
 class Home extends StatefulWidget {
@@ -30,7 +29,7 @@ class COVIDData {
   String lastUpdatedAtApify;
 
   COVIDData(
-      this.infected,
+      {this.infected,
       this.tested,
       this.recovered,
       this.deceased,
@@ -39,7 +38,37 @@ class COVIDData {
       this.country,
       this.historyData,
       this.sourceUrl,
-      this.lastUpdatedAtApify);
+      this.lastUpdatedAtApify});
+
+  factory COVIDData.fromJson(Map<String, dynamic> json) {
+    return COVIDData(
+      infected: json['infected'],
+      tested: json['tested'],
+      recovered: json['recovered'],
+      deceased: json['deceased'],
+      activeCases: json['activeCases'],
+      unique: json['unique'],
+      country: json['country'],
+      historyData: json['historyData'],
+      sourceUrl: json['sourceUrl'],
+      lastUpdatedAtApify: json['lastUpdatedAtApify'],
+    );
+  }
+}
+
+Future<COVIDData> fetchCOVIDData() async {
+  final response = await http.get(
+      'https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return COVIDData.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load COVID data');
+  }
 }
 
 class _HomeState extends State<Home> {
@@ -47,53 +76,14 @@ class _HomeState extends State<Home> {
 
   _HomeState(this.givenName);
 
-  final String url =
-      'https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true';
-  COVIDData covidData;
-  int infected;
-  int tested;
-  int recovered;
-  int deceased;
-  int activeCases;
-  int unique;
-  String country;
-  String historyData;
-  String sourceUrl;
-  String lastUpdatedAtApify;
+  Future<COVIDData> futureCOVIDData;
   DateTime date;
   String formattedDate;
 
   @override
   void initState() {
     super.initState();
-    this.getJsonData();
-  }
-
-  Future<String> getJsonData() async {
-    var response = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-    print(response.body);
-
-    setState(() {
-      var convertDataToJson = json.decode(response.body);
-      infected = convertDataToJson['infected'];
-      tested = convertDataToJson['tested'];
-      recovered = convertDataToJson['recovered'];
-      deceased = convertDataToJson['deceased'];
-      activeCases = convertDataToJson['activeCases'];
-      unique = convertDataToJson['unique'];
-      country = convertDataToJson['country'];
-      historyData = convertDataToJson['historyData'];
-      sourceUrl = convertDataToJson['sourceUrl'];
-      lastUpdatedAtApify = convertDataToJson['lastUpdatedAtApify'];
-      covidData = COVIDData(infected, tested, recovered, deceased, activeCases,
-          unique, country, historyData, sourceUrl, lastUpdatedAtApify);
-      // print(covidData);
-      date = DateTime.parse(lastUpdatedAtApify);
-      formattedDate = DateFormat.yMMMMd('en_US').add_jm().format(date);
-    });
-
-    return "Success";
+    futureCOVIDData = fetchCOVIDData();
   }
 
   final formatter = new NumberFormat("###,###,###");
@@ -122,14 +112,21 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: FutureBuilder<String>(
-            future: getJsonData(),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          child: FutureBuilder<COVIDData>(
+            future: futureCOVIDData,
+            builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return buildListView();
-              } else {
-                return Center(child: CircularProgressIndicator());
+                return buildListView(
+                    activeCases: snapshot.data.activeCases,
+                    deceased: snapshot.data.deceased,
+                    recovered: snapshot.data.recovered,
+                    unique: snapshot.data.unique,
+                    country: snapshot.data.country,
+                    lastUpdatedAtApify: snapshot.data.lastUpdatedAtApify);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
               }
+              return Center(child: CircularProgressIndicator());
             },
           ),
         ),
@@ -137,7 +134,15 @@ class _HomeState extends State<Home> {
     );
   }
 
-  RefreshIndicator buildListView() {
+  RefreshIndicator buildListView(
+      {int activeCases,
+      int deceased,
+      int recovered,
+      int unique,
+      String country,
+      String lastUpdatedAtApify}) {
+    date = DateTime.parse(lastUpdatedAtApify);
+    formattedDate = DateFormat.yMMMMd('en_US').add_jm().format(date);
     return RefreshIndicator(
       child: ListView(children: <Widget>[
         Container(
@@ -152,7 +157,7 @@ class _HomeState extends State<Home> {
         ),
         Container(
           padding: EdgeInsets.only(left: 25, top: 25),
-          child: Text('Cases in the ${covidData.country}',
+          child: Text('Cases in the $country',
               style: GoogleFonts.montserrat(
                   fontSize: 25,
                   fontWeight: FontWeight.w300,
@@ -166,16 +171,26 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.w300,
                   color: const Color(0xFFEEEEEE).withOpacity(0.5))),
         ),
-        Expanded(child: buildGridView()),
+        Expanded(
+            child: buildGridView(
+                activeCases: activeCases,
+                deceased: deceased,
+                recovered: recovered,
+                unique: unique)),
         Expanded(child: buildSymptomsListView())
       ]),
-      onRefresh: getJsonData,
+      onRefresh: fetchCOVIDData,
     );
   }
 
   //-----------gridview
 
-  GridView buildGridView() {
+  GridView buildGridView({
+    int activeCases,
+    int deceased,
+    int recovered,
+    int unique,
+  }) {
     return GridView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,

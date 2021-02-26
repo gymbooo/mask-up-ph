@@ -105,7 +105,7 @@ class RecoveredChartState extends State<RecoveredChart> {
                           formattedDate = DateFormat.yM().format(date);
                           mapData[formattedDate] = data['recovered'];
                         }
-                        print('deceased $mapData');
+                        print('recovered $mapData');
                         return new charts.TimeSeriesChart(
                           _createData(mapData),
                           animate: true,
