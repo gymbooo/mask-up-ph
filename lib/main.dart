@@ -12,6 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mask_up_ph/pages/ProfilePage.dart';
 import 'package:local_auth/local_auth.dart';
 
+
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
@@ -168,11 +169,11 @@ class Login extends StatelessWidget {
 
                       if (list.length > 0) {
                         bool result =
-                            await localAuthentication.authenticateWithBiometrics(
-                                localizedReason:
-                                    'Please enter your fingerprint to unlock',
-                                useErrorDialogs: true,
-                                stickyAuth: false);
+                        await localAuthentication.authenticateWithBiometrics(
+                            localizedReason:
+                            'Please enter your fingerprint to unlock',
+                            useErrorDialogs: true,
+                            stickyAuth: false);
 
                         print('resultis $result');
 
@@ -185,9 +186,10 @@ class Login extends StatelessWidget {
                     print(e);
                   }
                 },
+
                 style: ElevatedButton.styleFrom(
                     minimumSize:
-                        Size(MediaQuery.of(context).size.width * .75, 45),
+                    Size(MediaQuery.of(context).size.width * .75, 45),
                     primary: Colors.white,
                     onPrimary: Colors.green,
                     onSurface: Colors.purple,
@@ -359,3 +361,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 }
+
+
+
