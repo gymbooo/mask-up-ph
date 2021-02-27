@@ -11,9 +11,12 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mask_up_ph/pages/ProfilePage.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:mask_up_ph/pages/Home.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+LocalAuthentication localAuthentication = LocalAuthentication();
+bool canAuth = false;
 
 /// -----------------------------------
 ///           Auth0 Variables
@@ -110,8 +113,6 @@ class Login extends StatelessWidget {
   }
 
   Widget _buildFooter(BuildContext context) {
-    LocalAuthentication localAuthentication = LocalAuthentication();
-    bool canAuth = false;
     return Positioned(
       bottom: 70,
       child: Container(
@@ -177,7 +178,8 @@ class Login extends StatelessWidget {
                         print('resultis $result');
 
                         if (list.contains(BiometricType.fingerprint)) {
-                          print('fingerprint');
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => ProfilePage('Default User', 'User', 'default@gmail.com', 'https://icon-library.com/images/my-profile-icon-png/my-profile-icon-png-3.jpg', null)));
                         }
                       }
                     }

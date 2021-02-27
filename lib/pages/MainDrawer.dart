@@ -97,6 +97,10 @@ class MainDrawer extends StatelessWidget {
               style: GoogleFonts.montserrat(
                   fontSize: 17, fontWeight: FontWeight.w500)),
           onTap: () {
+            if(logoutAction == null){
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyApp()));
+            }
             logoutAction();
           },
         ),
