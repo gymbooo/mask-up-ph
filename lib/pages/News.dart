@@ -16,13 +16,34 @@ class NewsData {
   int totalResults;
   List<dynamic> articles;
 
-  NewsData(this.status, this.totalResults, this.articles);
+  NewsData({this.status, this.totalResults, this.articles});
+
+  factory NewsData.fromJson(Map<String, dynamic> json) {
+    return NewsData(
+      status: json['status'],
+      totalResults: json['totalResults'],
+      articles: json['articles'],
+    );
+  }
+}
+
+Future<NewsData> fetchNewsData() async {
+  final response = await http.get(
+      'https://newsapi.org/v2/top-headlines?country=ph&q=covid&apiKey=5abd16290a0b41c685b08bdf15883c5f');
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return NewsData.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
 }
 
 class _NewsState extends State<News> {
-  final String url =
-      'https://newsapi.org/v2/top-headlines?country=ph&q=covid&apiKey=5abd16290a0b41c685b08bdf15883c5f';
-  NewsData newsData;
+  Future<NewsData> futureNewsData;
   String status;
   int totalResults;
   List<dynamic> articles;
@@ -31,28 +52,7 @@ class _NewsState extends State<News> {
   @override
   void initState() {
     super.initState();
-    this.getJsonData();
-  }
-
-  Future<String> getJsonData() async {
-    var response = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-    print(response.body);
-
-    setState(() {
-      var convertDataToJson = json.decode(response.body);
-      status = convertDataToJson['status'];
-      totalResults = convertDataToJson['totalResults'];
-      articles = convertDataToJson['articles'];
-      newsData = NewsData(status, totalResults, articles);
-
-      for (var a in articles) {
-        listOfArticles.add(a);
-      }
-      print('loa $listOfArticles');
-    });
-
-    return "Success";
+    futureNewsData = fetchNewsData();
   }
 
   @override
@@ -65,36 +65,48 @@ class _NewsState extends State<News> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: FutureBuilder<String>(
-            future: getJsonData(),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, top: 25, bottom: 10),
-                        child: Text(
-                          'Top Headlines on COVID-19\nin the Philippines',
-                          style: GoogleFonts.montserrat(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w400,
-                              color: const Color(0xFFEEEEEE)),
-                        ),
-                      ),
-                      Expanded(child: buildListView())
-                    ]);
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: EdgeInsets.only(left: 15, top: 25, bottom: 10),
+              child: Text(
+                'Top Headlines on COVID-19\nin the Philippines',
+                style: GoogleFonts.montserrat(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFFEEEEEE)),
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder<NewsData>(
+                  future: futureNewsData,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      articles = snapshot.data.articles;
+                      for (var a in articles) {
+                        listOfArticles.add(a);
+                      }
+                      print('loa $listOfArticles');
+                      return buildListView(
+                          status: snapshot.data.status,
+                          totalResults: snapshot.data.totalResults,
+                          articles: listOfArticles);
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }),
+            ),
+          ]),
         ),
       ),
     );
   }
 
-  RefreshIndicator buildListView() {
+  RefreshIndicator buildListView({
+    String status,
+    int totalResults,
+    List<dynamic> articles,
+  }) {
     return RefreshIndicator(
       child: ListView.builder(
         itemCount: totalResults - 1,
@@ -159,7 +171,7 @@ class _NewsState extends State<News> {
                   EdgeInsets.only(top: 5, right: 15.0, left: 15.0, bottom: 5));
         },
       ),
-      onRefresh: getJsonData,
+      onRefresh: fetchNewsData,
     );
   }
 }
