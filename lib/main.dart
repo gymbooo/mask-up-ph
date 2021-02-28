@@ -11,10 +11,12 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mask_up_ph/pages/ProfilePage.dart';
 import 'package:local_auth/local_auth.dart';
-
+import 'package:mask_up_ph/pages/Home.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+LocalAuthentication localAuthentication = LocalAuthentication();
+bool canAuth = false;
 
 /// -----------------------------------
 ///           Auth0 Variables
@@ -111,8 +113,6 @@ class Login extends StatelessWidget {
   }
 
   Widget _buildFooter(BuildContext context) {
-    LocalAuthentication localAuthentication = LocalAuthentication();
-    bool canAuth = false;
     return Positioned(
       bottom: 70,
       child: Container(
@@ -145,7 +145,7 @@ class Login extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize:
-                    Size(MediaQuery.of(context).size.width * .75, 45),
+                        Size(MediaQuery.of(context).size.width * .75, 45),
                     primary: Colors.white,
                     onPrimary: Colors.green,
                     onSurface: Colors.purple,
@@ -169,16 +169,17 @@ class Login extends StatelessWidget {
 
                       if (list.length > 0) {
                         bool result =
-                        await localAuthentication.authenticateWithBiometrics(
-                            localizedReason:
-                            'Please enter your fingerprint to unlock',
-                            useErrorDialogs: true,
-                            stickyAuth: false);
+                            await localAuthentication.authenticateWithBiometrics(
+                                localizedReason:
+                                    'Please enter your fingerprint to unlock',
+                                useErrorDialogs: true,
+                                stickyAuth: false);
 
                         print('resultis $result');
 
                         if (list.contains(BiometricType.fingerprint)) {
-                          print('fingerprint');
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => ProfilePage('Default User', 'User', 'default@gmail.com', 'https://icon-library.com/images/my-profile-icon-png/my-profile-icon-png-3.jpg', null)));
                         }
                       }
                     }
@@ -186,10 +187,9 @@ class Login extends StatelessWidget {
                     print(e);
                   }
                 },
-
                 style: ElevatedButton.styleFrom(
                     minimumSize:
-                    Size(MediaQuery.of(context).size.width * .75, 45),
+                        Size(MediaQuery.of(context).size.width * .75, 45),
                     primary: Colors.white,
                     onPrimary: Colors.green,
                     onSurface: Colors.purple,
@@ -243,8 +243,8 @@ class _MyAppState extends State<MyApp> {
           child: isBusy
               ? CircularProgressIndicator()
               : isLoggedIn
-              ? Profile(name, givenName, email, picture, logoutAction)
-              : Login(loginAction, errorMessage),
+                  ? Profile(name, givenName, email, picture, logoutAction)
+                  : Login(loginAction, errorMessage),
         ),
       ),
     );
@@ -280,7 +280,7 @@ class _MyAppState extends State<MyApp> {
 
     try {
       final AuthorizationTokenResponse result =
-      await appAuth.authorizeAndExchangeCode(
+          await appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(AUTH0_CLIENT_ID, AUTH0_REDIRECT_URI,
             issuer: 'https://$AUTH0_DOMAIN',
             scopes: ['openid', 'profile', 'offline_access', 'email'],

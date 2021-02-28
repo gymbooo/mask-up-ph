@@ -62,10 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  print('qr icon tapped');
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => QR()));
-                  // QR();
                 },
                 child: Icon(
                   Icons.qr_code,
