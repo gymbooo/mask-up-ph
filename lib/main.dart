@@ -11,7 +11,6 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mask_up_ph/pages/ProfilePage.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:mask_up_ph/pages/Home.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
 final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -114,7 +113,7 @@ class Login extends StatelessWidget {
 
   Widget _buildFooter(BuildContext context) {
     return Positioned(
-      bottom: 70,
+      bottom: 40,
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -138,70 +137,83 @@ class Login extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 25),
-            ElevatedButton(
-                onPressed: () {
-                  loginAction();
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-                },
-                style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        Size(MediaQuery.of(context).size.width * .75, 45),
-                    primary: Colors.white,
-                    onPrimary: Colors.green,
-                    onSurface: Colors.purple,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18))),
-                child: Text('Sign in with Google',
-                    style: GoogleFonts.montserrat(
-                      color: AppColors.mainColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 25,
-                    ))),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    loginAction();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * .75, 45),
+                      primary: Colors.white,
+                      onPrimary: Colors.green,
+                      onSurface: Colors.purple,
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18))),
+                  child: Text('Sign in with Google',
+                      style: GoogleFonts.montserrat(
+                        color: AppColors.mainColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ))),
+            ),
 
-            ElevatedButton(
-                onPressed: () async {
-                  List<BiometricType> list = List();
-                  canAuth = await localAuthentication.canCheckBiometrics;
-                  try {
-                    if (canAuth) {
-                      list = await localAuthentication.getAvailableBiometrics();
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    List<BiometricType> list = List();
+                    canAuth = await localAuthentication.canCheckBiometrics;
+                    try {
+                      if (canAuth) {
+                        list =
+                            await localAuthentication.getAvailableBiometrics();
 
-                      if (list.length > 0) {
-                        bool result =
-                            await localAuthentication.authenticateWithBiometrics(
-                                localizedReason:
-                                    'Please enter your fingerprint to unlock',
-                                useErrorDialogs: true,
-                                stickyAuth: false);
+                        if (list.length > 0) {
+                          bool result =
+                              await localAuthentication.authenticateWithBiometrics(
+                                  localizedReason:
+                                      'Please enter your fingerprint to unlock',
+                                  useErrorDialogs: true,
+                                  stickyAuth: false);
 
-                        print('resultis $result');
+                          print('resultis $result');
 
-                        if (list.contains(BiometricType.fingerprint)) {
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => ProfilePage('Default User', 'User', 'default@gmail.com', 'https://icon-library.com/images/my-profile-icon-png/my-profile-icon-png-3.jpg', null)));
+                          if (list.contains(BiometricType.fingerprint)) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfilePage(
+                                        'Default user',
+                                        'user',
+                                        'default@gmail.com',
+                                        'https://icon-library.com/images/my-profile-icon-png/my-profile-icon-png-3.jpg',
+                                        null)));
+                          }
                         }
                       }
+                    } catch (e) {
+                      print(e);
                     }
-                  } catch (e) {
-                    print(e);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        Size(MediaQuery.of(context).size.width * .75, 45),
-                    primary: Colors.white,
-                    onPrimary: Colors.green,
-                    onSurface: Colors.purple,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18))),
-                child: Text('Use Fingerprint',
-                    style: GoogleFonts.montserrat(
-                      color: AppColors.mainColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 25,
-                    ))),
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * .75, 45),
+                      primary: Colors.white,
+                      onPrimary: Colors.green,
+                      onSurface: Colors.purple,
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18))),
+                  child: Text('Use Fingerprint',
+                      style: GoogleFonts.montserrat(
+                        color: AppColors.mainColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ))),
+            ),
             // Text(loginError ?? ''),
           ],
         ),
@@ -237,6 +249,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Mask Up PH',
       home: Scaffold(
         body: Center(

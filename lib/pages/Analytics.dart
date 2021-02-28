@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mask_up_ph/pages/MainDrawer.dart';
 import 'package:mask_up_ph/widgets/flutter_icons.dart';
 import 'package:mask_up_ph/widgets/chart_widget.dart';
-import 'package:mask_up_ph/widgets/consts.dart';
 import 'package:mask_up_ph/widgets/confirmed_chart.dart';
 import 'package:mask_up_ph/widgets/recovered_chart.dart';
 import 'package:mask_up_ph/widgets/deceased_chart.dart';

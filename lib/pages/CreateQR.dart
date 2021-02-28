@@ -51,7 +51,12 @@ class _CreateQRState extends State<CreateQR> {
                             fontWeight: FontWeight.w300,
                             color: const Color(0xFFEEEEEE)),
                         decoration: InputDecoration(
-                            hintText: 'Enter your data',
+                            hintText: 'Enter your data here',
+                            hintStyle: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                                color:
+                                    const Color(0xFFEEEEEE).withOpacity(0.4)),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide:

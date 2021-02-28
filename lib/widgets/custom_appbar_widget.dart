@@ -1,6 +1,5 @@
 import 'package:mask_up_ph/widgets/flutter_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:mask_up_ph/main.dart';
 
 class CustomAppBarWidget extends StatelessWidget {
   @override
@@ -13,10 +12,8 @@ class CustomAppBarWidget extends StatelessWidget {
             FlutterIcons.menu,
             color: Colors.white,
           ),
-          onPressed: (){
-            drawer: Drawer(
-
-            );
+          onPressed: () {
+            Drawer();
           },
         ),
         Container(
@@ -35,6 +32,5 @@ class CustomAppBarWidget extends StatelessWidget {
         )
       ],
     );
-    ;
   }
 }

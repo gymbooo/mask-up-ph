@@ -364,7 +364,8 @@ class _HomeState extends State<Home> {
                   _buildSymptomItem("lib/assets/images/1.png", "Fever"),
                   _buildSymptomItem("lib/assets/images/2.png", "Dry Cough"),
                   _buildSymptomItem("lib/assets/images/3.png", "Headache"),
-                  _buildSymptomItem("lib/assets/images/4.png", "Breathless"),
+                  _buildSymptomItem(
+                      "lib/assets/images/4.png", "Breathlessness"),
                 ],
               ),
             ),
@@ -404,12 +405,12 @@ class _HomeState extends State<Home> {
                       "lib/assets/images/protection-2.png", "Stay at\nhome"),
                   _buildSymptomItem(
                       "lib/assets/images/protection-3.png", "Wash your\nhands"),
-                  _buildSymptomItem(
-                      "lib/assets/images/protection-4.png", "Cover sneeze"),
+                  _buildSymptomItem("lib/assets/images/protection-4.png",
+                      "Cover your face\nwhen sneezing"),
                   _buildSymptomItem("lib/assets/images/protection-5.png",
                       "Wear your\nfacemask"),
-                  _buildSymptomItem(
-                      "lib/assets/images/protection-6.png", "Clean objects"),
+                  _buildSymptomItem("lib/assets/images/protection-6.png",
+                      "Clean and\ndisinfect objects"),
                 ],
               ),
             )
@@ -449,8 +450,8 @@ class _HomeState extends State<Home> {
                       "lib/assets/images/12.png", "Support local\nbusinesses"),
                   _buildSymptomItem(
                       "lib/assets/images/11.png", "Be a great\nfriend"),
-                  _buildSymptomItem(
-                      "lib/assets/images/13.png", "Have healthy\nconversation"),
+                  _buildSymptomItem("lib/assets/images/13.png",
+                      "Have healthy\nconversations"),
                 ],
               ),
             )
@@ -493,9 +494,8 @@ class _HomeState extends State<Home> {
           child: Image.asset(path),
           margin: EdgeInsets.only(right: 20),
         ),
-        SizedBox(height: 7),
         Padding(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.only(top: 7, right: 20),
           child: Text(
             text,
             textAlign: TextAlign.center,

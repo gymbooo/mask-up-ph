@@ -1,18 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:mask_up_ph/pages/Home.dart';
-import 'package:mask_up_ph/pages/ProfilePage.dart';
 
-class FingerPrint extends StatefulWidget{
+class FingerPrint extends StatefulWidget {
   @override
   FingerPrintState createState() => FingerPrintState();
-
 }
 
-class FingerPrintState extends State<FingerPrint>{
-
+class FingerPrintState extends State<FingerPrint> {
   bool isAuth = false;
   void checkBiometric() async {
     final LocalAuthentication auth = LocalAuthentication();
@@ -45,8 +40,8 @@ class FingerPrintState extends State<FingerPrint>{
           localizedReason: 'Touch your finger on the sensor to login',
           useErrorDialogs: true,
           stickyAuth: false
-        // androidAuthStrings:AndroidAuthMessages(signInTitle: "Login to HomePage")
-      );
+          // androidAuthStrings:AndroidAuthMessages(signInTitle: "Login to HomePage")
+          );
     } catch (e) {
       print("error using biometric auth: $e");
     }
@@ -56,11 +51,8 @@ class FingerPrintState extends State<FingerPrint>{
     });
 
     print("authenticated: $authenticated");
-
   }
 
   @override
-  Widget build(BuildContext context) {
-    // ...
-  }
+  Widget build(BuildContext context) {}
 }

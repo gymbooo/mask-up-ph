@@ -9,7 +9,7 @@ class ScanQR extends StatefulWidget {
   _ScanQRState createState() => _ScanQRState();
 }
 
-String qrData = 'Tap the button to start scanning';
+String qrData = '';
 var data;
 bool hasData = false;
 
@@ -37,9 +37,17 @@ class _ScanQRState extends State<ScanQR> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Flexible(child: Text('$qrData')),
+                  Flexible(
+                      child: Text('$qrData',
+                          style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w200,
+                              color: const Color(0xFFEEEEEE)))),
                   IconButton(
-                      icon: Icon(Icons.launch_outlined),
+                      icon: Icon(
+                        Icons.launch_outlined,
+                        color: const Color(0xFFEEEEEE),
+                      ),
                       onPressed: hasData
                           ? () async {
                               if (await canLaunch(qrData)) {
@@ -55,7 +63,7 @@ class _ScanQRState extends State<ScanQR> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     onPressed: () async {
-                      var option = ScanOptions(autoEnableFlash: true);
+                      var option = ScanOptions(autoEnableFlash: false);
                       data = await BarcodeScanner.scan(options: option);
                       setState(() {
                         qrData = data.rawContent.toString();

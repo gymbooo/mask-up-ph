@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
    <application
    android:name="androidx.multidex.MultiDexApplication"
-        android:label="flutterauth0"
+        android:label="Mask Up PH"
         android:icon="@mipmap/ic_launcher">
 
        <meta-data android:name="com.google.android.geo.API_KEY"

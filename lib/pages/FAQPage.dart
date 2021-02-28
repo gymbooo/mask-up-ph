@@ -17,7 +17,7 @@ class FAQPage extends StatelessWidget {
             return ExpansionTile(
               title: Text(
                 DataSource.questionAnswers[index]['question'],
-                style: GoogleFonts.amaranth(fontWeight: FontWeight.bold),
+                style: GoogleFonts.amaranth(fontWeight: FontWeight.w500),
               ),
               children: <Widget>[
                 Padding(
