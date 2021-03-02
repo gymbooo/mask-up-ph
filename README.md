@@ -1,4 +1,4 @@
-# flutterauth0
+# Mask Up PH
 
 A new Flutter project.
 
